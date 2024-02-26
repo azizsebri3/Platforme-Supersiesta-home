@@ -10,10 +10,10 @@ const Contact = () => {
             <div className="grid grid-cols-1 md:grid-cols-2">
               <div className="p-6 mr-2 bg-gray-100 dark:bg-gray-800 sm:rounded-lg">
                 <h1 className="text-4xl sm:text-5xl text-gray-800 dark:text-white font-extrabold tracking-tight">
-                  Get in touch
+                  Entrez en contact
                 </h1>
                 <p className="text-normal text-lg sm:text-2xl font-medium text-gray-600 dark:text-gray-400 mt-2">
-                  Fill in the form to start a conversation
+                  Remplissez le formulaire pour démarrer une conversation
                 </p>
                 <div className="flex items-center mt-8 text-gray-600 dark:text-gray-400">
                   <svg
@@ -88,14 +88,14 @@ const Contact = () => {
               <form className="p-6 flex flex-col justify-center">
                 <div className="flex flex-col">
                   <label htmlFor="name" className="hidden">
-                    Full Name
+                    Nom complet
                   </label>
                   <input
                     type="name"
                     name="name"
                     id="name"
-                    placeholder="Full Name"
-                    className="w-100 mt-2 py-3 px-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-400 dark:border-gray-700 text-gray-800 font-semibold focus:border-[#A5BB08] focus:outline-none"
+                    placeholder="Nom complet"
+                    className="w-100 mt-2 py-3 px-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-400 dark:border-gray-700 text-gray-800 font-semibold focus:border-[#A5BB08] focus:outline-none "
                   />
                 </div>
                 <div className="flex flex-col mt-2">
@@ -118,13 +118,13 @@ const Contact = () => {
                     type="tel"
                     name="tel"
                     id="tel"
-                    placeholder="Telephone Number"
-                    className="w-100 mt-2 py-3 px-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-400 dark:border-gray-700 text-gray-800 font-semibold focus:border-[#A5BB08] focus:outline-none"
+                    placeholder="Numéro de téléphone"
+                    className="w-100 mt-2 py-3 px-3 rounded-lg bg-white focus:border-[#A5BB08] focus:outline-none "
                   />
                 </div>
                 <button
                   type="submit"
-                  className="md:w-32 bg-[#A5BB08] hover:bg-blue-dark text-white font-bold py-3 px-6 rounded-lg mt-3 hover:bg-[#A5BB08] transition ease-in-out duration-300"
+                  className="md:w-32 bg-[#A5BB08] hover:bg-blue-dark text-white font-bold py-3 px-6 rounded-lg mt-3 hover:bg-[#86be44] transition ease-in-out duration-300"
                 >
                   Submit
                 </button>

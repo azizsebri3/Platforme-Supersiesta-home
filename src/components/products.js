@@ -1,32 +1,33 @@
-// import apple from "../assets/apple.png";
-// import msi from "../assets/msi.png"
+import matlas from "../assets/matlas.png";
+
 
 const products = [
   {
-    title: "Apple Watch Series 7 GPS, Aluminium Case, Starlight Sport",
-    image: apple,
-    price: "600$",
+    id : 1 , 
+    desc: "Matelas Ressort",
+    image: matlas,
+    price: "600",
   },
   {
-    title: "Apple Watch Series 7 GPS, Aluminium Case, Starlight Sport",
-    image: msi,
-    price: "700$",
+    id : 2, 
+    desc: "Matelas Mousse",
+    image: matlas,
+    price: "700",
   },
   {
-    title: "Apple Watch Series 7 GPS, Aluminium Case, Starlight Sport",
-    image: apple,
-    price: "300$",
+    id : 3 , 
+    desc: "Matelas Confortable",
+    image: matlas,
+    price: "300",
   },
   {
-    title: "Apple Watch Series 7 GPS, Aluminium Case, Starlight Sport",
-    image: apple,
-    price: "300$",
+    id : 4 , 
+    desc: "Matelas Ressort et latex ",
+    image: matlas,
+    price: "300",
   },
-  {
-    title: "Apple Watch Series 7 GPS, Aluminium Case, Starlight Sport",
-    image: apple,
-    price: "300$",
-  },
+  
+ 
   
 ];
 
