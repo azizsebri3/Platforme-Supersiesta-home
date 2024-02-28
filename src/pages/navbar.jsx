@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { MdShoppingCart } from "react-icons/md";
 import { FaSearch } from "react-icons/fa";
 import "../output.css";
 import Drawer from "../components/drawer";
 import { Link } from "react-router-dom";
 import logo from "../assets/logo.png";
-import ShopCard from "./cartitem";
-import SearchBar from "../components/searchBar";
+import { useCart } from "../context/cartProvider ";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import IconButton from "@mui/material/IconButton";
 import Badge from "@mui/material/Badge";
 import { styled } from "@mui/material/styles";
-import IconButton from "@mui/material/IconButton";
-import { useCart } from "../cartProvider "; // Import useCart hook
 
 const Navbar = () => {
   const NavItems = [
@@ -22,10 +20,9 @@ const Navbar = () => {
 
   const [showDrawer, setShowDrawer] = useState(false);
   const [isCategoriesHovered, setIsCategoriesHovered] = useState(false);
-  const [Open, setOpen] = useState(false);
-  const [OpenSearch, setOpenSearch] = useState(false);
-  const { cartItems } = useCart(); // Use useCart hook to access cartItems state
-  const [isScrolled, setIsScrolled] = useState(false); // New state for scroll
+  const { cartItems } = useCart();
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [lastScrollTop, setLastScrollTop] = useState(0);
 
   const ctgs = ["MATELAS RESSORTS", "MATELAS MOUSSE", "MEUBLE", "LINGE DE LIT"];
 
@@ -37,23 +34,18 @@ const Navbar = () => {
     checkScreenSize();
     window.addEventListener("resize", checkScreenSize);
 
-    // Event listener for scroll
     window.addEventListener("scroll", handleScroll);
 
     return () => {
       window.removeEventListener("resize", checkScreenSize);
-      window.removeEventListener("scroll", handleScroll); // Cleanup
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
   const handleScroll = () => {
-    // Detect if scrolled down enough to apply blur effect
-    const isTop = window.scrollY < 10;
-    if (isTop !== isScrolled) {
-      setIsScrolled(false);
-    } else {
-      setIsScrolled(true);
-    }
+    const currentScrollTop = window.pageYOffset;
+    setIsScrolled(currentScrollTop > lastScrollTop && currentScrollTop > 10);
+    setLastScrollTop(currentScrollTop <= 0 ? 0 : currentScrollTop);
   };
 
   const handleCategoriesHover = () => {
@@ -68,17 +60,23 @@ const Navbar = () => {
     (total, item) => total + item.quantity,
     0
   );
+  const StyledBadge = styled(Badge)(({ theme }) => ({
+    "& .MuiBadge-badge": {
+      right: -3,
+      top: 13,
+      border: `2px solid ${theme.palette.background.paper}`,
+      padding: "0 4px", 
+    },
+  }));
 
   return (
     <>
       <header
-        className={`fixed w-full bg-[#a5bb08] z-10 mb-10 ${
-          isScrolled ? "backdrop-blur-lg" : ""
+        className={`fixed w-full bg-[#a5bb08] z-10 mb-10 transition-transform duration-300 ${
+          isScrolled ? "-translate-y-full" : "translate-y-0"
         }`}
       >
-        <nav
-          className={`flex container px-4 items-center justify-between py-4`}
-        >
+        <nav className="container h-20 px-4 py-4 flex justify-between items-center">
           <div className="flex items-center">
             {showDrawer && <Drawer />}
             <ul
@@ -118,7 +116,8 @@ const Navbar = () => {
                   ) : (
                     <Link
                       to={`${item.item1}`}
-                      className="text-xl p-4 font-semibold hover:text-[#20327c] transition-colors duration-300"
+                      className="text-xl p-4 font-semibold tranform duration-1000 
+                      overflow-hidden hover:scale-125  hover:text-[#20327c] transition-colors "
                     >
                       {item.item2}
                     </Link>
@@ -127,20 +126,32 @@ const Navbar = () => {
               ))}
             </ul>
           </div>
-          <div className={`flex ${showDrawer ? "items-end" : "items-center"}`}>
-            <Link
-              to={"/cart"}
-              className="flex mr-4 justify-center items-center relative"
-            >
-              <Badge badgeContent={totalItemsInCart} color="primary">
-                <MdShoppingCart />
-              </Badge>
-            </Link>
+          <div className="flex items-center">
+            {totalItemsInCart > 0 ? (
+              <Link
+                to={"/cart"}
+                className="flex mr-4 mt-2  justify-center items-center relative"
+              >
+                <IconButton aria-label="cart">
+                  <StyledBadge badgeContent={totalItemsInCart} color="primary">
+                    <ShoppingCartIcon />
+                  </StyledBadge>
+                </IconButton>
+              </Link>
+            ) : (
+              <div className="flex mr-4 mt-2  justify-center items-center z-10 relative">
+                <IconButton aria-label="cart">
+                  <StyledBadge badgeContent={totalItemsInCart} color="primary">
+                    <ShoppingCartIcon />
+                  </StyledBadge>
+                </IconButton>
+              </div>
+            )}
             <button
               onClick={() => setOpenSearch(!OpenSearch)}
               className="flex mr-4 justify-center items-center"
             >
-              <FaSearch className="text-white  hover:text-[#20327c] text-4xl pt-2   cursor-pointer  " />
+              <FaSearch className="text-white  hover:text-[#20327c] text-4xl pt-2 cursor-pointer" />
             </button>
             <Link
               to={"/"}

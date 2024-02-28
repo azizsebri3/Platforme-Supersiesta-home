@@ -1,19 +1,17 @@
 import React, { useState, useEffect } from "react";
 import "../output.css";
-import products from "./products";
+import products from "../constants/products.js";
 import { motion } from "framer-motion"; // Import motion from Framer Motion
-import { Carousel } from "./gallery/carousel.jsx";
-import data from "./gallery/data.js";
-import CartItem from "./cartitem.jsx";
-import ProductCard from "./productCard.jsx";
+import { Carousel } from "../components/gallery/carousel.jsx";
+import data from "../components/gallery/data.js";
+import ProductCard from "../components/productCard.jsx";
 import guarantee from "../assets/guarantee.png";
 import delivery from "../assets/delivery-truck.png";
 import support from "../assets/support.png";
-import { useCart } from "../cartProvider ";
+import { useCart } from "../context/cartProvider .jsx";
+
 
 const Home = () => {
-  const [OpenCard, setOpenCard] = useState(false);
-  const [cartItems, setCartItems] = useState([]);
   const { addToCart } = useCart();
 
   return (
@@ -26,11 +24,6 @@ const Home = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5 }}
             >
-              {/* <img
-                src="https://cdn.youcan.shop/stores/ef64d91f474f5e5fc1392fc960e130b1/others/uSi9TKvIirqAnUvhOgSnGI6y28NPggMOkBRmemDj.jpeg"
-                alt="img-soc"
-                className="w-full my-20 border rounded-2xl"
-              /> */}
               <Carousel data={data} />
             </motion.div>
           </div>

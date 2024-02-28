@@ -8,7 +8,12 @@ import { Link } from "react-router-dom";
 
 const Drawer = () => {
   const [isProduitsOpen, setIsProduitsOpen] = useState(false); // State to manage dropdown visibility
-  const NavItems = ["Accueil", "Catégories", "À propos", "Contactez nous"];
+  const NavItems = [
+    { item1: "", item2: "Accueil" },
+    { item1: "Catégories", item2: "Catégories" },
+    { item1: "propos", item2: "À propos" },
+    { item1: "Contact", item2: "Contactez nous" },
+  ];
   const NavIcons = [
     <RiHome4Line />,
     <BiSolidCategoryAlt />,
@@ -50,7 +55,7 @@ const Drawer = () => {
             <ul className="flex-col mt-20 p-7 hover:text-white">
               {NavItems.map((item, index) => (
                 <li key={index} className="mb-6 text-2xl flex ">
-                  {item === "Catégories" ? ( // Check if the item is "Produits"
+                  {item.item2 === "Catégories" ? ( // Check if the item is "Produits"
                     <>
                       <div className="relative">
                         <button
@@ -58,43 +63,43 @@ const Drawer = () => {
                           onClick={handleProduitsClick} // Toggle dropdown visibility on click
                         >
                           {NavIcons[index]} {/* Icon */}
-                          <span className="ml-2">{item}</span> {/* Item text */}
+                          <span className="ml-2">{item.item2}</span> {/* Item text */}
                         </button>
                         {isProduitsOpen && ( // Render dropdown menu if isProduitsOpen is true
                           <div className="absolute top-full left-0 z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
                             <ul className="py-2 text-sm text-gray-700">
                               <li className="text-center ">CATÉGORIES</li>
                               <li>
-                                <a
-                                  href="#"
+                                <Link
+                                  to={`${item.item1}`}
                                   className="block px-4 py-2 hover:bg-gray-100 hover:text-[#A5BB08]"
                                 >
                                   MATELAS RESSORTS
-                                </a>
+                                </Link>
                               </li>
                               <li>
-                                <a
-                                  href="#"
+                                <Link
+                                  // to={}
                                   className="block px-4 py-2 hover:bg-gray-100 hover:text-[#A5BB08]"
                                 >
                                   MATELAS MOUSSE
-                                </a>
+                                </Link>
                               </li>
                               <li>
-                                <a
-                                  href="#"
+                                <Link
+                                  // to={}
                                   className="block px-4 py-2 hover:bg-gray-100 hover:text-[#A5BB08]"
                                 >
                                   MEUBLE
-                                </a>
+                                </Link>
                               </li>
                               <li>
-                                <a
-                                  href="#"
+                                <Link
+                                  // to={}
                                   className="block px-4 py-2 hover:bg-gray-100 hover:text-[#A5BB08]"
                                 >
                                   LINGE DE LIT
-                                </a>
+                                </Link>
                               </li>
                             </ul>
                           </div>
@@ -102,13 +107,13 @@ const Drawer = () => {
                       </div>
                     </>
                   ) : (
-                    <a
-                      href="/"
+                    <Link
+                      to={`${item.item1}`}
                       className="text-gray-800 font-mono text-xl hover:text-[#A5BB08] transition-colors duration-300 flex "
                     >
                       {NavIcons[index]} {/* Icon */}
-                      <span className="ml-2">{item}</span> {/* Item text */}
-                    </a>
+                      <span className="ml-2">{item.item2}</span> {/* Item text */}
+                    </Link>
                   )}
                 </li>
               ))}

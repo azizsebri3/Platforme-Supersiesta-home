@@ -7,6 +7,7 @@ export default defineConfig({
     include: "**/*.tsx",
   })],
   server: {
+    port: 3001,
     watch: {
       usePolling: true
     }
