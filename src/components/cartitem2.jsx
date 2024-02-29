@@ -97,7 +97,7 @@ const ShoppingCart = ({ products }) => {
             </div>
           </div>
           <div className="md:w-1/4">
-            <div className="bg-white rounded-lg shadow-md p-6">
+            <div className="bg-white rounded-lg mb-15 shadow-md p-6">
               <h2 className="text-lg font-semibold mb-4">l'addition</h2>
               <div className="flex justify-between mb-2">
                 <span>Livraison</span>

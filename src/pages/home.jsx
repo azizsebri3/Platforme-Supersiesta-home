@@ -9,14 +9,14 @@ import guarantee from "../assets/guarantee.png";
 import delivery from "../assets/delivery-truck.png";
 import support from "../assets/support.png";
 import { useCart } from "../context/cartProvider .jsx";
-
+import ShiftingCountdown from "../components/countdown.jsx";
 
 const Home = () => {
   const { addToCart } = useCart();
 
   return (
     <>
-      <div className="flex flex-col lg:flex-row bg-white items-center">
+      <div className="flex flex-col z-10 lg:flex-row bg-white items-center">
         <div className="flex justify-center m-auto">
           <div className="relative my-20  rounded-2xl">
             <motion.div
@@ -30,8 +30,11 @@ const Home = () => {
         </div>
       </div>
       <hr />
-      <div className="flex justify-center items-center mx-auto my-10 bg-transparent space-x-4">
-        <div className="flex justify-center items-center space-x-4">
+      <div className="flex justify-center h-[50vh] flex-col items-center mx-auto my-10 bg-transparent space-x-4 ">
+        <div className="w-full mb-3">
+          <ShiftingCountdown />
+        </div>
+        <div className="flex justify-center  sm:flex-row  items-center space-x-4">
           <div className="col-sm-6 col-lg-4">
             <div className="flex flex-col items-center lg:mx-24 justify-center">
               <img className="w-10 h-10" src={delivery} alt="Delivery" />

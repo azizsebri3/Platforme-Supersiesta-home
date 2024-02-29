@@ -1,10 +1,20 @@
 import React from "react";
+import { useLocation } from "react-router-dom";
 
 const Footer = () => {
+  const location = useLocation();
+
+  // Check if the current path is "/cart"
+  const isCartPage = location.pathname === "/cart";
+
+  // Render the footer only if not on the "/cart" page
+  if (isCartPage) {
+    return null;
+  }
   return (
-    <footer className="bg-white mt-3">
+    <footer className="bg-white mt-10 ">
       <hr/>
-      <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
+      <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8 mt-20">
         <div className="md:flex md:justify-between">
           <div className="mb-6 md:mb-0">
             <a href="https://sebri.netlify.app" className="flex items-center">
@@ -144,7 +154,6 @@ const Footer = () => {
               </svg>
               <span className="sr-only">Twitter page</span>
             </a>
-           
           </div>
         </div>
       </div>

@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { FaArrowCircleUp } from 'react-icons/fa';
+import React, { useState, useEffect } from "react";
+import { FaArrowCircleUp } from "react-icons/fa";
 import "../output.css";
 
 const ScrollButton = () => {
@@ -13,25 +13,27 @@ const ScrollButton = () => {
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth'
+      behavior: "smooth",
     });
   };
 
   useEffect(() => {
-    window.addEventListener('scroll', toggleVisible);
+    window.addEventListener("scroll", toggleVisible);
     return () => {
-      window.removeEventListener('scroll', toggleVisible);
+      window.removeEventListener("scroll", toggleVisible);
     };
   }, []);
- 
 
   return (
     <button
       id="to-top-button"
       onClick={scrollToTop}
       title="Go To Top"
-      className={`fixed z-50 bottom-20 right-10 p-4 border-0 w-14 h-14 rounded-full shadow-md bg-[#A5BB08] hover:bg-[#62db55] text-white text-lg font-semibold transition-colors duration-300 ${visible ? '' : 'hidden'}`} // Added conditional class based on visibility
+      className={`fixed z-50 bottom-20 right-10 p-4 border-0 w-14 h-14 rounded-full shadow-md bg-[#A5BB08] hover:bg-[#192A7A] text-white text-lg font-semibold transition-colors duration-300 ${
+        visible ? "" : "hidden"
+      } ${visible ? "animate-bounce" : ""}`} // Added conditional class based on visibility and animate-bounce for the jump effect
     >
+      {" "}
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"

@@ -3,19 +3,20 @@ import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../context/cartProvider ";
 import Alert from "@mui/material/Alert";
 import { ProductProvider, useProduct } from "../context/productContext";
+import SlideInNotifications from "./Notifcation";
 
 const ProductCard = ({ id, img, desc, price }) => {
   const { setProduct } = useProduct();
-
   const { addToCart } = useCart();
   const navigate = useNavigate();
   const [added, setAdded] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   const handleAddToCart = () => {
     addToCart(img, desc, price);
-    setAdded(true);
+    setSuccess(true);
     setTimeout(() => {
-      setAdded(false);
+      setSuccess(false);
     }, 2000);
   };
 
@@ -25,46 +26,39 @@ const ProductCard = ({ id, img, desc, price }) => {
   };
 
   return (
-    <ProductProvider>
-      <div
-        className="flex flex-col mb-3 bg-white mx-4 shadow-xl 
-        rounded p-4 border hover:shadow-[#A5BB08] 
+    <>
+      <ProductProvider>
+        <div
+          className="flex flex-col mb-3 bg-white mx-4 shadow-xl 
+        rounded p-3 border hover:shadow-[#A5BB08] 
         hover:shadow-xl hover:border-green-600 
-        tranform transition duration-1000 
-        overflow-hidden hover:scale-125"
-      >
-        <Link to={`/Product/${desc}`} className="block mb-4">
-          <button onClick={handleGetInfo}>
-            <img src={img} alt="" className="w-full max-h-48  object-cover" />
-          </button>
-        </Link>
-        <hr />
-        <div className="text-center">
-          <h3 className="text-lg font-semibold mb-2">
-            <a>{desc}</a>
-          </h3>
-          <div className="text-2xl font-bold text-gray-800 mb-2">
-            {price} د.ت
+        tranform transition duration-500 
+        overflow-hidden hover:scale-100 ease-in
+        "
+        >
+          <Link to={`/Product/${desc}`} className="block mb-4">
+            <button onClick={handleGetInfo}>
+              <picture className="rounded-lg  overflow-hidden w-[361px] h-[361px] block">
+                <img className="hover:scale-125 ease-in duration-300" src={img} />
+              </picture>
+            </button>
+          </Link>
+          <hr />
+          <div className="text-center">
+            <h3 className="text-lg font-semibold mb-2">
+              <a>{desc}</a>
+            </h3>
+            <div className="text-xl  text-gray-800 mb-2">{price} د.ت</div>
+            <div className="bg-white  flex items-center justify-center">
+              <button onClick={handleAddToCart} className="px-6 py-2 font-medium bg-[#A5BB08] text-white w-fit transition-all shadow-[3px_3px_0px_black] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px]">
+              {success ? "Ajouté" : "Ajouter au panier"}
+              </button>
+            </div>
           </div>
-
-          <button
-            type="button"
-            onClick={handleAddToCart}
-            className={`text-green-700 hover:text-black border border-green-500 hover:bg-green-500 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800 ${
-              added ? "added" : ""
-            }`}
-          >
-            {added ? "Ajouté" : "Ajouter au panier"}
-          </button>
         </div>
-      </div>
-      {/* {
-          
-        added && <Alert variant="filled" severity="success">
-        This is a filled success Alert.
-      </Alert>
-      } */}
-    </ProductProvider>
+      </ProductProvider>
+      {success && <SlideInNotifications />}
+    </>
   );
 };
 
