@@ -72,7 +72,7 @@ const Navbar = () => {
   return (
     <>
       <header
-        className={`fixed w-full bg-[#a5bb08] z-10 mb-10 transition-transform duration-300 ${
+        className={`fixed w-full bg-[#a5bb08] z-20 mb-10 transition-transform duration-300 ${
           isScrolled ? "-translate-y-full" : "translate-y-0"
         }`}
       >
@@ -140,9 +140,9 @@ const Navbar = () => {
                       id="Capa_1"
                       className="w-6 h-6"
                       xmlns="http://www.w3.org/2000/svg"
-                      xmlns:xlink="http://www.w3.org/1999/xlink"
+                      xmlnsXlink="http://www.w3.org/1999/xlink"
                       viewBox="0 0 902.86 902.86"
-                      xml:space="preserve"
+                      xmlSpace="preserve"
                     >
                       <g>
                         <g>
@@ -175,9 +175,9 @@ const Navbar = () => {
                       id="Capa_1"
                       className="w-6 h-6"
                       xmlns="http://www.w3.org/2000/svg"
-                      xmlns:xlink="http://www.w3.org/1999/xlink"
+                     xmlnsXlink="http://www.w3.org/1999/xlink"
                       viewBox="0 0 902.86 902.86"
-                      xml:space="preserve"
+                      xmlSpace="preserve"
                     >
                       <g>
                         <g>

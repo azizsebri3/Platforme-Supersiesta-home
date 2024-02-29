@@ -3,6 +3,7 @@ import { useProduct } from "../context/productContext";
 import { useCart } from "../context/cartProvider ";
 import { Link, useNavigate } from "react-router-dom";
 
+
 const ProductPage = () => {
   const { productInfo } = useProduct();
   const { addToCart } = useCart();
@@ -49,6 +50,7 @@ const ProductPage = () => {
                     Retourner a l'acceuil
                   </button>
                 </Link>
+                
               </div>
             </div>
           </div>

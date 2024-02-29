@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../context/cartProvider ";
-import Alert from "@mui/material/Alert";
 import { ProductProvider, useProduct } from "../context/productContext";
 import SlideInNotifications from "./Notifcation";
 
@@ -9,7 +8,6 @@ const ProductCard = ({ id, img, desc, price }) => {
   const { setProduct } = useProduct();
   const { addToCart } = useCart();
   const navigate = useNavigate();
-  const [added, setAdded] = useState(false);
   const [success, setSuccess] = useState(false);
 
   const handleAddToCart = () => {
@@ -57,7 +55,7 @@ const ProductCard = ({ id, img, desc, price }) => {
           </div>
         </div>
       </ProductProvider>
-      {success && <SlideInNotifications />}
+      {success && <SlideInNotifications nameProduct={desc} />}
     </>
   );
 };

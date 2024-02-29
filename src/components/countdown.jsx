@@ -1,9 +1,9 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import "../output.css" ; 
+import "../output.css" ;
 
 // NOTE: Change this date to whatever date you want to countdown to :)
-const COUNTDOWN_FROM = "12/31/2024";
+const COUNTDOWN_FROM = "3/2/2024";
 
 const SECOND = 1000;
 const MINUTE = SECOND * 60;
@@ -27,25 +27,29 @@ const ShiftingCountdown = () => {
   }, []);
 
   const handleCountdown = () => {
-    // const end = new Date(COUNTDOWN_FROM);
+    const end = new Date(COUNTDOWN_FROM);
 
     const now = new Date();
 
-    // const distance = +end - +now;
+    const distance = +end - +now;
 
-    // const days = Math.floor(distance / DAY);
-    // const hours = Math.floor((distance % DAY) / HOUR);
-    // const minutes = Math.floor((distance % HOUR) / MINUTE);
-    // const seconds = Math.floor((distance % MINUTE) / SECOND);
+    const days = Math.floor(distance / DAY);
+    const hours = Math.floor((distance % DAY) / HOUR);
+    const minutes = Math.floor((distance % HOUR) / MINUTE);
+    const seconds = Math.floor((distance % MINUTE) / SECOND);
 
     setRemaining({
-      // days,
+      days,
+      hours,
+      minutes,
+      seconds,
     });
   };
 
   return (
     <div className="p-4 ">
       <div className="w-full max-w-5xl mx-auto flex items-center bg-white">
+        <CountdownItem num={remaining.days} text="days" />
         <CountdownItem num={remaining.hours} text="hours" />
         <CountdownItem num={remaining.minutes} text="minutes" />
         <CountdownItem num={remaining.seconds} text="seconds" />
@@ -65,7 +69,7 @@ const CountdownItem = ({ num, text }) => {
             animate={{ y: "0%" }}
             exit={{ y: "-100%" }}
             transition={{ ease: "backIn", duration: 0.75 }}
-            className="block text-2xl md:text-4xl lg:text-6xl xl:text-7xl text-[green-600] font-medium"
+            className="block text-2xl md:text-4xl lg:text-6xl xl:text-7xl text-black font-medium"
           >
             {num}
           </motion.span>

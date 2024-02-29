@@ -10,13 +10,14 @@ import delivery from "../assets/delivery-truck.png";
 import support from "../assets/support.png";
 import { useCart } from "../context/cartProvider .jsx";
 import ShiftingCountdown from "../components/countdown.jsx";
+import Drawer from "../components/drawer"
 
 const Home = () => {
   const { addToCart } = useCart();
 
   return (
     <>
-      <div className="flex flex-col z-10 lg:flex-row bg-white items-center">
+      <div className="flex flex-col z-1 lg:flex-row bg-white items-center">
         <div className="flex justify-center m-auto">
           <div className="relative my-20  rounded-2xl">
             <motion.div
@@ -34,7 +35,7 @@ const Home = () => {
         <div className="w-full mb-3">
           <ShiftingCountdown />
         </div>
-        <div className="flex justify-center  sm:flex-row  items-center space-x-4">
+        <div className="flex justify-center sm:flex-row flex-col m-2  items-center space-x-4">
           <div className="col-sm-6 col-lg-4">
             <div className="flex flex-col items-center lg:mx-24 justify-center">
               <img className="w-10 h-10" src={delivery} alt="Delivery" />
@@ -65,7 +66,6 @@ const Home = () => {
         </div>
       </div>
       <hr />
-
       <h1 className="flex items-center justify-center font-sans mb-6 text-3xl text-wrap text-bold">
         Nouvelle Collection
       </h1>

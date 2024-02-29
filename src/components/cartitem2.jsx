@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { format } from "date-fns";
+import { fr } from "date-fns/locale";
 import { useCart } from "../context/cartProvider ";
+import { HiOutlineTrash } from "react-icons/hi2";
 import "../output.css";
 
 const ShoppingCart = ({ products }) => {
   const { cartItems, setCartItems } = useCart();
   const [subtotal, setSubtotal] = useState(0);
   const currentDate = new Date();
-  const formattedDate = format(currentDate, "do MMMM yyyy 'at' hh:mm aa");
+  const formattedDate = format(currentDate, "do MMMM yyyy 'à' hh:mm aa", {
+    locale: fr,
+  });
 
   useEffect(() => {
     const calculateSubtotal = () => {
@@ -44,7 +48,7 @@ const ShoppingCart = ({ products }) => {
         <div className="flex flex-col md:flex-row gap-4">
           <div className="md:w-3/4">
             <div className="bg-white rounded-lg shadow-md p-6 mb-4">
-              <table className="w-full">
+              <table className="container w-full">
                 <thead>
                   <tr>
                     <th className="text-left font-semibold">Product</th>
@@ -59,17 +63,19 @@ const ShoppingCart = ({ products }) => {
                       <td className="py-4">
                         <div className="flex items-center">
                           <img
-                            className="h-16 w-16 mr-4"
+                            className="h-10 w-10  mr-4"
                             src={product.image}
                             alt="Product image"
                           />
-                          <span className="font-semibold sm:text-xl">{product.desc}</span>
+                          <span className="font-semibold sm:text-xl">
+                            {product.desc}
+                          </span>
                         </div>
                       </td>
                       <td className="py-3">د.ت {product.price}</td>
                       <td className="py-4">
                         <div className="flex items-center">
-                        <button className="border rounded-md py-2 px-2 ml-1">
+                          <button className="border rounded-md py-2 px-2 ml-1">
                             -
                           </button>
                           <span className="text-center w-4">1</span>
@@ -83,10 +89,10 @@ const ShoppingCart = ({ products }) => {
                         <div className="flex">
                           <button
                             type="button"
-                            className="font-medium text-[#A5BB08]  hover:text-red-600"
+                            className="text-2xl text-[#A5BB08]  hover:text-red-600"
                             onClick={() => removeFromCart(product.id)}
                           >
-                            Supprimer
+                            <HiOutlineTrash />
                           </button>
                         </div>
                       </td>

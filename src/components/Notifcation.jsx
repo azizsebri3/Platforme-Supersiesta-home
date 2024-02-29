@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import { FiCheckSquare, FiX } from "react-icons/fi";
 import { AnimatePresence, motion } from "framer-motion";
 
-const SlideInNotifications = () => {
+const SlideInNotifications = ({nameProduct}) => {
   const [notifications, setNotifications] = useState([]);
 
   useEffect(() => {
     const notification = {
       id: Math.random(),
-      text: "Produit ajouté au panier avec succès"
+      text: `${nameProduct} ajouté au panier avec succès`
     };
     setNotifications([notification]);
   }, []);

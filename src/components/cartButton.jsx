@@ -56,9 +56,9 @@ const CartButton = () => {
             id="Capa_1"
             className="w-6 h-6"
             xmlns="http://www.w3.org/2000/svg"
-            xmlns:xlink="http://www.w3.org/1999/xlink"
+            xmlnsXlink="http://www.w3.org/1999/xlink"
             viewBox="0 0 902.86 902.86"
-            xml:space="preserve"
+            xmlSpace="preserve"
           >
             <g>
               <g>
