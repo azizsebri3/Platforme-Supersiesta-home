@@ -42,12 +42,12 @@ const CartButton = () => {
   return (
     <Link
       to={"/cart"}
-      id="to-top-button"
+      id="cart-button"
       //onClick={scrollToTop}
       title="Go To Top"
       className="fixed z-50 bottom-40 right-10 p-2 border-0 rounded-full shadow-md bg-[#A5BB08] hover:bg-[#192A7A] text-white text-lg font-semibold transition-colors duration-300 animate-bounce "
     >
-      <IconButton aria-label="cart">
+      <IconButton  aria-label="cart">
         <StyledBadge badgeContent={totalItemsInCart} color="primary">
           {" "}
           <svg

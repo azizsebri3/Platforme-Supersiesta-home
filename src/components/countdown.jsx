@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import "../output.css" ;
 
 // NOTE: Change this date to whatever date you want to countdown to :)
-const COUNTDOWN_FROM = "3/2/2024";
+const COUNTDOWN_FROM = "5/2/2024";
 
 const SECOND = 1000;
 const MINUTE = SECOND * 60;

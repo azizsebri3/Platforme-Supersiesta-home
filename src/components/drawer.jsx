@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { RiHome4Line } from "react-icons/ri";
 import { BiSolidCategoryAlt } from "react-icons/bi";
 import { BiBadgeCheck } from "react-icons/bi";
@@ -7,7 +7,7 @@ import logo from "../assets/logo.png";
 import { Link } from "react-router-dom";
 
 const Drawer = () => {
-  const [isProduitsOpen, setIsProduitsOpen] = useState(false); // State to manage dropdown visibility
+  const [isProduitsOpen, setIsProduitsOpen] = useState(false);
   const NavItems = [
     { item1: "", item2: "Accueil" },
     { item1: "Catégories", item2: "Catégories" },
@@ -25,14 +25,17 @@ const Drawer = () => {
     setIsProduitsOpen(!isProduitsOpen); // Toggle dropdown visibility
   };
 
+  const closeDrawer = () => {
+    setIsProduitsOpen(false); // Close the drawer
+  };
+
   return (
-    <div className="flex z-20 ">
+    <div className="flex  ">
       <div className="relative">
         <input
           type="checkbox"
           id="drawer-toggle"
           className="relative sr-only peer"
-          defaultChecked=""
         />
         <label
           htmlFor="drawer-toggle"
@@ -73,6 +76,7 @@ const Drawer = () => {
                                 <Link
                                   to={`${item.item1}`}
                                   className="block px-4 py-2 hover:bg-gray-100 hover:text-[#A5BB08]"
+                                  onClick={closeDrawer} // Close the drawer when any list item is clicked
                                 >
                                   MATELAS RESSORTS
                                 </Link>
@@ -81,6 +85,7 @@ const Drawer = () => {
                                 <Link
                                   // to={}
                                   className="block px-4 py-2 hover:bg-gray-100 hover:text-[#A5BB08]"
+                                  onClick={closeDrawer} // Close the drawer when any list item is clicked
                                 >
                                   MATELAS MOUSSE
                                 </Link>
@@ -89,6 +94,7 @@ const Drawer = () => {
                                 <Link
                                   // to={}
                                   className="block px-4 py-2 hover:bg-gray-100 hover:text-[#A5BB08]"
+                                  onClick={closeDrawer} // Close the drawer when any list item is clicked
                                 >
                                   MEUBLE
                                 </Link>
@@ -97,6 +103,7 @@ const Drawer = () => {
                                 <Link
                                   // to={}
                                   className="block px-4 py-2 hover:bg-gray-100 hover:text-[#A5BB08]"
+                                  onClick={closeDrawer} // Close the drawer when any list item is clicked
                                 >
                                   LINGE DE LIT
                                 </Link>
@@ -110,6 +117,7 @@ const Drawer = () => {
                     <Link
                       to={`${item.item1}`}
                       className="text-gray-800 font-mono text-xl hover:text-[#A5BB08] transition-colors duration-300 flex "
+                      onClick={closeDrawer} // Close the drawer when any list item is clicked
                     >
                       {NavIcons[index]} {/* Icon */}
                       <span className="ml-2">{item.item2}</span> {/* Item text */}

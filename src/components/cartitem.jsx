@@ -57,7 +57,7 @@ const CartItem = () => {
               <div className="mt-4 md:mt-6 flex flex-col md:flex-row justify-start items-start md:items-center md:space-x-6 xl:space-x-8 w-full">
                 <div className="pb-4 md:pb-8 w-full md:w-23">
                   <img
-                    className="w-full  md:block"
+                    className="w-full hidden md:block"
                     src={item.image}
                     alt="dress"
                   />

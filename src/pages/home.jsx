@@ -10,7 +10,6 @@ import delivery from "../assets/delivery-truck.png";
 import support from "../assets/support.png";
 import { useCart } from "../context/cartProvider .jsx";
 import ShiftingCountdown from "../components/countdown.jsx";
-import Drawer from "../components/drawer"
 
 const Home = () => {
   const { addToCart } = useCart();
@@ -19,7 +18,7 @@ const Home = () => {
     <>
       <div className="flex flex-col z-1 lg:flex-row bg-white items-center">
         <div className="flex justify-center m-auto">
-          <div className="relative my-20  rounded-2xl">
+          <div className="relative  rounded-2xl">
             <motion.div
               initial={{ opacity: 0, x: -100 }}
               animate={{ opacity: 1, x: 0 }}
@@ -66,10 +65,10 @@ const Home = () => {
         </div>
       </div>
       <hr />
-      <h1 className="flex items-center justify-center font-sans mb-6 text-3xl text-wrap text-bold">
+      <h1 id="acceuil-section" className="flex items-center justify-center font-sans mb-6 text-3xl text-wrap text-bold">
         Nouvelle Collection
       </h1>
-      <div className="flex justify-center flex-wrap mx-20">
+      <div  className="flex justify-center flex-wrap mx-20">
         {products.map((product, index) => (
           <motion.div
             key={index}

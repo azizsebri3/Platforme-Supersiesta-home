@@ -7,12 +7,16 @@ const CartContext = createContext();
 // Créez un fournisseur de contexte
 export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
+  const totalItemsInCart = cartItems.reduce(
+    (total, item) => total + item.quantity,
+    0
+  );
   const addToCart = (image, desc, price) => {
     const newItem = { image, desc, price, id: cartItems.length + 1, quantity: 1 };
     setCartItems([...cartItems, newItem]);
   };
   return (
-    <CartContext.Provider value={{ cartItems, setCartItems ,addToCart}}>
+    <CartContext.Provider value={{ cartItems, setCartItems ,addToCart , totalItemsInCart}}>
       {children}
     </CartContext.Provider>
   );

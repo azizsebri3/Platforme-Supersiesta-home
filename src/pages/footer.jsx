@@ -1,5 +1,6 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
+import "../output.css" ; 
 
 const Footer = () => {
   const location = useLocation();
@@ -12,7 +13,7 @@ const Footer = () => {
     return null;
   }
   return (
-    <footer className="bg-white mt-10 ">
+    <footer className="bg-white mt-10">
       <hr/>
       <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8 mt-20">
         <div className="md:flex md:justify-between">

@@ -19,7 +19,7 @@ export const Carousel = ({ data }) => {
   useEffect(() => {
     const interval = setInterval(() => {
       nextSlide();
-    }, 2000); // Appel de nextSlide toutes les 2 secondes
+    }, 4000); 
 
     // Nettoyer l'intervalle lorsque le composant est démonté
     return () => clearInterval(interval);

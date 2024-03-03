@@ -29,9 +29,9 @@ const ScrollButton = () => {
       id="to-top-button"
       onClick={scrollToTop}
       title="Go To Top"
-      className={`fixed z-50 bottom-20 right-10 p-4 border-0 w-14 h-14 rounded-full shadow-md bg-[#A5BB08] hover:bg-[#192A7A] text-white text-lg font-semibold transition-colors duration-300 ${
+      className={`fixed z-50 bottom-40 left-10 p-4 border-0 w-14 h-14 rounded-full shadow-md bg-[#A5BB08] hover:bg-[#192A7A] text-white text-lg font-semibold transition-colors duration-300 ${
         visible ? "" : "hidden"
-      } ${visible ? "animate-bounce" : ""}`} // Added conditional class based on visibility and animate-bounce for the jump effect
+      }`} // Added conditional class based on visibility and animate-bounce for the jump effect
     >
       {" "}
       <svg
