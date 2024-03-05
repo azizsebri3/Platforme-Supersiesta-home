@@ -10,10 +10,43 @@ import delivery from "../assets/delivery-truck.png";
 import support from "../assets/support.png";
 import { useCart } from "../context/cartProvider .jsx";
 import ShiftingCountdown from "../components/countdown.jsx";
+import axios from "axios";
 
 const Home = () => {
   const { addToCart } = useCart();
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [fetchedProducts, setFetchedProducts] = useState([]);
+  const [collectionName, setCollectionName] = useState("Nouvelle Collection");
 
+  useEffect(() => {
+    if (selectedCategory) {
+      fetchProducts(selectedCategory);
+    }
+  }, [selectedCategory]);
+
+  const fetchProducts = async (category) => {
+    try {
+      const response = await axios.get(
+        `YOUR_API_ENDPOINT/products?category=${category}`
+      );
+      setFetchedProducts(response.data); // Fix this line
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
+  };
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await axios.get("YOUR_API_ENDPOINT");
+        setFetchedProducts(response.data);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
   return (
     <>
       <div className="flex flex-col z-1 lg:flex-row bg-white items-center">
@@ -29,7 +62,6 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <hr />
       <div className="flex justify-center h-[50vh] flex-col items-center mx-auto my-10 bg-transparent space-x-4 ">
         <div className="w-full mb-3">
           <ShiftingCountdown />
@@ -64,11 +96,13 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <hr />
-      <h1 id="acceuil-section" className="flex items-center justify-center font-sans mb-6 text-3xl text-wrap text-bold">
+      <h1
+        id="acceuil-section"
+        className="flex items-center justify-center font-sans mb-6 text-3xl text-wrap text-bold"
+      >
         Nouvelle Collection
       </h1>
-      <div  className="flex justify-center flex-wrap mx-20">
+      <div className="flex justify-center flex-wrap mx-20">
         {products.map((product, index) => (
           <motion.div
             key={index}

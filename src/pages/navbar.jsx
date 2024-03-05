@@ -5,14 +5,14 @@ import Drawer from "../components/drawer";
 import { Link } from "react-router-dom";
 import logo from "../assets/logo.png";
 import { useCart } from "../context/cartProvider ";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import IconButton from "@mui/material/IconButton";
 import Badge from "@mui/material/Badge";
 import { styled } from "@mui/material/styles";
+import ToggleButton from "../components/darkModeToggle";
 
 const Navbar = () => {
   const NavItems = [
-    { item1: "", item2: "Accueil" },
+    { item1: "/", item2: "Accueil" },
     { item1: "Catégories", item2: "Catégories" },
     { item1: "propos", item2: "À propos" },
     { item1: "Contact", item2: "Contactez nous" },
@@ -24,14 +24,13 @@ const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [lastScrollTop, setLastScrollTop] = useState(0);
   const [scrollDirection, setScrollDirection] = useState("up");
-
   const ctgs = ["MATELAS RESSORTS", "MATELAS MOUSSE", "MEUBLE", "LINGE DE LIT"];
 
+  // hathi n checki beha el size mta3 SCREEN
   useEffect(() => {
     const checkScreenSize = () => {
       setShowDrawer(window.innerWidth <= 756);
     };
-
     checkScreenSize();
     window.addEventListener("resize", checkScreenSize);
 
@@ -43,6 +42,7 @@ const Navbar = () => {
     };
   }, []);
 
+  // function mta3 scrolling
   const handleScroll = () => {
     const currentScrollTop = window.pageYOffset;
     setIsScrolled(currentScrollTop > lastScrollTop && currentScrollTop > 10);
@@ -51,9 +51,9 @@ const Navbar = () => {
     setLastScrollTop(currentScrollTop <= 0 ? 0 : currentScrollTop);
   };
 
+  // useEffect mta3 lscrolling direction
   useEffect(() => {
     let timeoutId;
-
     const handleScrollEnd = () => {
       clearTimeout(timeoutId);
       timeoutId = setTimeout(() => {
@@ -62,30 +62,31 @@ const Navbar = () => {
     };
 
     window.addEventListener("scroll", handleScrollEnd);
-
     return () => {
       window.removeEventListener("scroll", handleScrollEnd);
       clearTimeout(timeoutId);
     };
   }, [isScrolled]);
 
+  // ki n hoveri 3la categorie bech taaml show wala hide ll dropdown mta3 el categories
   const handleCategoriesHover = () => {
     setIsCategoriesHovered(true);
   };
-
   const handleCategoriesLeave = () => {
     setIsCategoriesHovered(false);
   };
 
+  // n7seb el totalitems eli fi Cart
   const totalItemsInCart = cartItems.reduce(
     (total, item) => total + item.quantity,
     0
   );
+  // hatha el styling mta3 l icon mta3 totale eli fo9 icon cart
   const StyledBadge = styled(Badge)(({ theme }) => ({
     "& .MuiBadge-badge": {
-      right: -3,
+      right: -2,
       top: 13,
-      border: `2px solid ${theme.palette.background.paper}`,
+      border: `1px solid ${theme.palette.background.paper}`,
       padding: "0 4px",
     },
   }));
@@ -120,13 +121,14 @@ const Navbar = () => {
                       {isCategoriesHovered && (
                         <div className="absolute mt-4 top-full left-0 z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
                           <ul className="py-3 text-sm text-gray-700 ">
-                            {ctgs.map((selected, index) => (
-                              <li key={index}>
+                            {ctgs.map((category) => (
+                              <li key={category}>
                                 <Link
-                                  to={"/propos"}
-                                  className="block px-4 py-2 hover:text-[#A5BB08]  hover:bg-gray-100"
+                                  to="/"
+                                  onClick={() => handleCategorySelect(category)}
+                                  className="block px-4 py-2 hover:text-[#A5BB08] hover:bg-gray-100"
                                 >
-                                  {selected}
+                                  {category}
                                 </Link>
                               </li>
                             ))}
@@ -147,7 +149,11 @@ const Navbar = () => {
               ))}
             </ul>
           </div>
-          <div className="flex items-center">
+          <div className="flex items-end">
+            <div className="fixed mr-10">
+              
+            {/* <ToggleButton /> */}
+            </div>
             <Link
               to={"/cart"}
               className="flex mr-4 mt-2  justify-center items-center relative"

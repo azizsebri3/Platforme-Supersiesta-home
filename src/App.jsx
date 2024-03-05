@@ -8,18 +8,16 @@ import "./output.css";
 import SignIn from "./SignIn";
 import Contact from "./pages/contact";
 import Propos from "./pages/propos";
-import CartItem from "./components/cartitem";
 import ProductPage from "./pages/productPage";
 import ScrollButton from "./components/ScrollButton";
-import ShoppingCart from "./components/cartitem2";
-import Drawer from "./components/drawer";
+import ShoppingCart from "./components/cartitem";
 import CartButton from "./components/cartButton";
 
 function App() {
   return (
     <Router>
       <div>
-        <Navbar  />
+        <Navbar />
         <Routes>
           <Route index element={<Home />} />
           <Route path="/Catégories" element={<Categories />} />
