@@ -156,6 +156,7 @@ const Navbar = () => {
             </div>
             <Link
               to={"/cart"}
+              onClick={() => window.scroll(0,0)}
               className="flex mr-4 mt-2  justify-center items-center relative"
             >
               <IconButton aria-label="cart">

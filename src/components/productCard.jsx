@@ -24,7 +24,8 @@ const ProductCard = ({ id, img, desc, price }) => {
 
   const handleGetInfo = () => {
     setProduct(img, desc, price);
-    navigate("/Product");
+    navigate(`/Product/${desc}`);
+    window.scroll(0,0);
   };
 
   return (
@@ -32,7 +33,7 @@ const ProductCard = ({ id, img, desc, price }) => {
       <ProductProvider>
         <div
           className="flex flex-col mb-5 z-10  bg-white mx-4 shadow-xl 
-        rounded p-2 border hover:shadow-[#A5BB08] 
+        rounded p-1 border hover:shadow-[#A5BB08] 
         hover:shadow-xl hover:border-green-600 
         tranform transition duration-500 
         overflow-hidden hover:scale-100 ease-in "
@@ -54,13 +55,17 @@ const ProductCard = ({ id, img, desc, price }) => {
             </h3>
             <div className="text-xl  text-gray-800 mb-2">{price} د.ت</div>
             <div className="bg-white  flex items-center justify-center">
-              <a
-                onClick={addToCart}
-                class="bg-[#a5bb08] flex items-center justify-center rounded-md px-5 py-2.5 text-center text-sm font-medium text-white focus:outline-none focus:ring-4 focus:ring-blue-300 hover:bg-[#c0d835] cursor-pointer"
-              >
+              <button
+              onClick={handleAddToCart}
+              className="group flex w-60 cursor-pointer select-none items-center justify-center rounded-md bg-[#a5bb08] px-6 py-2 text-white transition">
+                <a
+                  class="group flex w-full items-center justify-center rounded py-2 text-center font-bold"
+                >
+                  Ajouter au panier
+                </a>
                 <svg
+                  className="flex-0 group-hover:w-6 ml-4 h-6 w-0 transition-all"
                   xmlns="http://www.w3.org/2000/svg"
-                  class="mr-2 h-6 w-6"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -69,11 +74,10 @@ const ProductCard = ({ id, img, desc, price }) => {
                   <path
                     stroke-linecap="round"
                     stroke-linejoin="round"
-                    d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+                    d="M14 5l7 7m0 0l-7 7m7-7H3"
                   />
                 </svg>
-                Ajouter au Panier
-              </a>
+              </button>
             </div>
           </div>
         </div>

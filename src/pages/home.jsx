@@ -18,35 +18,36 @@ const Home = () => {
   const [fetchedProducts, setFetchedProducts] = useState([]);
   const [collectionName, setCollectionName] = useState("Nouvelle Collection");
 
-  useEffect(() => {
-    if (selectedCategory) {
-      fetchProducts(selectedCategory);
-    }
-  }, [selectedCategory]);
+  
+  // useEffect(() => {
+  //   if (selectedCategory) {
+  //     fetchProducts(selectedCategory);
+  //   }
+  // }, [selectedCategory]);
 
-  const fetchProducts = async (category) => {
-    try {
-      const response = await axios.get(
-        `YOUR_API_ENDPOINT/products?category=${category}`
-      );
-      setFetchedProducts(response.data); // Fix this line
-    } catch (error) {
-      console.error("Error fetching products:", error);
-    }
-  };
+  // const fetchProducts = async (category) => {
+  //   try {
+  //     const response = await axios.get(
+  //       `YOUR_API_ENDPOINT/products?category=${category}`
+  //     );
+  //     setFetchedProducts(response.data); // Fix this line
+  //   } catch (error) {
+  //     console.error("Error fetching products:", error);
+  //   }
+  // };
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await axios.get("YOUR_API_ENDPOINT");
-        setFetchedProducts(response.data);
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchProducts = async () => {
+  //     try {
+  //       const response = await axios.get("YOUR_API_ENDPOINT");
+  //       setFetchedProducts(response.data);
+  //     } catch (error) {
+  //       console.error("Error fetching products:", error);
+  //     }
+  //   };
 
-    fetchProducts();
-  }, []);
+  //   fetchProducts();
+  // }, []);
   return (
     <>
       <div className="flex flex-col z-1 lg:flex-row bg-white items-center">

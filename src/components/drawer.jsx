@@ -30,7 +30,7 @@ const Drawer = () => {
   };
 
   return (
-    <div className="flex  ">
+    <div className="flex ">
       <div className="relative">
         <input
           type="checkbox"
@@ -41,8 +41,8 @@ const Drawer = () => {
           htmlFor="drawer-toggle"
           className="relative top-0 left-0 inline-block p-4 transition-all duration-500 bg-[#192A7A] rounded-lg peer-checked:rotate-180 peer-checked:left-64"
         >
-          <div className="w-6 h-1 mb-3  -rotate-45 bg-white rounded-lg" />
-          <div className="w-6 h-1 rotate-45 bg-white rounded-lg" />
+          <div className="w-6 h-1 mb-3 rotate-45 bg-white rounded-lg" />
+          <div className="w-6 h-1 -rotate-45 bg-white rounded-lg" />
         </label>
         <div className="fixed top-0 left-0 z-[9999] w-64 h-full transition-all duration-500 transform -translate-x-full bg-white shadow-lg peer-checked:translate-x-0">
           <div className="px-8 py-4">
@@ -50,7 +50,7 @@ const Drawer = () => {
               to={"/"}
               className="flex items-center text-xl font-bold text-white"
             >
-              <span className="text-colori font-bold text-2xl text-black">
+              <span className="text-colori  font-bold text-2xl text-black">
                 Conforama
               </span>
               <img src={logo} className=" w-8 h-auto ml-2" alt="Company Logo" />

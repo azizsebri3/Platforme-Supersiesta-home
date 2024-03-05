@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useCart } from "../context/cartProvider ";
+import {useNavigate , useLocation} from "react-router-dom"
 import "../output.css";
 import IconButton from "@mui/material/IconButton";
 import Badge from "@mui/material/Badge";
@@ -9,6 +10,8 @@ import { Link } from "react-router-dom";
 const CartButton = () => {
   const [visible, setVisible] = useState(false);
   const { cartItems } = useCart();
+  const navigate = useNavigate() ;
+  const location = useLocation();
 
   const totalItemsInCart = cartItems.reduce(
     (total, item) => total + item.quantity,
@@ -22,33 +25,46 @@ const CartButton = () => {
       padding: "0 4px",
     },
   }));
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollTop = window.pageYOffset;
-      setVisible(scrollTop > 150); // Update visibility based on scroll position
-    };
 
-    window.addEventListener("scroll", handleScroll);
+  // // Check if the current path is "/cart"
+   const isCartPage = location.pathname === "/cart";
 
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+   // Render the footer only if not on the "/cart" page
+   if (isCartPage) {
+     return null;
+   }
+  
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     const scrollTop = window.pageYOffset;
+  //     setVisible(scrollTop > 150); // Update visibility based on scroll position
+  //   };
 
-  if (totalItemsInCart === 0 || !visible) {
-    return null;
+  //   window.addEventListener("scroll", handleScroll);
+
+  //   return () => {
+  //     window.removeEventListener("scroll", handleScroll);
+  //   };
+  // }, []);
+
+  const scrolli = () => {
+    navigate("/cart")
+    window.scroll(0,0)
   }
 
+  // if (totalItemsInCart === 0 || !visible) {
+  //   return null;
+  // }
+
   return (
-    <Link
-      to={"/cart"}
+    <button
+      onClick={scrolli}
       id="cart-button"
-      //onClick={scrollToTop}
       title="Go To Top"
-      className="fixed z-50 bottom-40 right-10 p-2 border-0 rounded-full shadow-md bg-[#A5BB08] hover:bg-[#192A7A] text-white text-lg font-semibold transition-colors duration-300 animate-bounce "
+      className={`fixed z-50 bottom-40 right-10 p-2 border-0 rounded-full shadow-md bg-[#A5BB08] hover:bg-[#192A7A] text-white text-lg font-semibold transition-colors duration-300 ${ totalItemsInCart > 0 ? "animate-bounce": "" }`}
     >
       <IconButton  aria-label="cart">
-        <StyledBadge badgeContent={totalItemsInCart} color="primary">
+      <StyledBadge badgeContent={totalItemsInCart !== undefined ? totalItemsInCart : 0} color="primary">
           {" "}
           <svg
             fill="#000000"
@@ -81,7 +97,7 @@ const CartButton = () => {
         </StyledBadge>
       </IconButton>
       <span className="sr-only">Go to top</span>
-    </Link>
+    </button>
   );
 };
 
