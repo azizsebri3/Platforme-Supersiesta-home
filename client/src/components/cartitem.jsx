@@ -9,7 +9,6 @@ import DialogCustomAnimation from "./dialog";
 
 const ShoppingCart = () => {
   const { cartItems, setCartItems } = useCart();
-
   const [subtotal, setSubtotal] = useState(0);
   const [showDialog, setShowDialog] = useState(false);
   const [productIdToRemove, setProductIdToRemove] = useState(null);
@@ -22,13 +21,12 @@ const ShoppingCart = () => {
   const handleConfirmCheckout = () => {
     navigate("/checkout");
   };
+
   const handleConfirm = () => {
-    // Remove the product from the cart
     confirmRemoveFromCart();
   };
 
   const handleCancel = () => {
-    // Cancel the action
     setShowDialog(false);
   };
 
@@ -40,13 +38,12 @@ const ShoppingCart = () => {
       });
       setSubtotal(total);
     };
-
     calculateSubtotal();
-  }, [cartItems, cartItems.length]);
+  }, [cartItems]);
 
   const handleRemoveConfirmation = (productId) => {
-    setShowDialog(true); // Show the confirmation dialog
-    setProductIdToRemove(productId); // Set the productId to remove
+    setShowDialog(true);
+    setProductIdToRemove(productId);
   };
 
   const confirmRemoveFromCart = () => {
@@ -54,15 +51,13 @@ const ShoppingCart = () => {
       (item) => item.id !== productIdToRemove
     );
     setCartItems(updatedProducts);
-    setShowDialog(false); // Hide the confirmation dialog after removing the product
+    setShowDialog(false);
   };
 
   const updateQuantity = (productId, newQuantity) => {
-    // Check if the new quantity is not negative
     if (newQuantity < 0) {
-      return; // Do not update the quantity if it becomes negative
+      return;
     }
-
     const updatedCartItems = cartItems.map((item) =>
       item.id === productId ? { ...item, quantity: newQuantity } : item
     );
@@ -82,14 +77,34 @@ const ShoppingCart = () => {
               <div className="flow-root">
                 <ul className="-my-8">
                   {cartItems.length === 0 ? (
-                    <>
-                      <span className="flex flex-col font-bold justify-center items-center space-y-3 py-6 text-center  sm:flex-row sm:space-x-5 sm:space-y-0">
-                        Votre Panier est vide !
-                      </span>
-                      <button onClick={() => alert(cartItems.length)}>
-                        SHOW alert
-                      </button>
-                    </>
+                    <li className="flex flex-col text-[1rem]  font-bold justify-center items-center space-y-3 py-6 text-center ">
+                      Votre Panier est vide !
+                      <div className="mt-5 w-1/2">
+                        <button
+                          onClick={() => {
+                            navigate("/");
+                          }}
+                          type="button"
+                          className="group inline-flex w-full items-center justify-center rounded-md bg-[#a5bb08] px-6 py-4 text-lg font-semibold text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-[#87A922]"
+                        >
+                          Retouner
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="group-hover:ml-8 ml-4 h-6 w-6 transition-all"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            strokeWidth={2}
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M13 7l5 5m0 0l-5 5m5-5H6"
+                            />
+                          </svg>
+                        </button>
+                      </div>
+                    </li>
                   ) : (
                     cartItems.map((item) => (
                       <li
@@ -154,51 +169,57 @@ const ShoppingCart = () => {
                   )}
                 </ul>
               </div>
-              <div className="mt-6 border-t border-b py-2">
-                <div className="flex items-center justify-between">
-                  <p className="text-sm text-gray-400">Sous Total </p>
-                  <p className="text-lg font-semibold text-gray-900">
-                    {subtotal} د.ت
-                  </p>
-                </div>
-                <div className="flex items-center justify-between">
-                  <p className="text-sm text-gray-400">Livraison</p>
-                  <p className="text-lg font-semibold text-gray-900">
-                    {" "}
-                    د.ت 8.00
-                  </p>
-                </div>
-              </div>
-              <div className="mt-6 flex items-center justify-between">
-                <p className="text-sm font-medium text-gray-900">Total</p>
-                <p className="text-2xl font-semibold text-gray-900">
-                  <span className="text-xs font-normal text-gray-400">د.ت</span>{" "}
-                  {subtotal}
-                </p>
-              </div>
-              <div className="mt-6 text-center">
-                <Link
-                  to="/checkout"
-                  type="button"
-                  className="group inline-flex w-full items-center justify-center rounded-md bg-[#a5bb08] px-6 py-4 text-lg font-semibold text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-[#87A922]"
-                >
-                  Commander
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="group-hover:ml-8 ml-4 h-6 w-6 transition-all"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M13 7l5 5m0 0l-5 5m5-5H6"
-                    />
-                  </svg>
-                </Link>
-              </div>
+              {cartItems.length > 0 && (
+                <>
+                  <div className="mt-6 border-t border-b py-2">
+                    <div className="flex items-center justify-between">
+                      <p className="text-sm text-gray-400">Sous Total </p>
+                      <p className="text-lg font-semibold text-gray-900">
+                        {subtotal} د.ت
+                      </p>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <p className="text-sm text-gray-400">Livraison</p>
+                      <p className="text-lg font-semibold text-gray-900">
+                        {" "}
+                        د.ت 8.00
+                      </p>
+                    </div>
+                  </div>
+                  <div className="mt-6 flex items-center justify-between">
+                    <p className="text-sm font-medium text-gray-900">Total</p>
+                    <p className="text-2xl font-semibold text-gray-900">
+                      <span className="text-xs font-normal text-gray-400">
+                        د.ت
+                      </span>{" "}
+                      {subtotal}
+                    </p>
+                  </div>
+                  <div className="mt-6 text-center">
+                    <Link
+                      to="/checkout?fromCart=true"
+                      type="button"
+                      className="group inline-flex w-full items-center justify-center rounded-md bg-[#a5bb08] px-6 py-4 text-lg font-semibold text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-[#87A922]"
+                    >
+                      Commander
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="group-hover:ml-8 ml-4 h-6 w-6 transition-all"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M13 7l5 5m0 0l-5 5m5-5H6"
+                        />
+                      </svg>
+                    </Link>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>

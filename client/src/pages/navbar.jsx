@@ -57,15 +57,17 @@ const Navbar = () => {
       >
         <nav className="container h-20 px-4 py-4 flex justify-between items-center">
           <div className="flex z-50 items-center">
-            {showDrawer && <Drawer />}
+            {window.innerWidth <= 765 && <Drawer />}
             <ul
-              className={`md:flex md:space-x-4 ${showDrawer ? "hidden" : ""}`}
+              className={`md:flex md:space-x-4 ${
+                window.innerWidth <= 765 ? "hidden" : ""
+              }`}
             >
               {NavItems.map((item, index) => (
                 <li key={index} className="text-white font-semibold">
                   <Link
                     to={`${item.item1}`}
-                    onClick={()=>window.scroll(0,0)}
+                    onClick={() => window.scroll(0, 0)}
                     className="text-xl p-4 font-semibold transform duration-100 overflow-hidden hover:scale-125  hover:text-[#20327c] transition-colors "
                   >
                     {item.item2}
@@ -105,7 +107,7 @@ const Navbar = () => {
             </Link>
             <Link
               to={"/"}
-              onClick={()=>window.scroll(0,0)}
+              onClick={() => window.scroll(0, 0)}
               className="flex items-center text-xl font-bold text-white"
             >
               <span className="text-colori hidden font-bold text-2xl md:inline-block text-black">

@@ -26,6 +26,7 @@ function App() {
           <Route path="/Contact" element={<Contact />} />
           <Route path="/cart" element={<ShoppingCart />} />
           <Route path="/checkout" element={<Checkout />} />
+          
         </Routes>
         <ScrollButton />
         <CartButton />

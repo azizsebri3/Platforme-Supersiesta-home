@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../output.css";
 import products from "../constants/products.js";
-import { motion } from "framer-motion"; // Import motion from Framer Motion
+import { motion } from "framer-motion";
 import { Carousel } from "../components/gallery/carousel.jsx";
 import data from "../components/gallery/data.js";
 import ProductCard from "../components/productCard.jsx";
@@ -9,16 +9,14 @@ import guarantee from "../assets/guarantee.png";
 import delivery from "../assets/delivery-truck.png";
 import support from "../assets/support.png";
 import { useCart } from "../context/cartProvider .jsx";
-import ShiftingCountdown from "../components/countdown.jsx";
+// import ShiftingCountdown from "../components/countdown.jsx";
 import axios from "axios";
 
 const Home = () => {
-  const { addToCart } = useCart();
   const [selectedCategory, setSelectedCategory] = useState("");
   const [fetchedProducts, setFetchedProducts] = useState([]);
   const [collectionName, setCollectionName] = useState("Nouvelle Collection");
 
-  
   useEffect(() => {
     if (selectedCategory) {
       fetchProducts(selectedCategory);
@@ -64,9 +62,7 @@ const Home = () => {
         </div>
       </div>
       <div className="flex justify-center h-[50vh] flex-col items-center mx-auto my-10 bg-transparent space-x-4 ">
-        <div className="w-full mb-3">
-          {/* <ShiftingCountdown /> */}
-        </div>
+        <div className="w-full mb-3">{/* <ShiftingCountdown /> */}</div>
         <div className="flex justify-center sm:flex-row flex-col m-2  items-center space-x-4">
           <div className="col-sm-6 col-lg-4">
             <div className="flex flex-col items-center lg:mx-24 justify-center">
@@ -116,11 +112,11 @@ const Home = () => {
               img={product.image}
               desc={product.desc}
               price={product.price}
-              addToCart={addToCart} // Pass addToCart function to ProductCard
             />
           </motion.div>
         ))}
       </div>
+      
     </>
   );
 };

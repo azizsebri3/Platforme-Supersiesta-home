@@ -1,11 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useProduct } from "../context/productContext";
 import { useCart } from "../context/cartProvider ";
 import { Link, useNavigate } from "react-router-dom";
 
 const ProductPage = () => {
   const { productInfo } = useProduct();
-  const { addToCart } = useCart();
+  const { addToCart, cartItems } = useCart();
+  const [isInCart, setIsInCart] = useState(false);
   const navigate = useNavigate();
   const { img, desc, price } = productInfo;
 
@@ -37,6 +38,11 @@ const ProductPage = () => {
       navigate("/");
     }
   }, [productInfo, navigate]);
+
+  useEffect(() => {
+    // Check if the product is already in the cart
+    setIsInCart(cartItems.some((item) => item.desc === desc));
+  }, [cartItems, desc]);
 
   const handleAddToCart = () => {
     addToCart(img, desc, price);
@@ -139,9 +145,13 @@ const ProductPage = () => {
                 <span className="text-base ml-1">د.ت</span>
               </div>
               <button
-                onClick={handleAddToCart}
+                onClick={() => {
+                  handleAddToCart();
+                }}
                 type="button"
-                className="inline-flex items-center justify-center rounded-md border-2 border-transparent bg-[#A5BB08] bg-none px-12 py-3 text-center text-base font-bold text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-[#909f24]"
+                className={`inline-flex items-center justify-center rounded-md border-2 border-transparent bg-[#A5BB08] bg-none px-12 py-3 text-center text-base font-bold text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-[#909f24] ${
+                  isInCart && "hidden"
+                }`}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

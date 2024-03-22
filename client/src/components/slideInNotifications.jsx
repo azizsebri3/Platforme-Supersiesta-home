@@ -1,21 +1,14 @@
-import React, { useEffect } from "react";
+import React from "react";
 
-const SlideInNotifications = ({ nameProduct, productPosition }) => {
-  useEffect(() => {
-    const product = document.getElementById(`product-${nameProduct}`);
-    if (product) {
-      product.style.transition = "top 0.5s, left 0.5s";
-      product.style.top = `${productPosition.top}px`;
-      product.style.left = `${productPosition.left}px`;
-    }
-  }, [nameProduct, productPosition]);
-
+const SlideInNotifications = ({ nameProduct }) => {
   return (
-    <div
-      id={`product-${nameProduct}`}
-      className="fixed z-50 bg-white p-2 rounded shadow"
-    >
-      {nameProduct}
+    <div class="bg-[#a5bb08] py-2 px-4 rounded-md text-white text-center fixed bottom-4 z-50 left-4 flex gap-4">
+      <p>{nameProduct} a ajouté avec success ! </p>
+      <span
+        class="cursor-pointer font-bold"
+        onclick="return this.parentNode.remove()"
+      >
+      </span>
     </div>
   );
 };
