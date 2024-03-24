@@ -12,26 +12,31 @@ import ShoppingCart from "./components/cartitem";
 import CartButton from "./components/cartButton";
 import "./output.css";
 import Checkout from "./pages/checkout";
+import AddProduct from "./pages/addProduct";
+import { useAppContext } from "./context/AppContext.jsx";
+import Loading from "./pages/loading.jsx";
 
 function App() {
+  const { loading } = useAppContext();
   return (
     <Router>
       <div>
         <Navbar />
         <Routes>
           <Route index element={<Home />} />
-          <Route path="/Product/:id" element={<ProductPage />} />
+          <Route path="/Product/:category/:name" element={<ProductPage />} />
           <Route path="/propos" element={<Propos />} />
           <Route path="/SignIn" element={<SignIn />} />
           <Route path="/Contact" element={<Contact />} />
           <Route path="/cart" element={<ShoppingCart />} />
           <Route path="/checkout" element={<Checkout />} />
-          
+          <Route path="/addProduct" element={<AddProduct />} />
         </Routes>
         <ScrollButton />
         <CartButton />
         <Footer />
       </div>
+      {loading && <Loading />}
     </Router>
   );
 }

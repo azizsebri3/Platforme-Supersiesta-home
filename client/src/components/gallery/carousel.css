@@ -6,8 +6,8 @@
   width: 100%; /* Ensure the carousel takes the full width */
   max-width: 100%; /* Ensure the carousel doesn't exceed its container */
   z-index: 1; /* Ensure the carousel is above other elements */
-  height: 600px; /* Set a fixed height for the carousel container */
-  margin-top: 120px;
+  height: 800px; /* Set a fixed height for the carousel container */
+  margin-top: 100;
   box-shadow: fuchsia;
 }
 

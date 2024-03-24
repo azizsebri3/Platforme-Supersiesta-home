@@ -8,8 +8,12 @@ import "../output.css";
 import DialogCustomAnimation from "./dialog";
 
 const ShoppingCart = () => {
-  const { cartItems, setCartItems } = useCart();
-  const [subtotal, setSubtotal] = useState(0);
+  const {
+    cartItems,
+    updateCartItemQuantity,
+    removeFromCart,
+    totalPrice,
+  } = useCart();
   const [showDialog, setShowDialog] = useState(false);
   const [productIdToRemove, setProductIdToRemove] = useState(null);
   const navigate = useNavigate();
@@ -17,10 +21,6 @@ const ShoppingCart = () => {
   const formattedDate = format(currentDate, "do MMMM yyyy 'à' hh:mm aa", {
     locale: fr,
   });
-
-  const handleConfirmCheckout = () => {
-    navigate("/checkout");
-  };
 
   const handleConfirm = () => {
     confirmRemoveFromCart();
@@ -30,38 +30,15 @@ const ShoppingCart = () => {
     setShowDialog(false);
   };
 
-  useEffect(() => {
-    const calculateSubtotal = () => {
-      let total = 0;
-      cartItems.forEach((item) => {
-        total += Number(item.price * item.quantity);
-      });
-      setSubtotal(total);
-    };
-    calculateSubtotal();
-  }, [cartItems]);
-
   const handleRemoveConfirmation = (productId) => {
     setShowDialog(true);
     setProductIdToRemove(productId);
   };
 
   const confirmRemoveFromCart = () => {
-    const updatedProducts = cartItems.filter(
-      (item) => item.id !== productIdToRemove
-    );
-    setCartItems(updatedProducts);
+    console.log(productIdToRemove);
+    removeFromCart(productIdToRemove);
     setShowDialog(false);
-  };
-
-  const updateQuantity = (productId, newQuantity) => {
-    if (newQuantity < 0) {
-      return;
-    }
-    const updatedCartItems = cartItems.map((item) =>
-      item.id === productId ? { ...item, quantity: newQuantity } : item
-    );
-    setCartItems(updatedCartItems);
   };
 
   return (
@@ -85,9 +62,9 @@ const ShoppingCart = () => {
                             navigate("/");
                           }}
                           type="button"
-                          className="group inline-flex w-full items-center justify-center rounded-md bg-[#a5bb08] px-6 py-4 text-lg font-semibold text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-[#87A922]"
+                          className="group inline-flex w-full items-center justify-center rounded-md bg-[#a5bb08]  py-4 text-lg font-semibold text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-[#87A922]"
                         >
-                          Retouner
+                          Revenir à la page d'accueil
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             className="group-hover:ml-8 ml-4 h-6 w-6 transition-all"
@@ -122,7 +99,7 @@ const ShoppingCart = () => {
                           <div className="sm:col-gap-5 sm:grid sm:grid-cols-2">
                             <div className="pr-8 sm:pr-5">
                               <p className="text-base font-semibold text-gray-900">
-                                {item.desc}
+                                {item.name}
                               </p>
                             </div>
                             <div className="mt-4 flex items-end justify-between sm:mt-0 sm:items-start sm:justify-end">
@@ -133,7 +110,10 @@ const ShoppingCart = () => {
                                 <div className="flex h-8 items-stretch text-gray-600">
                                   <button
                                     onClick={() =>
-                                      updateQuantity(item.id, item.quantity - 1)
+                                      updateCartItemQuantity(
+                                        item.id,
+                                        item.quantity - 1
+                                      )
                                     }
                                     className="flex items-center justify-center rounded-l-md bg-gray-200 px-4 transition hover:bg-black hover:text-white"
                                   >
@@ -144,7 +124,10 @@ const ShoppingCart = () => {
                                   </div>
                                   <button
                                     onClick={() =>
-                                      updateQuantity(item.id, item.quantity + 1)
+                                      updateCartItemQuantity(
+                                        item.id,
+                                        item.quantity + 1
+                                      )
                                     }
                                     className="flex items-center justify-center rounded-r-md bg-gray-200 px-4 transition hover:bg-black hover:text-white"
                                   >
@@ -175,7 +158,7 @@ const ShoppingCart = () => {
                     <div className="flex items-center justify-between">
                       <p className="text-sm text-gray-400">Sous Total </p>
                       <p className="text-lg font-semibold text-gray-900">
-                        {subtotal} د.ت
+                        {totalPrice} د.ت
                       </p>
                     </div>
                     <div className="flex items-center justify-between">
@@ -192,7 +175,7 @@ const ShoppingCart = () => {
                       <span className="text-xs font-normal text-gray-400">
                         د.ت
                       </span>{" "}
-                      {subtotal}
+                      {totalPrice}
                     </p>
                   </div>
                   <div className="mt-6 text-center">

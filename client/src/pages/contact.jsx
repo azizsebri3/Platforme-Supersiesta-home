@@ -107,7 +107,7 @@ const Contact = () => {
                     name="email"
                     id="email"
                     placeholder="Email"
-                    className="w-100 mt-2 py-3 px-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-400 dark:border-gray-700 text-gray-800 font-semibold focus:outline-none"
+                    className="w-100 mt-2 py-3 px-3 rounded-lg bg-white dark:bg-gray-800 border focus:border-green-400   dark:border-green-700 text-gray-800 font-semibold focus:outline-none"
                   />
                 </div>
                 <div className="flex flex-col mt-2">

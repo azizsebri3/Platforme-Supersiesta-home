@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { useProduct } from "../context/productContext";
 import { useCart } from "../context/cartProvider ";
 import { Link, useNavigate } from "react-router-dom";
+import { useAppContext } from "../context/AppContext.jsx";
 
 const ProductPage = () => {
-  const { productInfo } = useProduct();
+  const { productInfo } = useAppContext();
   const { addToCart, cartItems } = useCart();
   const [isInCart, setIsInCart] = useState(false);
   const navigate = useNavigate();
-  const { img, desc, price } = productInfo;
 
   const renderSVGs = () => {
     const svgs = [];
@@ -41,11 +40,12 @@ const ProductPage = () => {
 
   useEffect(() => {
     // Check if the product is already in the cart
-    setIsInCart(cartItems.some((item) => item.desc === desc));
-  }, [cartItems, desc]);
+    setIsInCart(cartItems.some((item) => item.id === productInfo.id));
+  }, [cartItems, productInfo.id]);
 
   const handleAddToCart = () => {
-    addToCart(img, desc, price);
+    console.log(productInfo);
+    addToCart(productInfo);
   };
 
   return (
@@ -59,7 +59,7 @@ const ProductPage = () => {
                   <div className="relative">
                     <img
                       className="h-full w-full max-w-full object-cover transition-transform duration-300 transform-gpu hover:scale-105"
-                      src={img}
+                      src={productInfo.image}
                       alt=""
                     />
                   </div>
@@ -73,7 +73,7 @@ const ProductPage = () => {
                   >
                     <img
                       className="h-full w-full object-cover"
-                      src={img}
+                      src={productInfo.image}
                       alt=""
                     />
                   </button>
@@ -83,7 +83,7 @@ const ProductPage = () => {
           </div>
           <div className="lg:col-span-2 lg:row-span-2 lg:row-end-2">
             <h1 className="sm: text-2xl font-bold text-gray-900 sm:text-3xl">
-              {desc}
+              {productInfo.name}
             </h1>
             <div className="mt-5 flex items-center">
               <div className="flex items-center">{renderSVGs()}</div>
@@ -141,7 +141,7 @@ const ProductPage = () => {
             </div>
             <div className="mt-10 flex flex-col items-center justify-between space-y-4 border-t border-b py-4 sm:flex-row sm:space-y-0">
               <div className="flex items-end">
-                <h1 className="text-3xl ml-3 font-bold">{price}</h1>
+                <h1 className="text-3xl ml-3 font-bold">{productInfo.price}</h1>
                 <span className="text-base ml-1">د.ت</span>
               </div>
               <button
@@ -230,14 +230,12 @@ const ProductPage = () => {
           <div className="lg:col-span-3">
             <div className="border-b border-gray-300">
               <nav className="flex gap-4">
-                <a
-                  href="#"
+                <p
                   title
-                  className="border-b-2 border-gray-900 py-4 text-sm font-medium text-gray-900 hover:border-gray-400 hover:text-gray-800"
+                  className="border-b-2 border-gray-900 py-4 text-xl  font-medium text-gray-900 hover:border-gray-400 hover:text-gray-800"
                 >
-                  {" "}
-                  Description{" "}
-                </a>
+                  {productInfo.desc}
+                </p>
               </nav>
             </div>
             <div className="mt-8 flow-root sm:mt-12">

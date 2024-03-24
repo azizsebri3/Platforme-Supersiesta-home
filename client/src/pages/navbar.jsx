@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FaSearch } from "react-icons/fa";
 import "../output.css";
 import Drawer from "../components/drawer";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom"; // Import useLocation
 import logo from "../assets/logo.png";
 import { useCart } from "../context/cartProvider ";
 import IconButton from "@mui/material/IconButton";
@@ -13,15 +13,17 @@ import ToggleButton from "../components/darkModeToggle";
 const Navbar = () => {
   const NavItems = [
     { item1: "/", item2: "Accueil" },
-    { item1: "", item2: "Catégories" },
-    { item1: "propos", item2: "À propos" },
-    { item1: "Contact", item2: "Contactez nous" },
+    { item1: "/Catégories", item2: "Catégories" },
+    { item1: "/propos", item2: "À propos" },
+    { item1: "/Contact", item2: "Contactez nous" },
   ];
 
   const [showDrawer, setShowDrawer] = useState(false);
-  const { cartItems } = useCart();
+  const { cartItems, totalItems } = useCart();
   const [isScrolled, setIsScrolled] = useState(false);
   const [prevScrollPos, setPrevScrollPos] = useState(0);
+  const location = useLocation(); // Get current location
+  const [showDropdown, setShowDropdown] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -33,11 +35,6 @@ const Navbar = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, [prevScrollPos]);
-
-  const totalItemsInCart = cartItems.reduce(
-    (total, item) => total + item.quantity,
-    0
-  );
 
   const StyledBadge = styled(Badge)(({ theme }) => ({
     "& .MuiBadge-badge": {
@@ -65,13 +62,79 @@ const Navbar = () => {
             >
               {NavItems.map((item, index) => (
                 <li key={index} className="text-white font-semibold">
-                  <Link
-                    to={`${item.item1}`}
-                    onClick={() => window.scroll(0, 0)}
-                    className="text-xl p-4 font-semibold transform duration-100 overflow-hidden hover:scale-125  hover:text-[#20327c] transition-colors "
-                  >
-                    {item.item2}
-                  </Link>
+                  {item.item2 === "Catégories" ? (
+                    <div
+                      onMouseEnter={() => setShowDropdown(true)}
+                      onMouseLeave={() => setShowDropdown(false)}
+                      className="relative"
+                    >
+                      <span
+                        className={`text-xl p-4 font-semibold hover:text-[#20327c]  transform duration-100 overflow-hidden hover:scale-125 transition-colors ${
+                          location.pathname === item.item1
+                            ? "text-[#20327c] focus:text-[#20327c] underline "
+                            : ""
+                        }`}
+                      >
+                        {item.item2}
+                      </span>
+                      {showDropdown && (
+                        <div
+                          id="dropdownHover"
+                          className="absolute z-10 mt-4 bg-white divide-y  divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
+                        >
+                          <ul
+                            className="py-2 text-sm text-gray-700 dark:text-gray-200"
+                            aria-labelledby="dropdownHoverButton"
+                          >
+                            <li>
+                              <a
+                                href="#"
+                                className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                              >
+                                Matelas a Ressort
+                              </a>
+                            </li>
+                            <li>
+                              <a
+                                href="#"
+                                className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                              >
+                                Matelas en Latex
+                              </a>
+                            </li>
+                            <li>
+                              <a
+                                href="#"
+                                className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                              >
+                                Matelas orthopedique
+                              </a>
+                            </li>
+                            <li>
+                              <a
+                                href="#"
+                                className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                              >
+                                Meuble
+                              </a>
+                            </li>
+                          </ul>
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <Link
+                      to={item.item1}
+                      onClick={() => window.scroll(0, 0)}
+                      className={`text-xl p-4 font-semibold hover:text-[#20327c] transform duration-100 overflow-hidden hover:scale-125 transition-colors ${
+                        location.pathname === item.item1
+                          ? "text-[#20327c] focus:text-[#20327c] underline "
+                          : ""
+                      }`}
+                    >
+                      {item.item2}
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>
@@ -84,7 +147,7 @@ const Navbar = () => {
               className="flex mr-4 mt-2  justify-center items-center relative"
             >
               <IconButton aria-label="cart">
-                <StyledBadge badgeContent={totalItemsInCart} color="primary">
+                <StyledBadge badgeContent={totalItems} color="primary">
                   <svg
                     fill="#000000"
                     version="1.1"

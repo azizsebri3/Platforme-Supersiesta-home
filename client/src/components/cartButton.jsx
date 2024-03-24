@@ -8,15 +8,11 @@ import { styled } from "@mui/material/styles";
 import { Link } from "react-router-dom";
 
 const CartButton = () => {
-  const [visible, setVisible] = useState(false);
-  const { cartItems } = useCart();
+  //const [visible, setVisible] = useState(false);
+  const { totalItems } = useCart();
   const navigate = useNavigate();
   const location = useLocation();
 
-  const totalItemsInCart = cartItems.reduce(
-    (total, item) => total + item.quantity,
-    0
-  );
   const StyledBadge = styled(Badge)(({ theme }) => ({
     "& .MuiBadge-badge": {
       right: -3,
@@ -62,12 +58,12 @@ const CartButton = () => {
       id="cart-button"
       title="Go To Top"
       className={`fixed z-50 bottom-10 right-7 p-2 border-0 rounded-full shadow-md bg-[#A5BB08] hover:bg-[#192A7A] text-white text-lg font-semibold transition-colors duration-300 ${
-        totalItemsInCart > 0 ? "animate-bounce" : ""
+        totalItems > 0 ? "animate-bounce" : ""
       }`}
     >
       <IconButton aria-label="cart">
         <StyledBadge
-          badgeContent={totalItemsInCart !== undefined ? totalItemsInCart : 0}
+          badgeContent={totalItems !== undefined ? totalItems : 0}
           color="primary"
         >
           {" "}

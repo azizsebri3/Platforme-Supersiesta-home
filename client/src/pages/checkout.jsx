@@ -63,7 +63,7 @@ const Checkout = () => {
 
   return (
     <div>
-      <div className="flex flex-col items-center pt-20 border-b bg-white py-4 sm:flex-row sm:px-10 lg:px-20 xl:px-32">
+      <div className="flex flex-col items-center pt-40 border-b bg-white py-4 sm:flex-row sm:px-10 lg:px-20 xl:px-32">
         <a href="#" className="text-2xl font-bold text-gray-800">
           Conforama
         </a>
@@ -87,7 +87,7 @@ const Checkout = () => {
                   alt=""
                 />
                 <div className="flex w-full flex-col px-4 py-4">
-                  <span className="font-semibold">{item.desc}</span>
+                  <span className="font-semibold">{item.name}</span>
                   {/* <span className="float-right text-gray-400">{item.size}</span> */}
                   <p className="text-lg font-bold">{item.price} د.ت</p>
                   <p className="text-xl font-normal">
@@ -119,6 +119,9 @@ const Checkout = () => {
                   </span>
                   <p className="text-slate-500 text-sm leading-6">
                     Livraison : 2-4 jours
+                  </p>
+                  <p className="text-slate-500 text-sm leading-6">
+                    Le paiement à la livraison
                   </p>
                 </div>
               </label>
