@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "../output.css";
 import { motion } from "framer-motion";
 import { Carousel } from "../components/gallery/carousel.jsx";
@@ -9,10 +9,73 @@ import delivery from "../assets/delivery-truck.png";
 import support from "../assets/support.png";
 // import ShiftingCountdown from "../components/countdown.jsx";
 import { useAppContext } from "../context/AppContext.jsx";
+import Pagination from "../components/pagination.jsx";
+import Features from "../components/features.jsx";
+import { Link, useLocation } from "react-router-dom";
 
 const Home = () => {
-  const { fetchedProducts } = useAppContext();
+  const { fetchedProducts, productSelected, setProductSelected, homeRef } =
+    useAppContext();
+  const [currentProducts, setCurrentProducts] = useState([]);
+  const productsPerPage = 8;
+  const [currentPage, setCurrentPage] = useState(1);
+  const location = useLocation();
+  const [path, setPath] = useState(["Acceuil"]);
 
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  useEffect(() => {
+    if (productSelected === "Acceuil") {
+      setCurrentProducts(fetchedProducts);
+    } else {
+      const filteredProducts = fetchedProducts.filter(
+        (product) => product.category === productSelected
+      );
+      setCurrentProducts(filteredProducts);
+      const index = path.indexOf(productSelected);
+      if (index === -1) {
+        // If the selected path is not in the current path, update the path
+        setPath([...path, productSelected]);
+      } else {
+        // If the selected path is already in the current path, remove all subsequent paths
+        setPath(path.slice(0, index + 1));
+      }
+    }
+    setCurrentPage(1);
+  }, [fetchedProducts, productSelected]);
+
+  // Calculate total number of pages
+  const totalPages = Math.ceil(currentProducts.length / productsPerPage);
+
+  // Calculate products to display on current page
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const productsToDisplay = currentProducts.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
+  const infoItems = [
+    {
+      image: delivery,
+      alt: "Delivery",
+      title: "Livraison à domicile",
+      description: "Pour tous les produits",
+    },
+    {
+      image: guarantee,
+      alt: "Guarantee",
+      title: "Qualité garantie",
+      description: "Produits de haute qualité",
+    },
+    {
+      image: support,
+      alt: "Support",
+      title: "Service client",
+      description: "Disponible 24/7 par téléphone",
+    },
+  ];
   return (
     <>
       <div className="flex flex-col z-1 lg:flex-row bg-white items-center">
@@ -28,56 +91,72 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <div className="flex justify-center h-[50vh] flex-col items-center mx-auto my-10 bg-transparent space-x-4 ">
-        <div className="w-full mb-3">{/* <ShiftingCountdown /> */}</div>
-        <div className="flex justify-center sm:flex-row flex-col m-2  items-center space-x-4">
-          <div className="col-sm-6 col-lg-4">
-            <div className="flex flex-col items-center lg:mx-24 justify-center">
-              <img className="w-10 h-10" src={delivery} alt="Delivery" />
-              <div className="text-center">
-                <h3 className="text-lg font-bold"> livraison à domicile</h3>
-                <p>Pour toutes les produits </p>
-              </div>
-            </div>
-          </div>
-          <div className="col-sm-6 col-lg-4">
-            <div className="flex flex-col items-center lg:mx-24 justify-center">
-              <img className="w-10 h-10" src={guarantee} alt="guarantee" />
-              <div className="text-center">
-                <h3 className="text-lg font-bold">Qualité garantie</h3>
-                <p>Produits de haute qualité</p>
-              </div>
-            </div>
-          </div>
-          <div className="col-sm-6 col-lg-4">
-            <div className="flex flex-col items-center lg:mx-24 justify-center">
-              <img className="w-10 h-10" src={support} alt="support" />
-              <div className="text-center">
-                <h3 className="text-lg font-bold">Service client</h3>
-                <p>Disponible 24/7 par téléphone</p>
-              </div>
-            </div>
-          </div>
+      <Features infoItems={infoItems} />
+      <>
+        <span class="flex-grow bg-gray-200 rounded h-1"></span>
+        <nav className="flex ml-40 justify-start items-center mx-auto ">
+          <ol role="list" className="flex items-center">
+            {path.map((pg, index) => (
+              <li key={index} className="text-center lg:text-2xl">
+                <div className="-m-1">
+                  <Link
+                    onClick={() => {
+                      if (pg === "Acceuil") {
+                        setProductSelected("Acceuil");
+                        setPath(["Acceuil"]);
+                      } else {
+                        setProductSelected(pg);
+                        if (index !== path.length - 1) {
+                          setPath(path.slice(0, index + 1));
+                        }
+                      }
+                    }}
+                    className={`rounded-md p-1 text-[17px] cursor-pointer font-medium hover:text-[#20327c] ${
+                      index === path.length - 1
+                        ? "text-[#20327c] underline "
+                        : ""
+                    }`}
+                  >
+                    {pg}
+                  </Link>
+                  <span> {` > `} </span>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </nav>
+        <span class="flex-grow bg-gray-200 rounded h-1"></span>
+        <h1
+          ref={homeRef}
+          className="flex items-center justify-center font-sans mb-6 text-3xl text-wrap text-bold"
+        >
+          {productSelected}
+        </h1>
+      </>
+
+      {fetchedProducts.length === 0 ? (
+        <div className="flex justify-center">
+          <p>Products not found</p>
         </div>
-      </div>
-      <h1
-        id="acceuil-section"
-        className="flex items-center justify-center font-sans mb-6 text-3xl text-wrap text-bold"
-      >
-        collections
-      </h1>
-      <div className="flex justify-center flex-wrap mx-20">
-        {fetchedProducts.map((product, index) => (
-          <motion.div
-            key={index}
-            initial={{ opacity: 0, scale: 0.5 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
-          >
-            <ProductCard item={product} />
-          </motion.div>
-        ))}
-      </div>
+      ) : (
+        <div className="flex justify-center flex-wrap mx-20">
+          {productsToDisplay.map((product, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+            >
+              <ProductCard item={product} />
+            </motion.div>
+          ))}
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            handlePageChange={handlePageChange}
+          />
+        </div>
+      )}
     </>
   );
 };

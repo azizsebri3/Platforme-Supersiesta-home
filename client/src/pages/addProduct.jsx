@@ -1,28 +1,44 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 const AddProduct = () => {
   const [productData, setProductData] = useState({
     productName: "",
     productDescription: "",
-    productOldPrice : 0 ,
-    productPrice: 0,
+    productOldPrice: null,
+    productPrice: null,
     imageUrl: "",
-    category: "", // Added category field
+    category: "",
+    availability: "",
+    sizes: [], // Array to store multiple sizes
+    newSize: "", // New size input field
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    console.log(name);
-    console.log(value);
     setProductData({ ...productData, [name]: value });
+  };
+
+  const handleAddSize = () => {
+    setProductData({
+      ...productData,
+      sizes: [...productData.sizes, productData.newSize], // Add new size to the sizes array
+      newSize: "", // Clear the new size input field
+    });
+  };
+  const handleRemoveSize = (index) => {
+    const newSizes = [...productData.sizes];
+    newSizes.splice(index, 1);
+    setProductData({
+      ...productData,
+      sizes: newSizes,
+    });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       await axios.post("http://localhost:5000/addProduct", productData);
-      // Clear form fields after successful submission
     } catch (error) {
       console.error("Error adding product:", error);
       alert("Failed to add product. Please try again later.");
@@ -63,7 +79,7 @@ const AddProduct = () => {
           </div>
           <div>
             <label htmlFor="productOldPrice" className="block font-semibold">
-              Product Price
+              Product Old Price
             </label>
             <input
               type="number"
@@ -72,7 +88,6 @@ const AddProduct = () => {
               value={productData.productOldPrice}
               onChange={handleChange}
               className="border border-gray-300 px-3 py-2 w-full"
-              required
             />
           </div>
           <div>
@@ -115,6 +130,81 @@ const AddProduct = () => {
               className="border border-gray-300 px-3 py-2 w-full"
             />
           </div>
+          <div>
+            <label className="block font-semibold">Availability</label>
+            <div>
+              <label className="mr-4">
+                <input
+                  type="radio"
+                  name="availability"
+                  value="En stock"
+                  checked={productData.availability === "En stock"}
+                  onChange={handleChange}
+                />
+                En stock
+              </label>
+              <label className="mr-4">
+                <input
+                  type="radio"
+                  name="availability"
+                  value="Epuisé"
+                  checked={productData.availability === "Epuisé"}
+                  onChange={handleChange}
+                />
+                Epuisé
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  name="availability"
+                  value="En arrivage"
+                  checked={productData.availability === "En arrivage"}
+                  onChange={handleChange}
+                />
+                En arrivage
+              </label>
+            </div>
+          </div>
+          <div>
+            <label htmlFor="sizes" className="block font-semibold">
+              Sizes
+            </label>
+            <div className="flex flex-wrap space-x-2">
+              {productData.sizes.map((size, index) => (
+                <div
+                  key={index}
+                  className="flex items-center border border-gray-300 px-3 py-2"
+                >
+                  <div>{size}</div>
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveSize(index)}
+                    className="ml-2 text-red-500"
+                  >
+                    Remove
+                  </button>
+                </div>
+              ))}
+            </div>
+            <div className="flex items-center space-x-2 mt-2">
+              <input
+                type="text"
+                id="newSize"
+                name="newSize"
+                value={productData.newSize}
+                onChange={handleChange}
+                className="border border-gray-300 px-3 py-2 w-full"
+              />
+              <button
+                type="button"
+                onClick={handleAddSize}
+                className="bg-[#A5BB08] text-white px-4 py-2 rounded hover:bg-[#818b2d]"
+              >
+                Add Size
+              </button>
+            </div>
+          </div>
+
           <button
             type="submit"
             className="bg-[#A5BB08] text-white px-4 py-2 rounded hover:bg-[#818b2d]"

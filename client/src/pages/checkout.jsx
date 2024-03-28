@@ -1,53 +1,29 @@
 import React, { useState, useEffect } from "react";
 import "../output.css";
-import { useCart } from "../context/cartProvider ";
+import { useCart } from "../context/cartProvider";
 import logo from "../assets/logo.png";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, Link } from "react-router-dom";
+import DialogCustomAnimation from "../components/dialog";
+import axios from "axios";
 
 const Checkout = () => {
-  const { cartItems, totalPrice } = useCart();
+  const { cartItems, totalPrice, setCartItems } = useCart();
+  const [showDialog, setShowDialog] = useState(false);
   const [formData, setFormData] = useState({
+    name: "",
+    prenom: "",
     email: "",
     phone: "",
     address: "",
   });
 
   const [formErrors, setFormErrors] = useState({
+    name: "",
+    prenom: "",
     email: "",
     phone: "",
     address: "",
   });
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-    setFormErrors({ ...formErrors, [name]: "" });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    // Perform form validation
-    const errors = {};
-    if (!formData.email) {
-      errors.email = "Le champ Courriel est requis";
-    }
-    if (!formData.phone) {
-      errors.phone = "Le champ Numéro de Télephone est requis";
-    }
-    if (!formData.address) {
-      errors.address = "Le champ Adresse de facturation est requis";
-    }
-
-    // Set errors and prevent form submission if there are errors
-    if (Object.keys(errors).length > 0) {
-      setFormErrors(errors);
-    } else {
-      // Proceed with form submission
-      console.log("Form submitted:", formData);
-      // You can add your logic to submit the form data here
-    }
-  };
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -61,13 +37,97 @@ const Checkout = () => {
     }
   }, [location.search, navigate]);
 
+  useEffect(() => {
+    const savedCartItems = JSON.parse(localStorage.getItem("cartItems"));
+    if (savedCartItems && !cartItems) {
+      setCartItems(savedCartItems);
+    }
+  }, [cartItems, setCartItems]);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+    setFormErrors({ ...formErrors, [name]: "" });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setShowDialog(false);
+
+      try {
+        // Prepare data to send to the server
+        const data = {
+          client: {
+            email: formData.email,
+            phone: formData.phone,
+            address: formData.address,
+            name: formData.name,
+            prenom: formData.prenom,
+          },
+          products: cartItems.map((item) => ({
+            product: item.id,
+            quantity: item.quantity,
+          })),
+          totalPrice: totalPrice,
+        };
+        console.log(data);
+        // Send a POST request to add the order and client information to the database
+        const response = await axios.post(
+          "http://localhost:5000/addOrder",
+          data
+        );
+
+        if (response.status === 201) {
+          setShowDialog(true);
+
+          setTimeout(() => {
+            navigate("/");
+            localStorage.removeItem("cartItems");
+            localStorage.removeItem("totalPrice");
+            localStorage.removeItem("selectedProduct");
+            window.location.reload();
+          }, 1500);
+          console.log("Order placed successfully:", data);
+          // You can perform further actions here, such as redirecting the user to a confirmation page
+        } else {
+          // Failed to add order and client information
+          alert("mat3detch el order");
+          console.error("Failed to place order:", response.statusText);
+          // Handle the error appropriately (e.g., show an error message to the user)
+        }
+      }
+      catch (error) {
+        alert("probleeeem");
+        console.error("Error placing order:", error.message);
+        // Handle the error appropriately (e.g., show an error message to the user)
+      }
+    }
+
+
   return (
     <div>
       <div className="flex flex-col items-center pt-40 border-b bg-white py-4 sm:flex-row sm:px-10 lg:px-20 xl:px-32">
-        <a href="#" className="text-2xl font-bold text-gray-800">
-          Conforama
-        </a>
-        <img src={logo} className="w-8 h-auto ml-2 mt-1" alt="Company Logo" />
+        <Link
+          to={"/"}
+          className="inline-flex items-center  border-black px-3 py-1.5 rounded-md text-black hover:bg-indigo-50"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            className="h-8 w-8 mr-2"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M7 16l-4-4m0 0l4-4m-4 4h18"
+            ></path>
+          </svg>
+          <span className="font-bold text-xl text-black">Conforama</span>
+          <img src={logo} className="w-8 h-auto ml-2 mt-1" alt="Company Logo" />
+        </Link>
       </div>
       <div className="grid sm:px-10 lg:grid-cols-2 lg:px-20 xl:px-32">
         <div className="px-4 pt-8">
@@ -136,6 +196,52 @@ const Checkout = () => {
           <div className>
             <form onSubmit={handleSubmit}>
               <label
+                htmlFor="name"
+                className="mt-4 mb-2 block text-sm font-medium"
+              >
+                Nom
+              </label>
+              <div className="relative">
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  className={`w-full rounded-md border ${
+                    formErrors.name ? "border-red-500" : "border-gray-200"
+                  } px-4 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-[#A5BB08] focus:ring-[#A5BB08]`}
+                  placeholder=""
+                />
+                {formErrors.name && (
+                  <p className="text-red-500 text-sm mt-1">{formErrors.name}</p>
+                )}
+              </div>
+              <label
+                htmlFor="prenom"
+                className="mt-4 mb-2 block text-sm font-medium"
+              >
+                Prénom
+              </label>
+              <div className="relative">
+                <input
+                  type="text"
+                  id="prenom"
+                  name="prenom"
+                  value={formData.prenom}
+                  onChange={handleInputChange}
+                  className={`w-full rounded-md border ${
+                    formErrors.prenom ? "border-red-500" : "border-gray-200"
+                  } px-4 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-[#A5BB08] focus:ring-[#A5BB08]`}
+                  placeholder=""
+                />
+                {formErrors.prenom && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {formErrors.prenom}
+                  </p>
+                )}
+              </div>
+              <label
                 htmlFor="email"
                 className="mt-4 mb-2 block text-sm font-medium"
               >
@@ -189,7 +295,7 @@ const Checkout = () => {
                   name="phone"
                   value={formData.phone}
                   onChange={handleInputChange}
-                  className="w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm uppercase shadow-sm outline-none focus:z-10 focus:border-[#A5BB08] focus:ring-[#A5BB08]"
+                  className="w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm  shadow-sm outline-none focus:z-10 focus:border-[#A5BB08] focus:ring-[#A5BB08]"
                   placeholder="Votre numéro de téléphone"
                 />
                 {formErrors.phone && (
@@ -236,13 +342,20 @@ const Checkout = () => {
                 </p>
               </div>
               {/* Rest of the form fields */}
-              <button className="mt-4 mb-8 w-full  rounded-md bg-[#A5BB08] hover:bg-[#87A922] px-6 py-3 font-medium text-white">
+              <button
+                type="submit"
+                // onClick={handleConfirmOrder} // Change here
+                className="mt-4 mb-8 w-full  rounded-md bg-[#A5BB08] hover:bg-[#87A922] px-6 py-3 font-medium text-white"
+              >
                 Passer la commande
               </button>
             </form>
           </div>
         </div>
       </div>
+      {showDialog && (
+        <DialogCustomAnimation title="Commande enregistrée avec Succès" />
+      )}
     </div>
   );
 };

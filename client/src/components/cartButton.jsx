@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useCart } from "../context/cartProvider ";
+import { useCart } from "../context/cartProvider";
 import { useNavigate, useLocation } from "react-router-dom";
 import "../output.css";
 import IconButton from "@mui/material/IconButton";
@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 
 const CartButton = () => {
   //const [visible, setVisible] = useState(false);
-  const { totalItems } = useCart();
+  const { cartItems, setCartItems } = useCart();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -21,8 +21,14 @@ const CartButton = () => {
       padding: "0 4px",
     },
   }));
+  useEffect(() => {
+    const storedcartItems = localStorage.getItem("cartItems");
+    if (storedcartItems) {
+      setCartItems(JSON.parse(storedcartItems));
+    }
+  }, [setCartItems]);
 
-  // // Check if the current path is "/cart"
+  // Check if the current path is "/cart"
   const isCartPage = location.pathname === "/cart";
 
   // Render the footer only if not on the "/cart" page
@@ -48,24 +54,17 @@ const CartButton = () => {
     window.scroll(0, 0);
   };
 
-  // if (totalItemsInCart === 0 || !visible) {
-  //   return null;
-  // }
-
   return (
     <button
       onClick={scrolli}
       id="cart-button"
       title="Go To Top"
       className={`fixed z-50 bottom-10 right-7 p-2 border-0 rounded-full shadow-md bg-[#A5BB08] hover:bg-[#192A7A] text-white text-lg font-semibold transition-colors duration-300 ${
-        totalItems > 0 ? "animate-bounce" : ""
+        cartItems.length > 0 ? "animate-bounce" : ""
       }`}
     >
       <IconButton aria-label="cart">
-        <StyledBadge
-          badgeContent={totalItems !== undefined ? totalItems : 0}
-          color="primary"
-        >
+        <StyledBadge badgeContent={cartItems.length} color="primary">
           {" "}
           <svg
             fill="#000000"

@@ -2,17 +2,20 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
-import { useCart } from "../context/cartProvider ";
+import { useCart } from "../context/cartProvider";
 import { HiOutlineTrash } from "react-icons/hi";
 import "../output.css";
-import DialogCustomAnimation from "./dialog";
+import DialogCustomAnimation from "../components/dialog";
 
 const ShoppingCart = () => {
   const {
     cartItems,
+    setCartItems,
     updateCartItemQuantity,
     removeFromCart,
     totalPrice,
+    setTotalPrice,
+    setTotalItems,
   } = useCart();
   const [showDialog, setShowDialog] = useState(false);
   const [productIdToRemove, setProductIdToRemove] = useState(null);
@@ -21,6 +24,19 @@ const ShoppingCart = () => {
   const formattedDate = format(currentDate, "do MMMM yyyy 'à' hh:mm aa", {
     locale: fr,
   });
+
+  useEffect(() => {
+    if (cartItems.length === 0) {
+      const storedCartItems = localStorage.getItem("cartItems");
+      const storedTotalPrice = localStorage.getItem("totalPrice");
+      if (storedCartItems) {
+        setCartItems(JSON.parse(storedCartItems));
+      }
+      if (storedTotalPrice) {
+        setTotalPrice(JSON.parse(storedTotalPrice));
+      }
+    }
+  }, [navigate, cartItems]);
 
   const handleConfirm = () => {
     confirmRemoveFromCart();
@@ -48,8 +64,34 @@ const ShoppingCart = () => {
           <h1 className="text-2xl font-semibold text-gray-900">Votre Panier</h1>
         </div>
         <div className="mx-auto mt-8 max-w-2xl md:mt-12">
+          <button
+            onClick={() => {
+              navigate("/");
+              window.scroll(30, 60);
+            }}
+            type="button"
+            className="text-gray-400  bg-transparent hover:bg-gray-200 hover:text-[#A5BB08] w-12 h-12  text-sm "
+            data-modal-hide="popup-modal"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              className="h-12 w-12"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M7 16l-4-4m0 0l4-4m-4 4h18"
+              ></path>
+            </svg>
+            <span className="sr-only">Close modal</span>
+          </button>
           <div className="bg-white shadow">
             <p className="text-[#a5bb08] ml-2">{formattedDate}</p>
+
             <div className="px-4 py-6 sm:px-8 sm:py-10">
               <div className="flow-root">
                 <ul className="-my-8">
@@ -141,9 +183,9 @@ const ShoppingCart = () => {
                             <button
                               onClick={() => handleRemoveConfirmation(item.id)}
                               type="button"
-                              className="flex rounded p-2 text-center text-gray-500 transition-all duration-200 ease-in-out focus:shadow hover:text-gray-900"
+                              className="flex rounded p-2 text-center text-gray-500 transition-all duration-200 ease-in-out focus:shadow hover:text-red-600"
                             >
-                              <HiOutlineTrash className="h-5 w-5" />
+                              <HiOutlineTrash className="h-7 w-7 " />
                             </button>
                           </div>
                         </div>
@@ -209,6 +251,7 @@ const ShoppingCart = () => {
       </div>
       {showDialog && (
         <DialogCustomAnimation
+          title="Êtes-vous sûr de vouloir supprimer ce produit ?"
           handleConfirm={handleConfirm}
           handleCancel={handleCancel}
         />

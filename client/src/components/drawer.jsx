@@ -5,8 +5,10 @@ import { BiBadgeCheck } from "react-icons/bi";
 import { MdContactPhone } from "react-icons/md";
 import logo from "../assets/logo.png";
 import { Link } from "react-router-dom";
+import { useAppContext } from "../context/AppContext.jsx";
 
 const Drawer = () => {
+  const { setProductSelected } = useAppContext();
   const drawerRef = useRef(null);
   const [isProduitsOpen, setIsProduitsOpen] = useState(false);
   const [openCat, setOpenCat] = useState(false);
@@ -24,27 +26,46 @@ const Drawer = () => {
   ]; // Define icons for navigation items
 
   useEffect(() => {
-    const handleOutsideClick = (event) => {
-      if (drawerRef.current && !drawerRef.current.contains(event.target)) {
-        setIsProduitsOpen(!isProduitsOpen);
+    const handleScroll = () => {
+      if (isProduitsOpen) {
+        document.body.style.overflow = "hidden";
+      } else {
+        document.body.style.overflow = "unset";
       }
     };
 
-    document.addEventListener("click", handleOutsideClick);
-    const handleBodyScroll = () => {
-      document.body.classList.toggle("overflow-hidden", isProduitsOpen);
-    };
-    handleBodyScroll();
+    handleScroll();
 
     return () => {
-      document.removeEventListener("click", handleOutsideClick);
+      document.body.style.overflow = "unset"; // Reset overflow style when component unmounts
+    };
+  }, [isProduitsOpen]);
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (drawerRef.current && !drawerRef.current.contains(event.target)) {
+        if (isProduitsOpen) {
+          setIsProduitsOpen(!isProduitsOpen);
+        }
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isProduitsOpen]);
 
   const handleProduitsClick = () => {
     setIsProduitsOpen(!isProduitsOpen);
-    setOpenCat(false) // Toggle dropdown visibility
+    setOpenCat(false); // Toggle dropdown visibility
   };
+
+  const categories = [
+    "Matelas a Ressort",
+    "Matelas en Latex",
+    "Matelas orthopedique",
+  ];
 
   return (
     <div className="flex ">
@@ -95,7 +116,7 @@ const Drawer = () => {
                       <div className="relative">
                         <button
                           className="text-black  text-xl hover:text-[#A5BB08] transition-colors duration-300 flex items-center"
-                          onClick={() => setOpenCat(true)} // Toggle dropdown visibility on click
+                          onClick={() => setOpenCat(!openCat)} // Toggle dropdown visibility on click
                         >
                           {NavIcons[index]} {/* Icon */}
                           <span className="ml-2">{item.item2}</span>{" "}
@@ -104,43 +125,19 @@ const Drawer = () => {
                         {openCat && ( // Render dropdown menu if isProduitsOpen is true
                           <div className="absolute top-full left-0 z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
                             <ul className="py-2 text-sm text-gray-700">
-                              <li className="text-center ">CATÉGORIES</li>
-                              <li>
-                                <Link
-                                  to={`${item.item1}`}
-                                  className="block px-4 py-2 hover:bg-gray-100 hover:text-[#A5BB08]"
-                                  onClick={handleProduitsClick} // Close the drawer when any list item is clicked
-                                >
-                                  MATELAS RESSORTS
-                                </Link>
-                              </li>
-                              <li>
-                                <Link
-                                  // to={}
-                                  className="block px-4 py-2 hover:bg-gray-100 hover:text-[#A5BB08]"
-                                  onClick={handleProduitsClick} // Close the drawer when any list item is clicked
-                                >
-                                  MATELAS MOUSSE
-                                </Link>
-                              </li>
-                              <li>
-                                <Link
-                                  // to={}
-                                  className="block px-4 py-2 hover:bg-gray-100 hover:text-[#A5BB08]"
-                                  onClick={handleProduitsClick} // Close the drawer when any list item is clicked
-                                >
-                                  MEUBLE
-                                </Link>
-                              </li>
-                              <li>
-                                <Link
-                                  // to={}
-                                  className="block px-4 py-2 hover:bg-gray-100 hover:text-[#A5BB08]"
-                                  onClick={handleProduitsClick} // Close the drawer when any list item is clicked
-                                >
-                                  LINGE DE LIT
-                                </Link>
-                              </li>
+                              {categories.map((category, index) => (
+                                <li key={index}>
+                                  <button
+                                    onClick={() => {
+                                      setProductSelected(category);
+                                      handleProduitsClick();
+                                    }}
+                                    className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                                  >
+                                    {category}
+                                  </button>
+                                </li>
+                              ))}
                             </ul>
                           </div>
                         )}
