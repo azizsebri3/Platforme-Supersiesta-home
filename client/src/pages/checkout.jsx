@@ -4,10 +4,15 @@ import { useCart } from "../context/cartProvider";
 import logo from "../assets/logo.png";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import DialogCustomAnimation from "../components/dialog";
+import Loading from "../components/loading";
 import axios from "axios";
+import { useAppContext } from "../context/AppContext";
+import { format } from "date-fns";
+import { fr } from "date-fns/locale";
 
 const Checkout = () => {
   const { cartItems, totalPrice, setCartItems } = useCart();
+  const { loading, setLoading } = useAppContext();
   const [showDialog, setShowDialog] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -32,7 +37,6 @@ const Checkout = () => {
     const fromCart = queryParams.get("fromCart");
 
     if (!fromCart) {
-      // If user didn't come from the cart page, redirect them back to the cart page
       navigate("/cart");
     }
   }, [location.search, navigate]);
@@ -48,65 +52,100 @@ const Checkout = () => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
     setFormErrors({ ...formErrors, [name]: "" });
+    localStorage.setItem("form", JSON.stringify(formData));
   };
+  useEffect(() => {
+    const formStored = localStorage.getItem("form");
+    if (formStored) {
+      setFormData(JSON.parse(formStored || "{}"));
+    }
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setShowDialog(false);
 
-      try {
-        // Prepare data to send to the server
-        const data = {
-          client: {
-            email: formData.email,
-            phone: formData.phone,
-            address: formData.address,
-            name: formData.name,
-            prenom: formData.prenom,
-          },
-          products: cartItems.map((item) => ({
-            product: item.id,
-            quantity: item.quantity,
-          })),
-          totalPrice: totalPrice,
-        };
-        console.log(data);
-        // Send a POST request to add the order and client information to the database
-        const response = await axios.post(
-          "http://localhost:5000/addOrder",
-          data
-        );
-
-        if (response.status === 201) {
-          setShowDialog(true);
-
-          setTimeout(() => {
-            navigate("/");
-            localStorage.removeItem("cartItems");
-            localStorage.removeItem("totalPrice");
-            localStorage.removeItem("selectedProduct");
-            window.location.reload();
-          }, 1500);
-          console.log("Order placed successfully:", data);
-          // You can perform further actions here, such as redirecting the user to a confirmation page
-        } else {
-          // Failed to add order and client information
-          alert("mat3detch el order");
-          console.error("Failed to place order:", response.statusText);
-          // Handle the error appropriately (e.g., show an error message to the user)
-        }
-      }
-      catch (error) {
-        alert("probleeeem");
-        console.error("Error placing order:", error.message);
-        // Handle the error appropriately (e.g., show an error message to the user)
-      }
+    // Validation logic
+    let errors = {};
+    if (!formData.name.trim()) {
+      errors.name = "Le nom est requis";
+    }
+    if (!formData.prenom.trim()) {
+      errors.prenom = "Le prénom est requis";
+    }
+    if (!formData.email.trim()) {
+      errors.email = "L'email est requis";
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      errors.email = "L'email est invalide";
+    }
+    if (!formData.phone.trim()) {
+      errors.phone = "Le numéro de téléphone est requis";
+    } else if (!/^\d{8}$/.test(formData.phone)) {
+      errors.phone = "Le numéro de téléphone doit comporter 8 chiffres";
+    }
+    if (!formData.address.trim()) {
+      errors.address = "L'adresse est requise";
     }
 
+    // Set form errors
+    setFormErrors(errors);
+
+    // If there are any errors, stop form submission
+    if (Object.keys(errors).length > 0) {
+      return;
+    }
+
+    try {
+      // Prepare data to send to the server
+      const data = {
+        client: {
+          email: formData.email,
+          phone: formData.phone,
+          address: formData.address,
+          name: formData.name,
+          prenom: formData.prenom,
+        },
+        products: cartItems.map((item) => ({
+          product: item.id,
+          quantity: item.quantity,
+        })),
+        totalPrice: totalPrice,
+        date: formattedDate,
+      };
+
+      // Send a POST request to add the order and client information to the database
+      const response = await axios.post("http://localhost:5001/addOrder", data);
+      setLoading(true);
+      if (response.status === 201) {
+        setLoading(false);
+        setShowDialog(true);
+
+        setTimeout(() => {
+          navigate("/");
+          localStorage.clear();
+          window.location.reload();
+        }, 1500);
+        console.log("Order placed successfully:", data);
+        // You can perform further actions here, such as redirecting the user to a confirmation page
+      } else {
+        console.error("Failed to place order:", response.statusText);
+      }
+      // Handle the error appropriately (e.g., show an error message to the user)
+    } catch (error) {
+      setLoading(false);
+      console.error("Error placing order:", error.message);
+      // Handle the error appropriately (e.g., show an error message to the user)
+    }
+  };
+
+  const currentDate = new Date();
+  const formattedDate = format(currentDate, "do MMMM yyyy 'à' hh:mm aa", {
+    locale: fr,
+  });
 
   return (
     <div>
-      <div className="flex flex-col items-center pt-40 border-b bg-white py-4 sm:flex-row sm:px-10 lg:px-20 xl:px-32">
+      <div className="flex flex-col items-center border-b bg-white py-4 sm:flex-row sm:px-10 lg:px-20 xl:px-32">
         <Link
           to={"/"}
           className="inline-flex items-center  border-black px-3 py-1.5 rounded-md text-black hover:bg-indigo-50"
@@ -131,6 +170,7 @@ const Checkout = () => {
       </div>
       <div className="grid sm:px-10 lg:grid-cols-2 lg:px-20 xl:px-32">
         <div className="px-4 pt-8">
+          <p className="text-[#a5bb08] text-xl font-bold">{formattedDate}</p>
           <p className="text-xl font-medium">Résumé de la commande</p>
           <p className="text-gray-400">
             Vérifiez vos articles. Et choisissez un mode de livraison approprié.
@@ -213,9 +253,7 @@ const Checkout = () => {
                   } px-4 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-[#A5BB08] focus:ring-[#A5BB08]`}
                   placeholder=""
                 />
-                {formErrors.name && (
-                  <p className="text-red-500 text-sm mt-1">{formErrors.name}</p>
-                )}
+                {formErrors.name && alert(formErrors.name)}
               </div>
               <label
                 htmlFor="prenom"
@@ -295,14 +333,28 @@ const Checkout = () => {
                   name="phone"
                   value={formData.phone}
                   onChange={handleInputChange}
-                  className="w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm  shadow-sm outline-none focus:z-10 focus:border-[#A5BB08] focus:ring-[#A5BB08]"
-                  placeholder="Votre numéro de téléphone"
+                  className="w-full rounded-md border pl-12  border-gray-200 px-4 py-3  text-sm  shadow-sm outline-none focus:z-10 focus:border-[#A5BB08] focus:ring-[#A5BB08]"
+                  placeholder="26******"
                 />
                 {formErrors.phone && (
                   <p className="text-red-500 text-sm mt-1">
                     {formErrors.phone}
                   </p>
                 )}
+                <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
+                  <svg
+                    viewBox="-60 -40 120 80"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="#e70013"
+                    className="ml-1 h-6 w-6"
+                  >
+                    <path d="M-60-40H60v80H-60z" />
+                    <circle fill="#fff" r={20} />
+                    <circle r={15} />
+                    <circle fill="#fff" cx={4} r={12} />
+                    <path d="M-5 0l16.281-5.29L1.22 8.56V-8.56L11.28 5.29z" />
+                  </svg>
+                </div>
               </div>
 
               <label
@@ -353,9 +405,11 @@ const Checkout = () => {
           </div>
         </div>
       </div>
+
       {showDialog && (
         <DialogCustomAnimation title="Commande enregistrée avec Succès" />
       )}
+      {loading && <Loading />}
     </div>
   );
 };

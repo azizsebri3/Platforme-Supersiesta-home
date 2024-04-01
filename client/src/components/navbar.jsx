@@ -57,7 +57,7 @@ const Navbar = ({ HomeRef }) => {
   const categories = [
     "Matelas a Ressort",
     "Matelas en Latex",
-    "Matelas Orthopédique",
+    "Matelas orthopédique",
     "Matelas en Mousse",
   ];
 

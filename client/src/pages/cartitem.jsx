@@ -90,13 +90,13 @@ const ShoppingCart = () => {
             <span className="sr-only">Close modal</span>
           </button>
           <div className="bg-white shadow">
-            <p className="text-[#a5bb08] ml-2">{formattedDate}</p>
+            
 
-            <div className="px-4 py-6 sm:px-8 sm:py-10">
+            <div className="px-4 py-6 sm:px-5">
               <div className="flow-root">
                 <ul className="-my-8">
                   {cartItems.length === 0 ? (
-                    <li className="flex flex-col text-[1rem]  font-bold justify-center items-center space-y-3 py-6 text-center ">
+                    <li className="flex flex-col text-[1rem] font-bold justify-center items-center space-y-3 py-6 text-center ">
                       Votre Panier est vide !
                       <div className="mt-5 w-1/2">
                         <button
@@ -106,21 +106,21 @@ const ShoppingCart = () => {
                           type="button"
                           className="group inline-flex w-full items-center justify-center rounded-md bg-[#a5bb08]  py-4 text-lg font-semibold text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-[#87A922]"
                         >
-                          Revenir à la page d'accueil
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            className="group-hover:ml-8 ml-4 h-6 w-6 transition-all"
                             fill="none"
                             viewBox="0 0 24 24"
                             stroke="currentColor"
-                            strokeWidth={2}
+                            className="group-hover:mr-8 mr-2 h-6 w-6 transition-all"
                           >
                             <path
                               strokeLinecap="round"
                               strokeLinejoin="round"
-                              d="M13 7l5 5m0 0l-5 5m5-5H6"
-                            />
+                              strokeWidth={2}
+                              d="M7 16l-4-4m0 0l4-4m-4 4h18"
+                            ></path>
                           </svg>
+                          Continuez Vos Achats
                         </button>
                       </div>
                     </li>
@@ -150,7 +150,7 @@ const ShoppingCart = () => {
                               </p>
                               <div className="sm:order-1">
                                 <div className="flex h-8 items-stretch text-gray-600">
-                                  <button
+                                <button
                                     onClick={() =>
                                       updateCartItemQuantity(
                                         item.id,

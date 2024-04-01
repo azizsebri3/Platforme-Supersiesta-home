@@ -10,7 +10,7 @@ const orderSchema = new mongoose.Schema({
     {
       product: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Product", 
+        ref: "Product",
       },
       quantity: {
         type: Number,
@@ -23,8 +23,12 @@ const orderSchema = new mongoose.Schema({
     required: true,
   },
   orderDate: {
-    type: Date,
-    default: Date.now,
+    type: String,
+    required:true,
+  },
+  confirmation: {
+    type: Boolean,
+    default: false,
   },
 });
 

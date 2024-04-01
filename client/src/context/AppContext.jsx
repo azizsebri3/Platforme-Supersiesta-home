@@ -16,7 +16,7 @@ export const AppProvider = ({ children }) => {
     const fetchAllProducts = async () => {
       setLoading(true);
       try {
-        const response = await axios.get("http://localhost:5000/products");
+        const response = await axios.get("http://localhost:5001/products");
         console.log("Response data:", response.data);
         setFetchedProducts(response.data);
       } catch (error) {
@@ -48,6 +48,7 @@ export const AppProvider = ({ children }) => {
         setProductSelected,
         productSelected,
         homeRef,
+        setLoading,
       }}
     >
       {children}

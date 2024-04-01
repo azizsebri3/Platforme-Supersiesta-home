@@ -35,7 +35,7 @@ app.post("/addProduct", async (req, res) => {
     const NewProduct = new Product(JSON.parse(ProductData));
     await NewProduct.save();
     res.status(201).json({ message: "Added Succesfuly", NewProduct });
-  } catch (e) {
+  } catch (err) {
     console.error(err);
     res
       .status(500)
@@ -44,8 +44,13 @@ app.post("/addProduct", async (req, res) => {
 });
 
 app.post("/addOrder", async (req, res) => {
+  const isValidEmail = (email) => {
+    // Regular expression for email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
   try {
-    const { client: clientData, products, totalPrice } = req.body;
+    const { client: clientData, products, totalPrice, date } = req.body;
 
     // Check if clientData is provided and contains required fields
     if (
@@ -55,6 +60,17 @@ app.post("/addOrder", async (req, res) => {
       !clientData.address
     ) {
       return res.status(400).json({ message: "Client information incomplete" });
+    }
+    if (
+      !clientData ||
+      !clientData.email ||
+      !isValidEmail(clientData.email) ||
+      !clientData.phone ||
+      !clientData.address
+    ) {
+      return res
+        .status(400)
+        .json({ field: "email", message: "Invalid email format" });
     }
 
     if (
@@ -69,14 +85,6 @@ app.post("/addOrder", async (req, res) => {
       return res.status(400).json({ message: "Products information missing" });
     }
 
-    if (
-      typeof totalPrice !== "number" ||
-      isNaN(totalPrice) ||
-      totalPrice <= 0
-    ) {
-      return res.status(400).json({ message: "Invalid total price" });
-    }
-
     // Create a new client instance
     const newClient = new Client(clientData);
     const savedClient = await newClient.save();
@@ -85,6 +93,7 @@ app.post("/addOrder", async (req, res) => {
       client: savedClient._id,
       products: products,
       totalPrice: totalPrice,
+      orderDate: date,
     });
     const savedOrder = await newOrder.save();
     const productIds = products.map((product) => product._id);
@@ -105,5 +114,5 @@ app.post("/addOrder", async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));

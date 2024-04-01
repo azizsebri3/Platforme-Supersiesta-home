@@ -3,7 +3,7 @@ import { useCart } from "../context/cartProvider";
 import { Link, useNavigate } from "react-router-dom";
 
 const ProductPage = () => {
-  const { addToCart, cartItems } = useCart();
+  const { addToCart, cartItems, updateCartItemQuantity } = useCart();
   const [productInfo, setProductInfo] = useState(null);
   const [isInCart, setIsInCart] = useState(false);
   const navigate = useNavigate();
@@ -37,9 +37,9 @@ const ProductPage = () => {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row -mx-4">
             <div className="md:flex-1 px-4">
-              <div className="w-full rounded-lg bg-gray-300 dark:bg-gray-700 mb-4">
+              <div className="w-full ml-12 rounded-lg  dark:bg-gray-700 mb-4">
                 <img
-                  className="w-full h-full object-cover"
+                  className="w-[75%] h-1/2 object-cover"
                   src={productInfo.imageUrl}
                   alt="Product Image"
                 />
@@ -48,7 +48,7 @@ const ProductPage = () => {
                 {productInfo.availability !== "Epuisé" &&
                   productInfo.availability !== "En arrivage" && (
                     <>
-                      <div className="w-1/2 px-2">
+                      {/* <div className="w-1/2 px-2">
                         <button
                           onClick={() => {
                             handleAddToCart();
@@ -58,12 +58,12 @@ const ProductPage = () => {
                         >
                           Acheter Maintenant
                         </button>
-                      </div>
+                      </div> */}
 
-                      <div className="w-1/2 px-2">
+                      <div className=" w-[75%] ml-12  px-2">
                         <button
                           onClick={handleAddToCart}
-                          className="w-full bg-[#E5E7EB] hover:bg-[#192A7A] hover:text-white dark:bg-gray-700 text-gray-800 dark:text-white py-2 px-4 rounded-full font-bold  dark:hover:bg-gray-600"
+                          className="w-full bg-[#a5bb08] hover:bg-[#87A922] text-white dark:bg-gray-700 dark:text-white py-2 px-4 rounded-full font-bold  dark:hover:bg-gray-600"
                         >
                           Ajouter au Panier
                         </button>
@@ -79,7 +79,7 @@ const ProductPage = () => {
               <div className="flex mb-4">
                 <div className="mr-4">
                   <span className="font-bold text-gray-700 dark:text-gray-300">
-                    Prix:
+                    Prix: {""}
                   </span>
                   <span className="text-xl font-bold text-gray-900">
                     {productInfo.productPrice} د.ت
@@ -88,7 +88,7 @@ const ProductPage = () => {
                     {productInfo.productoldPrice}
                   </span>
                 </div>
-                <div>
+                <div className="mt-1">
                   <div>
                     {productInfo.availability &&
                       !productInfo.availability.includes("%") && (
@@ -123,33 +123,40 @@ const ProductPage = () => {
                   </span>
                   <div className="flex items-center mt-2">
                     {productInfo.sizes.map((size, index) => (
-                      <button
+                      <label
                         key={index}
-                        onClick={() => handleAddToCart(size)}
-                        className="px-4 py-2 mr-2 bg-gray-300 text-gray-800 font-semibold rounded-full hover:bg-[#A5BB08] dark:hover:bg-green-600 focus:outline-none focus:bg-[#A5BB08] dark:focus:bg-green-600"
+                        className="flex items-center border p-2 rounded-full"
                       >
-                        {size}
-                      </button>
+                        <input
+                          type="checkbox"
+                          onChange={() => handleAddToCart(size)}
+                          className="mr-2 appearance-none bg-gray-300 checked:bg-[#A5BB08] rounded-full h-6 w-6"
+                        />
+                        <span className="text-gray-800 font-semibold">
+                          {size}
+                        </span>
+                      </label>
                     ))}
                   </div>
                 </div>
               )}
-
-              {/* Product description */}
               <div>
                 <span className="font-bold text-gray-700 dark:text-gray-300">
                   Description du produit:
                 </span>
                 <p className="text-gray-600 dark:text-gray-300 text-sm mt-2">
-                  Découvrez notre <span className="text-green-500 font-bold">{productInfo.productName}</span>  de qualité
-                  supérieure, alliant soutien et confort optimal pour des nuits
-                  de sommeil parfaites. Doté d'un système de ressorts ensachés,
-                  ce matelas épouse les contours de votre corps tout en offrant
-                  un excellent maintien. Les matériaux de haute qualité
-                  garantissent une durabilité exceptionnelle, tandis que les
-                  couches de rembourrage assurent un confort moelleux. Profitez
-                  d'un sommeil réparateur et revitalisant grâce à ce matelas qui
-                  allie luxe et fonctionnalité.
+                  Découvrez notre{" "}
+                  <span className="text-green-500 font-bold">
+                    {productInfo.productName}
+                  </span>{" "}
+                  de qualité supérieure, alliant soutien et confort optimal pour
+                  des nuits de sommeil parfaites. Doté d'un système de ressorts
+                  ensachés, ce matelas épouse les contours de votre corps tout
+                  en offrant un excellent maintien. Les matériaux de haute
+                  qualité garantissent une durabilité exceptionnelle, tandis que
+                  les couches de rembourrage assurent un confort moelleux.
+                  Profitez d'un sommeil réparateur et revitalisant grâce à ce
+                  matelas qui allie luxe et fonctionnalité.
                 </p>
               </div>
             </div>

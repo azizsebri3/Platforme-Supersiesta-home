@@ -72,26 +72,22 @@ const Drawer = () => {
       <div className="relative" ref={drawerRef}>
         <input
           type="checkbox"
-          id="drawer-toggle"
+          id="burger"
           className="relative sr-only peer"
           onClick={handleProduitsClick}
         />
         <label
-          htmlFor="drawer-toggle"
-          className={`relative top-0 left-0 inline-block p-4 transition-all duration-500 bg-[#192A7A] rounded-lg ${
-            isProduitsOpen ? "peer-checked:rotate-180 peer-checked:left-64" : ""
+          htmlFor="burger"
+          className={`relative top-0 left-0 inline-block p-4 transition-all duration-500   ${
+            isProduitsOpen ? "peer-checked:left-64" : ""
           }`}
         >
-          <div
-            className={`w-6 h-1 mb-3 ${
-              isProduitsOpen ? "-rotate-45" : "rotate-45"
-            } bg-white rounded-lg`}
-          />
-          <div
-            className={`w-6 h-1 ${
-              isProduitsOpen ? "rotate-45" : "-rotate-45"
-            } bg-white rounded-lg`}
-          />
+          <label className="burger" for="burger" >
+          <input type="checkbox" id="burger" />
+            <span></span>
+            <span></span>
+            <span></span>
+          </label>
         </label>
         <div
           className={`fixed top-0 left-0 z-[9999] w-64 h-full transition-all duration-500 transform ${

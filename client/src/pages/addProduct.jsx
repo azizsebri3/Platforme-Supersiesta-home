@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import SlideInNotifications from "../components/slideInNotifications";
 
 const AddProduct = () => {
+  const [success, setSuccess] = useState(false);
   const [productData, setProductData] = useState({
     productName: "",
     productDescription: "",
@@ -38,7 +40,17 @@ const AddProduct = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/addProduct", productData);
+      const res = await axios.post(
+        "http://localhost:5001/addProduct",
+        productData
+      );
+      if (res.status === 201) {
+        console.log("Product added successfully");
+        setSuccess(true);
+        setTimeout(() => {
+          setSuccess(false);
+        }, 3000);
+      }
     } catch (error) {
       console.error("Error adding product:", error);
       alert("Failed to add product. Please try again later.");
@@ -46,7 +58,7 @@ const AddProduct = () => {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen">
+    <div className="flex items-center pt-30 justify-center h-screen">
       <div className="w-96">
         <h1 className="text-3xl font-semibold mb-4">Add Product</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -121,15 +133,19 @@ const AddProduct = () => {
             <label htmlFor="category" className="block font-semibold">
               Category
             </label>
-            <input
-              type="text"
+            <select
               id="category"
               name="category"
               value={productData.category}
               onChange={handleChange}
               className="border border-gray-300 px-3 py-2 w-full"
-            />
+            >
+              <option value="Matelas a Ressort">Matelas a Ressort</option>
+              <option value="Matelas en Latex">Matelas en Latex</option>
+              <option value="Matelas orthopedique">Matelas orthopedique</option>
+            </select>
           </div>
+
           <div>
             <label className="block font-semibold">Availability</label>
             <div>
@@ -170,12 +186,14 @@ const AddProduct = () => {
               Sizes
             </label>
             <div className="flex flex-wrap space-x-2">
-              {productData.sizes.map((size, index) => (
+              {productData.sizes.map((sizeObject, index) => (
                 <div
                   key={index}
                   className="flex items-center border border-gray-300 px-3 py-2"
                 >
-                  <div>{size}</div>
+                  <div>{sizeObject.size}</div>
+                  <div>{sizeObject.price}</div>{" "}
+                  {/* Display corresponding price */}
                   <button
                     type="button"
                     onClick={() => handleRemoveSize(index)}
@@ -195,6 +213,15 @@ const AddProduct = () => {
                 onChange={handleChange}
                 className="border border-gray-300 px-3 py-2 w-full"
               />
+              <input
+                type="text"
+                id="newPrice"
+                name="newPrice"
+                value={productData.newPrice}
+                onChange={handleChange}
+                className="border border-gray-300 px-3 py-2 w-full"
+                placeholder="Price"
+              />
               <button
                 type="button"
                 onClick={handleAddSize}
@@ -204,15 +231,15 @@ const AddProduct = () => {
               </button>
             </div>
           </div>
-
           <button
-            type="submit"
             className="bg-[#A5BB08] text-white px-4 py-2 rounded hover:bg-[#818b2d]"
+            type="submit"
           >
-            Add Product
+            Ajouter
           </button>
         </form>
       </div>
+      {success && <SlideInNotifications text={"Product added successfully!"} />}
     </div>
   );
 };

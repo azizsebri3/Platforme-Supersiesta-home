@@ -1,8 +1,6 @@
 // SplashScreen.js
 import React from "react";
-import Backdrop from "@mui/material/Backdrop";
-import CircularProgress from "@mui/material/CircularProgress";
-import "../output.css"
+import "../output.css";
 const Loading = () => {
   return (
     <div className="loading-spinner-overlay">
