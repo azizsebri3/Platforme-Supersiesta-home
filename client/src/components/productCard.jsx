@@ -11,7 +11,7 @@ const ProductCard = ({ item }) => {
 
   const handleAddToCart = () => {
     addToCart(item);
-    console.log(item);
+    handleGetInfo();
     // Trigger success alert
     setSuccess(true);
 
@@ -23,7 +23,9 @@ const ProductCard = ({ item }) => {
 
   const handleGetInfo = () => {
     localStorage.setItem("selectedProduct", JSON.stringify(item));
-    navigate(`/Product/${item.category}/${item.productName}`);
+    const formattedProductName = item.productName.replace(/\s+/g, "-"); // Replace spaces with "-" for productName
+    const formattedCategory = item.category.replace(/\s+/g, "-"); // Replace spaces with "-" for category
+    navigate(`/Product/${formattedCategory}/${formattedProductName}`);
     window.scroll(0, 0);
   };
 
@@ -98,19 +100,27 @@ const ProductCard = ({ item }) => {
         </a>
         <div className="mt-4 pb-5">
           <p>
-            <h5 className="text-center tracking-tight  text-gray-500">
+            <h5 className="text-center tracking-tight text-xl  text-gray-500">
               {item.productName}
             </h5>
           </p>
           <div className="mb-5 flex justify-center">
-            <p>
-              <span className="text-xl font-bold text-gray-900">
-                {item.productPrice} د.ت
-              </span>
-              <span className="text-xl text-red-500 line-through">
-                {item.productOldPrice}
-              </span>
-            </p>
+            {item.productOldPrice > 0 ? (
+              <>
+                <span className="text-xl text-gray-900 line-through">
+                  {item.productOldPrice}
+                </span>{" "}
+                <span className="text-xl font-bold text-red-700">
+                  {item.productPrice } د.ت
+                </span>
+              </>
+            ) : (
+              <>
+                <span className="text-xl  font-medium gap-1 text-gray-900">
+                  {item.productPrice} د.ت
+                </span>
+              </>
+            )}
           </div>
         </div>
       </div>

@@ -27,18 +27,17 @@ export const CartProvider = ({ children }) => {
       const uniqueItems = new Set(cartItems.map((item) => item.id));
       setTotalItems(uniqueItems.size);
     }
-  
+
     const totalPrice = calculateTotalPrice(cartItems);
     setTotalPrice(totalPrice);
-  
+
     localStorage.setItem("totalPrice", JSON.stringify(totalPrice));
   }, [cartItems]);
-  
 
   // Function to add item to cart
-  const addToCart = (item, size = null) => {
+  const addToCart = (item) => {
     const existingItemIndex = cartItems.findIndex(
-      (cartItem) => cartItem.id === item.id || cartItem.id === item._id
+      (cartItem) => cartItem.id === item.id && cartItem.size === item.size
     );
 
     if (existingItemIndex !== -1) {
@@ -50,33 +49,35 @@ export const CartProvider = ({ children }) => {
       localStorage.setItem("totalItems", JSON.stringify(totalItems));
     } else {
       // If item doesn't exist in cart, add it with quantity 1
-      const newItem =
-        "_id" in item
-          ? {
-              id: item._id,
-              image: item.imageUrl,
-              name: item.productName,
-              desc: item.productDescription,
-              oldPrice: item.productoldPrice,
-              price: item.productPrice,
-              selectedSize: size,
-              quantity: 1,
-            }
-          : {
-              id: item.id,
-              image: item.image,
-              name: item.name,
-              desc: item.desc,
-              oldPrice: item.oldPrice,
-              price: item.price,
-              selectedSize: size,
-              quantity: 1,
-            };
+      let price = item.productPrice; // Default price
+
+      if (item.selectedSize) {
+        // If a size is selected, find the corresponding price
+        const selectedSizeObject = item.sizes.find(
+          (sizeObj) => sizeObj.size === item.selectedSize
+        );
+        if (selectedSizeObject) {
+          price = selectedSizeObject.price;
+        }
+      }
+
+      const newItem = {
+        id: item._id || item.id,
+        image: item.imageUrl || item.image,
+        name: item.productName || item.name,
+        desc: item.productDescription || item.desc,
+        oldPrice: item.productoldPrice || item.oldPrice,
+        price: item.price,
+        size: item.selectedSize,
+        quantity: item.quantity > 0 ? item.quantity : 1, // Always start with quantity 1 for a new item
+      };
+
       setCartItems([...cartItems, newItem]);
       localStorage.setItem(
         "cartItems",
         JSON.stringify([...cartItems, newItem])
       );
+
       const newTotalItems = cartItems.length + 1; // Calculate the new totalItems value
       setTotalItems(newTotalItems); // Update totalItems state
       localStorage.setItem("totalItems", JSON.stringify(newTotalItems));
@@ -92,26 +93,34 @@ export const CartProvider = ({ children }) => {
   };
 
   // Function to update item quantity in cart
-  const updateCartItemQuantity = (itemId, newQuantity) => {
+  const updateCartItemQuantity = (itemId, itemSize, newQuantity) => {
     if (newQuantity < 0) {
-      removeFromCart(itemId);
+      removeFromCart(itemId, itemSize); // Remove the item if quantity is less than 0
       return;
     }
     const updatedCartItems = cartItems.map((item) =>
-      item.id === itemId ? { ...item, quantity: newQuantity } : item
+      item.id === itemId && itemSize === item.size
+        ? { ...item, quantity: newQuantity }
+        : item
     );
     setCartItems(updatedCartItems);
     // Update local storage after updating cart items
     localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
   };
+  
+  
 
   // Function to remove item from cart
-  const removeFromCart = (itemId) => {
-    const updatedCartItems = cartItems.filter((item) => item.id !== itemId);
+  const removeFromCart = (productInfo) => {
+    const updatedCartItems = cartItems.filter(
+      (item) => !(item.id === productInfo.id && item.size === productInfo.size)
+    );
     setCartItems(updatedCartItems);
     // Update local storage after removing item from cart
     localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
-    localStorage.setItem("totalItems", JSON.stringify(totalItems));
+    const newTotalItems = updatedCartItems.length; // Calculate the new totalItems value
+    setTotalItems(newTotalItems); // Update totalItems state
+    localStorage.setItem("totalItems", JSON.stringify(newTotalItems));
   };
 
   return (

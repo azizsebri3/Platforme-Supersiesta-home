@@ -14,8 +14,7 @@ import Features from "../components/features.jsx";
 import { Link, useLocation } from "react-router-dom";
 
 const Home = () => {
-  const { fetchedProducts, productSelected, setProductSelected, homeRef } =
-    useAppContext();
+  const { fetchedProducts, productSelected, homeRef } = useAppContext();
   const [currentProducts, setCurrentProducts] = useState([]);
   const productsPerPage = 8;
   const [currentPage, setCurrentPage] = useState(1);
@@ -27,7 +26,10 @@ const Home = () => {
   };
 
   useEffect(() => {
-    if (productSelected === "Acceuil") {
+    if (
+      productSelected === "Acceuil" ||
+      productSelected === "Tous Les Matelas"
+    ) {
       setCurrentProducts(fetchedProducts);
     } else {
       const filteredProducts = fetchedProducts.filter(
@@ -93,7 +95,7 @@ const Home = () => {
       </div>
       <Features infoItems={infoItems} />
       <>
-        <span class="flex-grow bg-gray-200 rounded h-1"></span>
+        {/* <span class="flex-grow bg-gray-200 rounded h-1"></span>
         <nav className="flex ml-40 justify-start items-center mx-auto ">
           <ol role="list" className="flex items-center">
             {path.map((pg, index) => (
@@ -124,13 +126,41 @@ const Home = () => {
               </li>
             ))}
           </ol>
-        </nav>
+        </nav> */}
         <span class="flex-grow bg-gray-200 rounded h-1"></span>
         <h1
           ref={homeRef}
-          className="flex items-center justify-center font-sans mb-6 text-3xl text-wrap text-bold"
+          className="flex items-center mt-6 justify-center font-bold mb-6 text-3xl text-wrap text-bold"
         >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={5}
+            stroke="currentColor"
+            className="w-6 h-6 animate-bounce mr-4 text-[#a5bb08]"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M19.5 13.5 12 21m0 0-7.5-7.5M12 21V3"
+            />
+          </svg>
           {productSelected}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={5}
+            stroke="currentColor"
+            className="w-6 h-6 animate-bounce ml-4 text-[#a5bb08]"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M19.5 13.5 12 21m0 0-7.5-7.5M12 21V3"
+            />
+          </svg>
         </h1>
       </>
 

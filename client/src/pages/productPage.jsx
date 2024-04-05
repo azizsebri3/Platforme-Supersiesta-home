@@ -6,6 +6,10 @@ const ProductPage = () => {
   const { addToCart, cartItems, updateCartItemQuantity } = useCart();
   const [productInfo, setProductInfo] = useState(null);
   const [isInCart, setIsInCart] = useState(false);
+  const [selectedSize, setSelectedSize] = useState("");
+  const [ProductPrice, setProductPrice] = useState(null);
+  const [quantity, setQuantity] = useState(1); // State to track quantity
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -15,20 +19,41 @@ const ProductPage = () => {
     } else {
       navigate("/");
     }
-    // Cleanup function to clear local storage on unmount
-    // return () => {
-    //   localStorage.removeItem("selectedProduct");
-    // };
   }, [navigate]);
 
   useEffect(() => {
     if (productInfo) {
       setIsInCart(cartItems.some((item) => item.id === productInfo.id));
+      productInfo.sizes.length > 0
+        ? setProductPrice(productInfo.sizes[0].price)
+        : setProductPrice(productInfo.productPrice);
     }
   }, [cartItems, productInfo]);
 
+  const handleSizeChange = (size) => {
+    setSelectedSize(size);
+    const selectedSizeObject = productInfo.sizes.find(
+      (sizeObj) => sizeObj.size === size
+    );
+    const price = selectedSizeObject
+      ? selectedSizeObject.price
+      : productInfo.productPrice; // Use selected size price if available, else use default product price
+    setProductPrice(price); // Update the price state
+  };
+
+  const handleQuantityChange = (newQuantity) => {
+    setQuantity(newQuantity);
+  };
+
   const handleAddToCart = () => {
-    addToCart(productInfo);
+    const updatedProductInfo = {
+      ...productInfo,
+      price: Number(ProductPrice),
+      selectedSize,
+      quantity: quantity, // Add quantity to the product info
+    };
+    addToCart(updatedProductInfo);
+    navigate("/cart");
   };
 
   return (
@@ -48,18 +73,6 @@ const ProductPage = () => {
                 {productInfo.availability !== "Epuisé" &&
                   productInfo.availability !== "En arrivage" && (
                     <>
-                      {/* <div className="w-1/2 px-2">
-                        <button
-                          onClick={() => {
-                            handleAddToCart();
-                            navigate("/checkout?fromCart=true");
-                          }}
-                          className="w-full bg-[#A5BB08] hover:bg-[#87A922] text-white py-2 px-4 rounded-full font-bold"
-                        >
-                          Acheter Maintenant
-                        </button>
-                      </div> */}
-
                       <div className=" w-[75%] ml-12  px-2">
                         <button
                           onClick={handleAddToCart}
@@ -82,10 +95,7 @@ const ProductPage = () => {
                     Prix: {""}
                   </span>
                   <span className="text-xl font-bold text-gray-900">
-                    {productInfo.productPrice} د.ت
-                  </span>
-                  <span className="text-xl text-red-500 line-through">
-                    {productInfo.productoldPrice}
+                    {ProductPrice}
                   </span>
                 </div>
                 <div className="mt-1">
@@ -122,42 +132,68 @@ const ProductPage = () => {
                     Sélectionner une taille :
                   </span>
                   <div className="flex items-center mt-2">
-                    {productInfo.sizes.map((size, index) => (
+                    {productInfo.sizes.map((sizeObj, index) => (
                       <label
                         key={index}
                         className="flex items-center border p-2 rounded-full"
                       >
                         <input
-                          type="checkbox"
-                          onChange={() => handleAddToCart(size)}
+                          type="radio"
+                          name="size"
+                          value={sizeObj.size}
+                          onChange={() => handleSizeChange(sizeObj.size)}
                           className="mr-2 appearance-none bg-gray-300 checked:bg-[#A5BB08] rounded-full h-6 w-6"
                         />
                         <span className="text-gray-800 font-semibold">
-                          {size}
+                          {sizeObj.size}
                         </span>
                       </label>
                     ))}
                   </div>
                 </div>
               )}
-              <div>
+
+              {/* Quantity selection */}
+              <div className="mb-4">
                 <span className="font-bold text-gray-700 dark:text-gray-300">
-                  Description du produit:
+                  Quantité :
                 </span>
-                <p className="text-gray-600 dark:text-gray-300 text-sm mt-2">
-                  Découvrez notre{" "}
-                  <span className="text-green-500 font-bold">
-                    {productInfo.productName}
-                  </span>{" "}
-                  de qualité supérieure, alliant soutien et confort optimal pour
-                  des nuits de sommeil parfaites. Doté d'un système de ressorts
-                  ensachés, ce matelas épouse les contours de votre corps tout
-                  en offrant un excellent maintien. Les matériaux de haute
-                  qualité garantissent une durabilité exceptionnelle, tandis que
-                  les couches de rembourrage assurent un confort moelleux.
-                  Profitez d'un sommeil réparateur et revitalisant grâce à ce
-                  matelas qui allie luxe et fonctionnalité.
-                </p>
+                <div className="flex h-8 w-7 items-stretch text-gray-600">
+                  <button
+                    onClick={() => handleQuantityChange(quantity - 1)}
+                    className="flex items-center justify-center rounded-l-md bg-gray-200 px-4 transition hover:bg-black hover:text-white"
+                    disabled={quantity <= 1} // Disable if quantity is 1 or less
+                  >
+                    -
+                  </button>
+                  <div className="flex w-full items-center justify-center bg-gray-100 px-4 text-xs uppercase transition">
+                    {quantity}
+                  </div>
+                  <button
+                    onClick={() => handleQuantityChange(quantity + 1)}
+                    className="flex items-center justify-center rounded-r-md bg-gray-200 px-4 transition hover:bg-black hover:text-white"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+
+              <div className="border-gray-300">
+                <h2 className="font-bold text-lg text-gray-700 dark:text-gray-300">
+                  Description du produit:
+                </h2>
+                <div className="bg-gray-100 dark:bg-gray-800 p-4  rounded-lg">
+                  <h3 className="font-bold text-xl uppercase text-gray-700 dark:text-gray-300 ml-2 mb-2">
+                    {productInfo.productName} DE HAUTE QUALITE
+                  </h3>
+                  <ul className="text-gray-600 dark:text-gray-300 text-xl mt-2">
+                    {productInfo.productDescription.map((line) => (
+                      <li key={line} className="list-disc lg:ml-8">
+                        {line}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
             </div>
           </div>

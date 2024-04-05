@@ -20,7 +20,7 @@ const Navbar = ({ HomeRef }) => {
   const [totalPrice, setTotalPrice] = useState(initialTotalPrice);
   const [totalItems, setTotalItems] = useState(initialTotalItems);
   const [showDrawer, setShowDrawer] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(true);
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [showDropdown, setShowDropdown] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -55,6 +55,7 @@ const Navbar = ({ HomeRef }) => {
     { item1: "/Contact", item2: "Contactez nous" },
   ];
   const categories = [
+    "Tous Les Matelas",
     "Matelas a Ressort",
     "Matelas en Latex",
     "Matelas orthopédique",
@@ -92,8 +93,8 @@ const Navbar = ({ HomeRef }) => {
           isScrolled ? "" : "-translate-y-full"
         }`}
       >
-        <nav className="flex container h-20 px-4 py-4  justify-between items-center">
-          <div className="flex z-50 items-center">
+        <nav className="flex container h-20  px-4 py-4  justify-between items-center">
+          <div className="flex z[999999999]  items-center">
             {windowWidth < 765 && <Drawer />}
             <ul
               className={`md:flex md:space-x-4 ${

@@ -28,22 +28,11 @@ export const AppProvider = ({ children }) => {
     fetchAllProducts();
   }, []);
 
-
-  const handleFilterCategory = (selectedCategory) => {
-    // Filter products based on selectedCategory
-    const filteredProducts = fetchedProducts.filter(
-      (product) => product.category === selectedCategory
-    );
-    // Set filtered products
-    setFilteredProducts(filteredProducts);
-  };
-
   return (
     <AppContext.Provider
       value={{
         fetchedProducts,
         loading,
-        handleFilterCategory,
         filteredProducts,
         setProductSelected,
         productSelected,

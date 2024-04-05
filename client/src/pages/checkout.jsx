@@ -61,6 +61,11 @@ const Checkout = () => {
     }
   }, []);
 
+  const currentDate = new Date();
+  const formattedDate = format(currentDate, "do MMMM yyyy 'à' hh:mm aa", {
+    locale: fr,
+  });
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setShowDialog(false);
@@ -87,7 +92,6 @@ const Checkout = () => {
       errors.address = "L'adresse est requise";
     }
 
-    // Set form errors
     setFormErrors(errors);
 
     // If there are any errors, stop form submission
@@ -96,7 +100,6 @@ const Checkout = () => {
     }
 
     try {
-      // Prepare data to send to the server
       const data = {
         client: {
           email: formData.email,
@@ -106,15 +109,109 @@ const Checkout = () => {
           prenom: formData.prenom,
         },
         products: cartItems.map((item) => ({
-          product: item.id,
+          product: item._id || item.id,
           quantity: item.quantity,
+          price: item.price,
+          size: item.size ? item.size : null , 
         })),
-        totalPrice: totalPrice,
         date: formattedDate,
+        totalPrice: totalPrice,
       };
 
-      // Send a POST request to add the order and client information to the database
-      const response = await axios.post("http://localhost:5001/addOrder", data);
+     
+      const generateInvoiceHTML = (data) => {
+        const { client, products, totalPrice } = data;
+
+        // Générer la section "Bill To"
+        const billToHTML = `
+          <div class="border-b-2 border-gray-300 pb-8 mb-8">
+            <h2 class="text-2xl font-bold mb-4">Facturer à :</h2>
+            <div class="text-gray-700 mb-2">${client.name}</div>
+            <div class="text-gray-700 mb-2">${client.address}</div>
+            <div class="text-gray-700 mb-2">${client.phone}</div>
+            <div class="text-gray-700">${client.email}</div>
+          </div>
+        `;
+
+        // Générer la section des produits commandés
+        const productsHTML = cartItems
+          .map(
+            (product, index) => `
+          <tr key=${index}>
+            <td class="py-4 text-gray-700">${product.name}</td>
+            <td class="py-4 text-gray-700">${product.quantity}</td>
+            <td class="py-4 text-gray-700">${product.size !==null ? product.size :"standard" }</td>
+            <td class="py-4 text-gray-700">${product.price}</td>
+            <td class="py-4 text-gray-700">${
+              product.quantity * product.price
+            }</td>
+          </tr>
+        `
+          )
+          .join("");
+
+        // Calculer le subtotal
+        const subtotal = products.reduce(
+          (acc, curr) => acc + curr.quantity * curr.price,
+          0
+        );
+
+        // Générer la section "Total"
+        const totalHTML = `
+          <div class="flex justify-end mb-8">
+            <div class="text-gray-700 mr-2">Sous-total :</div>
+            <div class="text-gray-700">د.ت${subtotal.toFixed(2)}</div>
+          </div>
+          
+          <div class="flex justify-end mb-8">
+            <div class="text-gray-700 mr-2">Total :</div>
+            <div class="text-gray-700 font-bold text-xl">د.ت${totalPrice.toFixed(
+              2
+            )}</div>
+          </div>
+        `;
+        const thankYouMessage = `
+  <div class="text-gray-700 text-center mt-8">
+    Merci d'avoir choisi Comforama pour vos besoins en mobilier  !
+  </div>
+`;
+
+        // Assembler toutes les sections pour former le HTML complet de la facture
+        const invoiceHTML = `
+          <div class="bg-white rounded-lg shadow-lg px-8 py-10 max-w-xl mx-auto">
+            <div class="flex items-center justify-between mb-8">
+              <div class="flex items-center">
+                <div class="text-gray-700 font-semibold text-lg">Comforama</div>
+              </div>
+            </div>
+            ${billToHTML}
+            <table class="w-full text-left mb-8">
+              <thead>
+                <tr>
+                  <th class="text-gray-700 font-bold uppercase py-2">Description</th>
+                  <th class="text-gray-700 font-bold uppercase py-2">Quantité</th>
+                  <th class="text-gray-700 font-bold uppercase py-2">taille</th>
+                  <th class="text-gray-700 font-bold uppercase py-2">Prix</th>
+                  <th class="text-gray-700 font-bold uppercase py-2">Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${productsHTML}
+              </tbody>
+            </table>
+            ${totalHTML}
+            ${thankYouMessage} <!-- Ajouter le message de remerciement ici -->
+          </div>
+        `;
+
+        return invoiceHTML;
+      };
+      
+      const invoiceHTML = generateInvoiceHTML(data);
+       console.log(data.products)
+      // Send invoice HTML to user's email
+      const response = await axios.post("http://localhost:5001/addOrder", {...data , invoiceHTML});
+
       setLoading(true);
       if (response.status === 201) {
         setLoading(false);
@@ -130,7 +227,6 @@ const Checkout = () => {
       } else {
         console.error("Failed to place order:", response.statusText);
       }
-      // Handle the error appropriately (e.g., show an error message to the user)
     } catch (error) {
       setLoading(false);
       console.error("Error placing order:", error.message);
@@ -138,11 +234,7 @@ const Checkout = () => {
     }
   };
 
-  const currentDate = new Date();
-  const formattedDate = format(currentDate, "do MMMM yyyy 'à' hh:mm aa", {
-    locale: fr,
-  });
-
+  
   return (
     <div>
       <div className="flex flex-col items-center border-b bg-white py-4 sm:flex-row sm:px-10 lg:px-20 xl:px-32">
@@ -193,6 +285,7 @@ const Checkout = () => {
                   <p className="text-xl font-normal">
                     Quantité : {item.quantity}
                   </p>
+                  <p className="text-xl font-normal">Taille : {item.size}</p>
                 </div>
               </div>
             ))}
@@ -253,7 +346,9 @@ const Checkout = () => {
                   } px-4 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-[#A5BB08] focus:ring-[#A5BB08]`}
                   placeholder=""
                 />
-                {formErrors.name && alert(formErrors.name)}
+                {formErrors.name && (
+                  <p className="text-red-500 text-sm mt-1">{formErrors.name}</p>
+                )}
               </div>
               <label
                 htmlFor="prenom"

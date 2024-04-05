@@ -2,8 +2,8 @@ import React from "react";
 
 const Features = ({ infoItems }) => {
   return (
-    <section className="bg-white dark:bg-gray-900">
-      <div className="container px-4 md:px-12 py-12 mx-auto">
+    <section className="bg-white hidden lg:block dark:bg-gray-900">
+      <div className="container px-4 md:px-12 py-16 mx-auto">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-3 shadow p-4 md:p-6 text-center">
           {infoItems.map((item, index) => (
             <div

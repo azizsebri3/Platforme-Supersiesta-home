@@ -65,3 +65,10 @@
 .indicator-inactive {
   background-color: grey;
 }
+
+@media screen and (max-width: 768px) {
+  .carousel {
+    margin-top: 70px;
+    height: 300px; /* Adjust height for smaller screens */
+  }
+}

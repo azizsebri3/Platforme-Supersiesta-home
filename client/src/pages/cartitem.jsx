@@ -18,7 +18,7 @@ const ShoppingCart = () => {
     setTotalItems,
   } = useCart();
   const [showDialog, setShowDialog] = useState(false);
-  const [productIdToRemove, setProductIdToRemove] = useState(null);
+  const [productIdToRemove, setProductIdToRemove] = useState({});
   const navigate = useNavigate();
   const currentDate = new Date();
   const formattedDate = format(currentDate, "do MMMM yyyy 'à' hh:mm aa", {
@@ -46,9 +46,10 @@ const ShoppingCart = () => {
     setShowDialog(false);
   };
 
-  const handleRemoveConfirmation = (productId) => {
+  const handleRemoveConfirmation = (productId, productSize) => {
     setShowDialog(true);
-    setProductIdToRemove(productId);
+    // Set the productIdToRemove state as an object containing both productId and productSize
+    setProductIdToRemove({ id: productId, size: productSize });
   };
 
   const confirmRemoveFromCart = () => {
@@ -90,8 +91,6 @@ const ShoppingCart = () => {
             <span className="sr-only">Close modal</span>
           </button>
           <div className="bg-white shadow">
-            
-
             <div className="px-4 py-6 sm:px-5">
               <div className="flow-root">
                 <ul className="-my-8">
@@ -141,19 +140,26 @@ const ShoppingCart = () => {
                           <div className="sm:col-gap-5 sm:grid sm:grid-cols-2">
                             <div className="pr-8 sm:pr-5">
                               <p className="text-base font-semibold text-gray-900">
-                                {item.name}
+                                {item.name}{" "}
+                                {item.size && (
+                                  <span className="text-[#9ca3af]">
+                                    -- taille {item.size}
+                                  </span>
+                                )}
                               </p>
                             </div>
                             <div className="mt-4 flex items-end justify-between sm:mt-0 sm:items-start sm:justify-end">
                               <p className="shrink-0 w-20 text-base font-semibold text-gray-900 sm:order-2 sm:ml-8 sm:text-right">
                                 {item.price} د.ت
                               </p>
+
                               <div className="sm:order-1">
                                 <div className="flex h-8 items-stretch text-gray-600">
-                                <button
+                                  <button
                                     onClick={() =>
                                       updateCartItemQuantity(
                                         item.id,
+                                        item.size,
                                         item.quantity - 1
                                       )
                                     }
@@ -168,6 +174,7 @@ const ShoppingCart = () => {
                                     onClick={() =>
                                       updateCartItemQuantity(
                                         item.id,
+                                        item.size,
                                         item.quantity + 1
                                       )
                                     }
@@ -181,7 +188,9 @@ const ShoppingCart = () => {
                           </div>
                           <div className="absolute top-0 right-0 flex sm:bottom-0 sm:top-auto">
                             <button
-                              onClick={() => handleRemoveConfirmation(item.id)}
+                              onClick={() =>
+                                handleRemoveConfirmation(item.id, item.size)
+                              }
                               type="button"
                               className="flex rounded p-2 text-center text-gray-500 transition-all duration-200 ease-in-out focus:shadow hover:text-red-600"
                             >
