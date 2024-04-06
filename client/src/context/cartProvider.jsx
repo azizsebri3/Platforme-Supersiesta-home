@@ -35,6 +35,7 @@ export const CartProvider = ({ children }) => {
   }, [cartItems]);
 
   // Function to add item to cart
+  // Function to add item to cart
   const addToCart = (item) => {
     const existingItemIndex = cartItems.findIndex(
       (cartItem) => cartItem.id === item.id && cartItem.size === item.size
@@ -72,23 +73,37 @@ export const CartProvider = ({ children }) => {
         quantity: item.quantity > 0 ? item.quantity : 1, // Always start with quantity 1 for a new item
       };
 
-      setCartItems([...cartItems, newItem]);
-      localStorage.setItem(
-        "cartItems",
-        JSON.stringify([...cartItems, newItem])
+      // Check if the item with the same id and size already exists in cart
+      const existingCartItem = cartItems.find(
+        (cartItem) =>
+          cartItem.id === newItem.id && cartItem.size === newItem.size
       );
 
-      const newTotalItems = cartItems.length + 1; // Calculate the new totalItems value
-      setTotalItems(newTotalItems); // Update totalItems state
-      localStorage.setItem("totalItems", JSON.stringify(newTotalItems));
+      if (existingCartItem) {
+        // If exists, update its quantity
+        existingCartItem.quantity += newItem.quantity;
+        setCartItems([...cartItems]);
+        localStorage.setItem("cartItems", JSON.stringify(cartItems));
+      } else {
+        // If not exists, add it to cart
+        setCartItems([...cartItems, newItem]);
+        localStorage.setItem(
+          "cartItems",
+          JSON.stringify([...cartItems, newItem])
+        );
 
-      setrecentlyAddedItem(newItem.name);
-      setisItemAdded(true);
+        const newTotalItems = cartItems.length + 1; // Calculate the new totalItems value
+        setTotalItems(newTotalItems); // Update totalItems state
+        localStorage.setItem("totalItems", JSON.stringify(newTotalItems));
 
-      // Reset isItemAdded to false after 2 seconds
-      setTimeout(() => {
-        setisItemAdded(false);
-      }, 2000);
+        setrecentlyAddedItem(newItem.name);
+        setisItemAdded(true);
+
+        // Reset isItemAdded to false after 2 seconds
+        setTimeout(() => {
+          setisItemAdded(false);
+        }, 2000);
+      }
     }
   };
 
@@ -107,8 +122,6 @@ export const CartProvider = ({ children }) => {
     // Update local storage after updating cart items
     localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
   };
-  
-  
 
   // Function to remove item from cart
   const removeFromCart = (productInfo) => {

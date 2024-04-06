@@ -9,7 +9,9 @@ const ProductPage = () => {
   const [selectedSize, setSelectedSize] = useState("");
   const [ProductPrice, setProductPrice] = useState(null);
   const [quantity, setQuantity] = useState(1); // State to track quantity
-
+  const [ShowPop, setShowPop] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false); // State to track modal open/close
+  const [modalImage, setModalImage] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -46,14 +48,33 @@ const ProductPage = () => {
   };
 
   const handleAddToCart = () => {
+    if (productInfo.sizes.length > 0)
+      if (!selectedSize) {
+        setShowPop(true);
+        return;
+      }
+
+    // Construct the updated product info
     const updatedProductInfo = {
       ...productInfo,
       price: Number(ProductPrice),
       selectedSize,
-      quantity: quantity, // Add quantity to the product info
+      quantity: quantity,
     };
+
+    // Add the product to the cart
     addToCart(updatedProductInfo);
+
+    // Navigate to the cart page
     navigate("/cart");
+  };
+  const openModal = (imageUrl) => {
+    setModalImage(imageUrl);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
   };
 
   return (
@@ -62,11 +83,12 @@ const ProductPage = () => {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row -mx-4">
             <div className="md:flex-1 px-4">
-              <div className="w-full ml-12 rounded-lg  dark:bg-gray-700 mb-4">
+              <div className="w-full rounded-lg  dark:bg-gray-700 mb-4">
                 <img
-                  className="w-[75%] h-1/2 object-cover"
+                  className="w-full h-full object-cover hover:cursor-zoom-in"
                   src={productInfo.imageUrl}
                   alt="Product Image"
+                  onClick={() => openModal(productInfo.imageUrl)} // Open modal on image click
                 />
               </div>
               <div className="flex -mx-2 mb-4">
@@ -129,7 +151,15 @@ const ProductPage = () => {
               {productInfo.sizes.length !== 0 && (
                 <div className="mb-4">
                   <span className="font-bold text-gray-700 dark:text-gray-300">
-                    Sélectionner une taille :
+                    Sélectionner une taille :{" "}
+                    {ShowPop && (
+                      <div className="flex justify-center mt-4">
+                        <span className="text-red-500 font-bold animate-bounce">
+                          Veuillez sélectionner une taille avant d'ajouter au
+                          panier.
+                        </span>
+                      </div>
+                    )}
                   </span>
                   <div className="flex items-center mt-2">
                     {productInfo.sizes.map((sizeObj, index) => (
@@ -141,7 +171,10 @@ const ProductPage = () => {
                           type="radio"
                           name="size"
                           value={sizeObj.size}
-                          onChange={() => handleSizeChange(sizeObj.size)}
+                          onChange={() => {
+                            handleSizeChange(sizeObj.size);
+                            setShowPop(false);
+                          }}
                           className="mr-2 appearance-none bg-gray-300 checked:bg-[#A5BB08] rounded-full h-6 w-6"
                         />
                         <span className="text-gray-800 font-semibold">
@@ -197,6 +230,23 @@ const ProductPage = () => {
               </div>
             </div>
           </div>
+        </div>
+      )}
+      {isModalOpen && (
+        <div className="fixed top-0 z-[999999999999] left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-75">
+          <div className="absolute top-0 right-0 m-4">
+            <button
+              onClick={closeModal}
+              className="text-white text-lg px-3 py-1 rounded-full"
+            >
+              <span className="text-2lg"> x</span>
+            </button>
+          </div>
+          <img
+            className="max-h-full max-w-full"
+            src={modalImage}
+            alt="Product Image"
+          />
         </div>
       )}
     </div>
