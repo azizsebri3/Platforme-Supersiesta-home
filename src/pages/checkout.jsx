@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../output.css";
 import { useCart } from "../context/cartProvider";
-import logo from "../assets/logo.png";
+import logo from "../assets/logo2.png";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import DialogCustomAnimation from "../components/dialog";
 import Loading from "../components/loading";

@@ -1235,11 +1235,6 @@ input:checked + .toggle-bg {
   margin-right: -0.5rem !important;
 }
 
-.-mx-4 {
-  margin-left: -1rem !important;
-  margin-right: -1rem !important;
-}
-
 .-my-8 {
   margin-top: -2rem !important;
   margin-bottom: -2rem !important;
@@ -1268,6 +1263,11 @@ input:checked + .toggle-bg {
 .my-7 {
   margin-top: 1.75rem !important;
   margin-bottom: 1.75rem !important;
+}
+
+.-mx-4 {
+  margin-left: -1rem !important;
+  margin-right: -1rem !important;
 }
 
 .mb-1 {
@@ -1918,6 +1918,10 @@ input:checked + .toggle-bg {
 
 .overflow-hidden {
   overflow: hidden !important;
+}
+
+.overflow-y-auto {
+  overflow-y: auto !important;
 }
 
 .text-wrap {
@@ -2713,6 +2717,10 @@ input:checked + .toggle-bg {
   transition-duration: 150ms !important;
 }
 
+.duration-1000 {
+  transition-duration: 1000ms !important;
+}
+
 .duration-200 {
   transition-duration: 200ms !important;
 }
@@ -2723,10 +2731,6 @@ input:checked + .toggle-bg {
 
 .duration-500 {
   transition-duration: 500ms !important;
-}
-
-.duration-1000 {
-  transition-duration: 1000ms !important;
 }
 
 .ease-in-out {
@@ -3001,12 +3005,6 @@ input:checked + .toggle-bg {
 .checked\:bg-\[\#192A7A\]:checked {
   --tw-bg-opacity: 1 !important;
   background-color: rgb(25 42 122 / var(--tw-bg-opacity)) !important;
-}
-
-.hover\:scale-105:hover {
-  --tw-scale-x: 1.05 !important;
-  --tw-scale-y: 1.05 !important;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y)) !important;
 }
 
 .hover\:scale-110:hover {
@@ -3746,3 +3744,4 @@ input:checked + .toggle-bg {
 .rtl\:space-x-reverse:where([dir="rtl"], [dir="rtl"] *) > :not([hidden]) ~ :not([hidden]) {
   --tw-space-x-reverse: 1 !important;
 }
+

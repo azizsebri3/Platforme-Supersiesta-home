@@ -13,6 +13,7 @@ import Pagination from "../components/pagination.jsx";
 import Features from "../components/features.jsx";
 import { Link, useLocation } from "react-router-dom";
 
+
 const Home = () => {
   const { fetchedProducts, productSelected, homeRef } = useAppContext();
   const [currentProducts, setCurrentProducts] = useState([]);
@@ -93,6 +94,8 @@ const Home = () => {
           </div>
         </div>
       </div>
+      
+
       <Features infoItems={infoItems} />
       <>
         {/* <span class="flex-grow bg-gray-200 rounded h-1"></span>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../output.css";
 import Drawer from "./drawer";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import logo from "../assets/logo.png";
+import logo from "../assets/logo2.png";
 import { useCart } from "../context/cartProvider";
 import IconButton from "@mui/material/IconButton";
 import Badge from "@mui/material/Badge";
@@ -62,7 +62,7 @@ const Navbar = ({ HomeRef }) => {
     "Matelas Médicale",
     "Matelas en Mousse",
     "Oreillers",
-    "Linge de lit"
+    "Linge de lit",
   ];
 
   useEffect(() => {
@@ -198,7 +198,7 @@ const Navbar = ({ HomeRef }) => {
               className="flex items-center text-xl font-bold text-white"
             >
               <span className="text-colori hidden font-bold text-2xl md:inline-block text-black">
-                Conforama
+                Super siesta
               </span>
               <img src={logo} className="w-8 h-auto ml-2" alt="Company Logo" />
             </Link>

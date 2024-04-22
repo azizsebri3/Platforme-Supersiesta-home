@@ -3,7 +3,7 @@ import { RiHome4Line } from "react-icons/ri";
 import { BiSolidCategoryAlt } from "react-icons/bi";
 import { BiBadgeCheck } from "react-icons/bi";
 import { MdContactPhone } from "react-icons/md";
-import logo from "../assets/logo.png";
+import logo from "../assets/logo2.png";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAppContext } from "../context/AppContext.jsx";
 import "../output.css";
@@ -69,7 +69,7 @@ const Drawer = () => {
       >
         <div className="px-6 py-4 flex flex-row items-center">
           <img src={logo} className="w-12 h-13 mr-2" alt="Logo" />
-          <h2 className="text-2xl ml-2 font-bold">Comforama</h2>
+          <h2 className="text-2xl ml-2 font-bold">Super Siesta</h2>
         </div>
         <ul className="mt-4 ml-8 ">
           {/* Render NavItems */}
