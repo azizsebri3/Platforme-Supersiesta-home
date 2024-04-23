@@ -67,6 +67,7 @@ const Checkout = () => {
   });
 
   const handleSubmit = async (e) => {
+    setLoading(true);
     e.preventDefault();
     setShowDialog(false);
 
@@ -90,6 +91,7 @@ const Checkout = () => {
 
     // If there are any errors, stop form submission
     if (Object.keys(errors).length > 0) {
+      setLoading(false);
       return;
     }
 
@@ -195,7 +197,7 @@ const Checkout = () => {
               </tbody>
             </table>
             ${totalHTML}
-            ${thankYouMessage} <!-- Ajouter le message de remerciement ici -->
+            ${thankYouMessage} 
           </div>
         `;
 
@@ -210,7 +212,7 @@ const Checkout = () => {
         { ...data, invoiceHTML }
       );
 
-      setLoading(true);
+      
       if (response.status === 201) {
         setLoading(false);
         setShowDialog(true);
@@ -226,9 +228,12 @@ const Checkout = () => {
         console.error("Failed to place order:", response.statusText);
       }
     } catch (error) {
-      setLoading(false);
+      
       console.error("Error placing order:", error.message);
       // Handle the error appropriately (e.g., show an error message to the user)
+    }
+    finally {
+      setLoading(false);
     }
   };
 
