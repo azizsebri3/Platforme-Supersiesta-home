@@ -167,7 +167,7 @@ const Checkout = () => {
         `;
         const thankYouMessage = `
   <div class="text-gray-700 text-center mt-8">
-    Merci d'avoir choisi Comforama pour vos besoins en mobilier  !
+    Merci d'avoir choisi SuperSiesta pour vos besoins en mobilier  !
   </div>
 `;
 
