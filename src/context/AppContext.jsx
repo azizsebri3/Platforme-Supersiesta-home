@@ -16,7 +16,7 @@ export const AppProvider = ({ children }) => {
     const fetchAllProducts = async () => {
       setLoading(true);
       try {
-        const response = await axios.get("http://localhost:5000/api/products");
+        const response = await axios.get("https://backend-supersiesta-home.onrender.com/api/products");
         console.log("Response data:", response.data.data);
         setFetchedProducts(response.data.data);
       } catch (error) {

@@ -206,7 +206,7 @@ const Checkout = () => {
       console.log(data.products);
       // Send invoice HTML to user's email
       const response = await axios.post(
-        "http://localhost:5000/api/orders/platforme",
+        "https://backend-supersiesta-home.onrender.com/api/orders/platforme",
         { ...data, invoiceHTML }
       );
 
