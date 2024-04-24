@@ -73,8 +73,8 @@ const Checkout = () => {
 
     // Validation logic
     let errors = {};
-    if (!formData.prenom.trim()) {
-      errors.prenom = "Le prénom est requis";
+    if (!formData.name.trim()) {
+      errors.name = "Le nom est requis";
     }
 
     if (formData.email !== "" && !/\S+@\S+\.\S+/.test(formData.email)) {
@@ -430,7 +430,9 @@ const Checkout = () => {
                   name="phone"
                   value={formData.phone}
                   onChange={handleInputChange}
-                  className="w-full rounded-md border pl-12  border-gray-200 px-4 py-3  text-sm  shadow-sm outline-none focus:z-10 focus:border-[#A5BB08] focus:ring-[#A5BB08]"
+                  className={`w-full rounded-md border ${
+                    formErrors.phone ? "border-red-500" : "border-gray-200"
+                  } px-4 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-[#A5BB08] focus:ring-[#A5BB08]`}
                   placeholder="26******"
                 />
                 {formErrors.phone && (
