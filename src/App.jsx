@@ -38,7 +38,7 @@ function App() {
       </div>
       {isItemAdded && <SlideInNotifications text={recentlyAddedItem} />}
 
-      {loading && <Loading />}
+      {loading && <Loading active={loading} />}
     </Router>
   );
 }

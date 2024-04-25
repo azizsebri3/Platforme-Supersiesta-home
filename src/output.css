@@ -1235,6 +1235,11 @@ input:checked + .toggle-bg {
   margin-right: -0.5rem !important;
 }
 
+.-mx-4 {
+  margin-left: -1rem !important;
+  margin-right: -1rem !important;
+}
+
 .-my-8 {
   margin-top: -2rem !important;
   margin-bottom: -2rem !important;
@@ -1263,11 +1268,6 @@ input:checked + .toggle-bg {
 .my-7 {
   margin-top: 1.75rem !important;
   margin-bottom: 1.75rem !important;
-}
-
-.-mx-4 {
-  margin-left: -1rem !important;
-  margin-right: -1rem !important;
 }
 
 .mb-1 {
@@ -1745,6 +1745,17 @@ input:checked + .toggle-bg {
   animation: bounce 1s infinite !important;
 }
 
+@keyframes ping {
+  75%, 100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+.animate-ping {
+  animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite !important;
+}
+
 .cursor-default {
   cursor: default !important;
 }
@@ -1920,10 +1931,6 @@ input:checked + .toggle-bg {
   overflow: hidden !important;
 }
 
-.overflow-y-auto {
-  overflow-y: auto !important;
-}
-
 .text-wrap {
   text-wrap: wrap !important;
 }
@@ -2063,6 +2070,11 @@ input:checked + .toggle-bg {
 .bg-\[\#192a7a\] {
   --tw-bg-opacity: 1 !important;
   background-color: rgb(25 42 122 / var(--tw-bg-opacity)) !important;
+}
+
+.bg-\[\#A2BA02\] {
+  --tw-bg-opacity: 1 !important;
+  background-color: rgb(162 186 2 / var(--tw-bg-opacity)) !important;
 }
 
 .bg-\[\#A5BB08\] {
@@ -2797,13 +2809,19 @@ input:checked + .toggle-bg {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  /* semi-transparent background */
+  background-color: white;
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 9999;
   /* ensure it appears on top of other content */
+  transition: background-color 1s ease;
+  /* smooth transition */
+}
+
+.loading-spinner-overlay.active {
+  background-color: rgba(255, 255, 255, 1);
+  /* semi-transparent background */
 }
 
 .spinner {
