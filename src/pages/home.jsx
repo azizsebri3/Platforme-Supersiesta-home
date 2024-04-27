@@ -12,7 +12,7 @@ import { useAppContext } from "../context/AppContext.jsx";
 import Pagination from "../components/pagination.jsx";
 import Features from "../components/features.jsx";
 import { Link, useLocation } from "react-router-dom";
-
+import { Helmet } from "react-helmet";
 
 const Home = () => {
   const { fetchedProducts, productSelected, homeRef } = useAppContext();
@@ -81,6 +81,18 @@ const Home = () => {
   ];
   return (
     <>
+      <Helmet>
+        <title>Home</title>
+        <meta
+          name="description"
+          content="Achetez des matelas de haute qualité pour un sommeil optimal."
+        />
+        <meta
+          name="keywords"
+          content="matelas, confort, sommeil, qualité, santé"
+        />
+        <meta property="og:title" content="Super siesta" />
+      </Helmet>
       <div className="flex flex-col z-1 lg:flex-row bg-white items-center">
         <div className="flex justify-center m-auto">
           <div className="relative rounded-2xl">
@@ -94,7 +106,6 @@ const Home = () => {
           </div>
         </div>
       </div>
-      
 
       <Features infoItems={infoItems} />
       <>

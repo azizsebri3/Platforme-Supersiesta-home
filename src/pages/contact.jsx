@@ -1,9 +1,14 @@
 import React from "react";
 import "../output.css";
+import { Helmet } from "react-helmet";
 
 const Contact = () => {
   return (
     <>
+    <Helmet>
+        <title>Contactez-nous</title>
+        <meta name="description" content="Contactez-nous pour des questions, des suggestions ou des demandes de renseignements sur nos matelas de haute qualité." />
+      </Helmet>
       <div className="bg-gray-50 dark:bg-gray-900" id="contact">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 text-center">
           <h2 className="text-4xl font-bold dark:text-gray-100 mt-20">
