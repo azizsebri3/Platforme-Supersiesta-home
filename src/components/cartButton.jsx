@@ -59,7 +59,7 @@ const CartButton = () => {
       onClick={scrolli}
       id="cart-button"
       title="Go To Top"
-      className={`fixed z-50 bottom-10 right-7 p-2 border-0 rounded-full shadow-md bg-[#A5BB08] hover:bg-[#192A7A] text-white text-lg font-semibold transition-colors duration-300 ${
+      className={`fixed z-50 bottom-10 right-7 p-2 border-0 rounded-full shadow-xl bg-[#A5BB08] hover:bg-[#192A7A] text-white text-lg font-semibold transition-colors duration-300 ${
         cartItems.length > 0 ? "animate-bounce" : ""
       }`}
     >

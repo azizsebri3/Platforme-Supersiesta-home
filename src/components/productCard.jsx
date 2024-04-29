@@ -35,7 +35,7 @@ const ProductCard = ({ item }) => {
         <a className="relative flex h-80 w-72 overflow-hidden shadow hover:shadow-lg  bg-white border hover:border-[#a5bb08]">
           {item.availability && (
             <div
-              className={`absolute top-2 left-2 z-10 px-2 py-1 rounded 
+              className={`absolute  top-2 left-2 z-1 px-2 py-1 rounded 
     ${
       item.availability === "En stock"
         ? "bg-green-400 text-white"

@@ -178,7 +178,7 @@ const Checkout = () => {
           <div class="bg-white rounded-lg shadow-lg px-8 py-10 max-w-xl mx-auto">
             <div class="flex items-center justify-between mb-8">
               <div class="flex items-center">
-                <div class="text-gray-700 font-semibold text-lg">Comforama</div>
+                <div class="text-gray-700 font-semibold text-lg">Super Siesta Home</div>
               </div>
             </div>
             ${billToHTML}
@@ -258,7 +258,7 @@ const Checkout = () => {
               d="M7 16l-4-4m0 0l4-4m-4 4h18"
             ></path>
           </svg>
-          <span className="font-bold text-xl text-black">Conforama</span>
+          <span className="font-bold text-xl text-black">Super siesta</span>
           <img src={logo} className="w-8 h-auto ml-2 mt-1" alt="Company Logo" />
         </Link>
       </div>
@@ -310,7 +310,7 @@ const Checkout = () => {
                 <img className="w-14 object-contain" src={logo} alt="" />
                 <div className="ml-5">
                   <span className="mt-2 font-semibold">
-                    Livraison Conforama
+                    Livraison Super Siesta
                   </span>
                   <p className="text-slate-500 text-sm leading-6">
                     Livraison : 2-4 jours

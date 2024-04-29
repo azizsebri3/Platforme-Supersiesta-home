@@ -97,7 +97,7 @@ const Home = () => {
         <div className="flex justify-center m-auto">
           <div className="relative rounded-2xl">
             <motion.div
-              initial={{ opacity: 0, y: -100 }}
+              initial={{ opacity: 0, y: 0 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
             >
@@ -178,9 +178,9 @@ const Home = () => {
         </h1>
       </>
 
-      {fetchedProducts.length === 0 ? (
+      {fetchedProducts.length === 0 || productsToDisplay.length === 0 ? (
         <div className="flex justify-center">
-          <p>Products not found</p>
+          <p>Actuellement indisponible</p>
         </div>
       ) : (
         <div className="flex justify-center flex-wrap mx-20">

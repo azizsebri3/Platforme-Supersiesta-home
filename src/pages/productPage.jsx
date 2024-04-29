@@ -133,7 +133,7 @@ const ProductPage = () => {
                             Disponibilité:{" "}
                           </span>
                           <span
-                            className={`bg-gray-300 dark:bg-gray-700 text-white dark:text-white py-1 px-4 rounded-full font-bold mr-2 ${
+                            className={`bg-gray-300 dark:bg-gray-700 text-white dark:text-white py-1 px-2 rounded-full font-bold mr-2 ${
                               productInfo.availability === "En stock"
                                 ? "bg-green-400"
                                 : productInfo.availability === "En arrivage"
