@@ -12,6 +12,7 @@ import { useAppContext } from "../context/AppContext";
 
 const Navbar = ({ HomeRef }) => {
   const navigate = useNavigate();
+  const { setSearchQuery, searchQuery } = useAppContext();
   const {
     totalPrice: initialTotalPrice,
     totalItems: initialTotalItems,
@@ -24,7 +25,13 @@ const Navbar = ({ HomeRef }) => {
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [showDropdown, setShowDropdown] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [isOpenSearchInput, setIsOpenSearchInput] = useState(false);
+  const [toggleSearchInput, setToggleSearchInput] = useState(false);
   const location = useLocation();
+
+  const handleSearchInputChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -80,7 +87,7 @@ const Navbar = ({ HomeRef }) => {
           <div className="absolute left-0 right-0 bg-[#20327c] flex justify-center items-center md:px-0">
             <div className="w-48  md:w-[70%] lg:w-[80%] text-center truncate">
               <span className="text-white text-sm">
-              Livraison Gratuite sur Toute la Tunisie
+                Livraison Gratuite sur Toute la Tunisie
               </span>
             </div>
           </div>
@@ -102,7 +109,7 @@ const Navbar = ({ HomeRef }) => {
                   viewBox="0 0 512 512"
                 >
                   <path
-                    fill="#fff"  // Adjusted color
+                    fill="#fff" // Adjusted color
                     d="M504 256C504 119 393 8 256 8S8 119 8 256c0 123.78 90.69 226.38 209.25 245V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.28c-30.8 0-40.41 19.12-40.41 38.73V256h68.78l-11 71.69h-57.78V501C413.31 482.38 504 379.78 504 256z"
                   />
                 </svg>
@@ -123,7 +130,7 @@ const Navbar = ({ HomeRef }) => {
                   viewBox="0 0 448 512"
                 >
                   <path
-                    fill="#fff"  // Adjusted color
+                    fill="#fff" // Adjusted color
                     d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"
                   />
                 </svg>
@@ -144,13 +151,16 @@ const Navbar = ({ HomeRef }) => {
                   viewBox="0 0 448 512"
                 >
                   <path
-                    fill="#fff"  // Adjusted color
+                    fill="#fff" // Adjusted color
                     d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"
                   />
                 </svg>
               </a>
             </div>
-            <a href="tel:29934780" className="flex gap-2 items-center z-10 text-white">
+            <a
+              href="tel:29934780"
+              className="flex gap-2 items-center z-10 text-white"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="15"
@@ -238,10 +248,51 @@ const Navbar = ({ HomeRef }) => {
                 </li>
               ))}
             </ul>
-            
           </div>
+
           <div className="flex justify-end items-center ml-[100px] ">
-            <Link
+           
+            
+              <div className={`flex items-center ${windowWidth < 765 ? "hidden" : ""} `}>
+                <div className="relative mr-2">
+                  <input
+                    type="text"
+                    placeholder="Recherche"
+                    value={searchQuery}
+                    className={`${
+                      toggleSearchInput ? "w-60" : "w-0"
+                    } h-10 px-3 pr-10 text-sm rounded-full transition-all duration-300 ease-in-out`}
+                    onChange={handleSearchInputChange}
+                  />
+                  <button
+                    onClick={() => setToggleSearchInput(!toggleSearchInput)}
+                    className="absolute right-0 top-0 h-10 w-10 text-white bg-[#20327c] rounded-full"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      className="w-6 h-6 ml-2 text-white"
+                      color={"#000000"}
+                      fill={"none"}
+                    >
+                      <path
+                        d="M17.5 17.5L22 22"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M20 11C20 6.02944 15.9706 2 11 2C6.02944 2 2 6.02944 2 11C2 15.9706 6.02944 20 11 20C15.9706 20 20 15.9706 20 11Z"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <Link
               to={"/cart"}
               onClick={() => window.scroll(0, 0)}
               className="flex mr-4 mb-1 mt-2  justify-center items-center relative"

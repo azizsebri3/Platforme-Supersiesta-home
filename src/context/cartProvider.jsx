@@ -14,10 +14,10 @@ export const CartProvider = ({ children }) => {
   // Function to calculate total price
   const calculateTotalPrice = (items) => {
     const total = items.reduce(
-      (total, item) => total + item.price * item.quantity,
+      (total, item) => total + Number(item.price) * item.quantity,
       0
     );
-    return total;
+    return Number(total);
   };
 
   useEffect(() => {
@@ -29,7 +29,7 @@ export const CartProvider = ({ children }) => {
     }
 
     const totalPrice = calculateTotalPrice(cartItems);
-    setTotalPrice(totalPrice);
+    setTotalPrice(Number(totalPrice));
 
     localStorage.setItem("totalPrice", JSON.stringify(totalPrice));
   }, [cartItems]);
@@ -68,7 +68,7 @@ export const CartProvider = ({ children }) => {
         name: item.productName || item.name,
         desc: item.productDescription || item.desc,
         oldPrice: item.productoldPrice || item.oldPrice,
-        price: item.price,
+        price: item.productPrice || item.price,
         size: item.selectedSize,
         quantity: item.quantity > 0 ? item.quantity : 1, // Always start with quantity 1 for a new item
       };

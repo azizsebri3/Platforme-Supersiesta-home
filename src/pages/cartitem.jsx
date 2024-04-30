@@ -59,7 +59,7 @@ const ShoppingCart = () => {
   };
 
   return (
-    <section className="min-h-screen bg-gray-100 py-14 sm:py-16 lg:py-20">
+    <section className="min-h-screen bg-gray-100 py-14 mt-[40px] sm:py-16 lg:py-20">
       <div className="mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-center">
           <h1 className="text-2xl font-semibold text-gray-900">Votre Panier</h1>
@@ -97,13 +97,15 @@ const ShoppingCart = () => {
                   {cartItems.length === 0 ? (
                     <li className="flex flex-col text-[1rem] font-bold justify-center items-center space-y-3 py-6 text-center ">
                       Votre Panier est vide !
-                      <div className="mt-5 w-1/2">
+                      <div className="mt-5 w-full">
                         <button
                           onClick={() => {
                             navigate("/");
                           }}
                           type="button"
-                          className="group inline-flex w-full items-center justify-center rounded-md bg-[#a5bb08]  py-4 text-lg font-semibold text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-[#87A922]"
+                          className="group inline-flex w-full h-15 items-center justify-center rounded-md
+                           bg-[#a5bb08]  py-4 px-20 text-lg font-semibold text-white transition-all 
+                           duration-200 ease-in-out focus:shadow hover:bg-[#87A922]"
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"

@@ -1,13 +1,10 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/cartProvider";
-// import { ProductProvider, useProduct } from "../context/productContext";
-import SlideInNotifications from "./slideInNotifications";
 
 const ProductCard = ({ item }) => {
-  const { addToCart, cartItems, totalItems } = useCart();
+  const { addToCart } = useCart();
   const navigate = useNavigate();
-  const [success, setSuccess] = useState(false);
 
   const handleAddToCart = () => {
     addToCart(item);

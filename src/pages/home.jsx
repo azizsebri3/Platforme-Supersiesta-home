@@ -15,7 +15,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
 const Home = () => {
-  const { fetchedProducts, productSelected, homeRef } = useAppContext();
+  const { fetchedProducts, productSelected, homeRef , searchQuery ,setLoading } = useAppContext();
   const [currentProducts, setCurrentProducts] = useState([]);
   const productsPerPage = 8;
   const [currentPage, setCurrentPage] = useState(1);
@@ -27,27 +27,32 @@ const Home = () => {
   };
 
   useEffect(() => {
-    if (
-      productSelected === "Acceuil" ||
-      productSelected === "Tous Les Matelas"
-    ) {
-      setCurrentProducts(fetchedProducts);
-    } else {
-      const filteredProducts = fetchedProducts.filter(
+    setLoading(true);
+    let filteredProducts = fetchedProducts;
+  
+    // Apply category filtering
+    if (productSelected !== "Acceuil" && productSelected !== "Tous Les Matelas") {
+      filteredProducts = filteredProducts.filter(
         (product) => product.category === productSelected
       );
-      setCurrentProducts(filteredProducts);
-      const index = path.indexOf(productSelected);
-      if (index === -1) {
-        // If the selected path is not in the current path, update the path
-        setPath([...path, productSelected]);
-      } else {
-        // If the selected path is already in the current path, remove all subsequent paths
-        setPath(path.slice(0, index + 1));
-      }
     }
+  
+    // Apply search query filtering
+    if (searchQuery?.trim() !== "") {
+      const query = searchQuery?.toLowerCase().trim();
+      filteredProducts = filteredProducts.filter(
+        (product) =>
+          product.productName?.toLowerCase().includes(query) ||
+          product.description?.toLowerCase().includes(query)
+      );
+    }
+    
+  
+    setCurrentProducts(filteredProducts);
+    setLoading(false);
     setCurrentPage(1);
-  }, [fetchedProducts, productSelected]);
+  }, [fetchedProducts, productSelected, searchQuery]);
+  
 
   // Calculate total number of pages
   const totalPages = Math.ceil(currentProducts.length / productsPerPage);
@@ -109,7 +114,7 @@ const Home = () => {
 
       <Features infoItems={infoItems} />
       <>
-        {/* <span class="flex-grow bg-gray-200 rounded h-1"></span>
+        {/* <span className="flex-grow bg-gray-200 rounded h-1"></span>
         <nav className="flex ml-40 justify-start items-center mx-auto ">
           <ol role="list" className="flex items-center">
             {path.map((pg, index) => (
@@ -141,7 +146,7 @@ const Home = () => {
             ))}
           </ol>
         </nav> */}
-        <span class="flex-grow bg-gray-200 rounded h-1"></span>
+        <span className="flex-grow bg-gray-200 rounded h-1"></span>
         <h1
           ref={homeRef}
           className="flex items-center mt-6 justify-center font-bold mb-6 text-3xl text-wrap text-bold"
@@ -180,7 +185,7 @@ const Home = () => {
 
       {fetchedProducts.length === 0 || productsToDisplay.length === 0 ? (
         <div className="flex justify-center">
-          <p>Actuellement indisponible</p>
+          <p>Actuellement indisponible...</p>
         </div>
       ) : (
         <div className="flex justify-center flex-wrap mx-20">

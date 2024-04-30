@@ -11,6 +11,7 @@ export const AppProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [productSelected, setProductSelected] = useState("Acceuil");
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const fetchAllProducts = async () => {
@@ -28,6 +29,15 @@ export const AppProvider = ({ children }) => {
     fetchAllProducts();
   }, []);
 
+  useEffect(() => {
+    console.log("Search query:", searchQuery);
+    // Filter products based on search query
+    const filtered = fetchedProducts.filter(product =>
+      product.productName.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setFilteredProducts(filtered);
+  }, [searchQuery, fetchedProducts]);
+
   return (
     <AppContext.Provider
       value={{
@@ -38,6 +48,8 @@ export const AppProvider = ({ children }) => {
         productSelected,
         homeRef,
         setLoading,
+        searchQuery,
+        setSearchQuery,
       }}
     >
       {children}
