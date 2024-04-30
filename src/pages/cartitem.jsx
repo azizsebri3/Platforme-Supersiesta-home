@@ -218,7 +218,7 @@ const ShoppingCart = () => {
                       <p className="text-sm text-gray-400">Livraison</p>
                       <p className="text-lg font-semibold text-gray-900">
                         {" "}
-                        د.ت 8.00
+                        Gratuite 
                       </p>
                     </div>
                   </div>

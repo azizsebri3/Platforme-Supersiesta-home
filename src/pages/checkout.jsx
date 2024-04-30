@@ -483,7 +483,7 @@ const Checkout = () => {
                   <p className="text-sm font-medium text-gray-900">
                     Expédition
                   </p>
-                  <p className="font-semibold text-gray-900">8,00 د.ت</p>
+                  <p className="font-semibold text-gray-900">Gratuite</p>
                 </div>
               </div>
               <div className="mt-6 flex items-center justify-between">
