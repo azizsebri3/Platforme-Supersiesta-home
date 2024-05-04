@@ -12,6 +12,7 @@ export const AppProvider = ({ children }) => {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [productSelected, setProductSelected] = useState("Acceuil");
   const [searchQuery, setSearchQuery] = useState("");
+  
 
   useEffect(() => {
     const fetchAllProducts = async () => {

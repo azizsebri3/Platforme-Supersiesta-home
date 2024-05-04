@@ -3,7 +3,7 @@ import { useCart } from "../context/cartProvider";
 import { Link, useNavigate } from "react-router-dom";
 
 const ProductPage = () => {
-  const { addToCart, cartItems, updateCartItemQuantity } = useCart();
+  const { addToCart, cartItems, updateCartItemQuantity,open,setOpen } = useCart();
   const [productInfo, setProductInfo] = useState(null);
   const [isInCart, setIsInCart] = useState(false);
   const [selectedSize, setSelectedSize] = useState("");
@@ -68,7 +68,6 @@ const ProductPage = () => {
 
     addToCart(updatedProductInfo);
 
-    navigate("/cart");
   };
 
   const selectImage = (imageIndex) => {

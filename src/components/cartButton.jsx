@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 
 const CartButton = () => {
   //const [visible, setVisible] = useState(false);
-  const { cartItems, setCartItems } = useCart();
+  const { cartItems, setCartItems ,setOpen,open } = useCart();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -50,8 +50,8 @@ const CartButton = () => {
   // }, []);
 
   const scrolli = () => {
-    navigate("/cart");
-    window.scroll(0, 0);
+    setOpen(!open)
+   
   };
 
   return (

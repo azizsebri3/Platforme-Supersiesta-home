@@ -17,6 +17,8 @@ const Navbar = ({ HomeRef }) => {
     totalPrice: initialTotalPrice,
     totalItems: initialTotalItems,
     cartItems,
+    open,
+    setOpen,
   } = useCart();
   const [totalPrice, setTotalPrice] = useState(initialTotalPrice);
   const [totalItems, setTotalItems] = useState(initialTotalItems);
@@ -205,7 +207,7 @@ const Navbar = ({ HomeRef }) => {
                       <span
                         className={`text-xl p-4  hover:text-[#20327c] cursor-pointer link link-underline link-underline-black  ${
                           location.pathname === item.item1
-                            ? "text-[#20327c] focus:text-[#20327c]  "
+                            ? "text-[#20327c] focus:text-[#20327c]"
                             : ""
                         }`}
                       >
@@ -292,9 +294,8 @@ const Navbar = ({ HomeRef }) => {
                   </button>
                 </div>
               </div>
-              <Link
-              to={"/cart"}
-              onClick={() => window.scroll(0, 0)}
+              <button
+                onClick={() => setOpen(!open)}
               className="flex mr-4 mb-1 mt-2  justify-center items-center relative"
             >
               <IconButton aria-label="cart">
@@ -322,7 +323,7 @@ const Navbar = ({ HomeRef }) => {
                   </svg>
                 </StyledBadge>
               </IconButton>
-            </Link>
+            </button>
 
             <Link
               to={"/"}

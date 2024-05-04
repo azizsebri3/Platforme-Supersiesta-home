@@ -10,6 +10,7 @@ export const CartProvider = ({ children }) => {
   const [totalItems, setTotalItems] = useState(0);
   const [recentlyAddedItem, setrecentlyAddedItem] = useState(null);
   const [isItemAdded, setisItemAdded] = useState(false);
+  const [open, setOpen] = useState(false);
 
   // Function to calculate total price
   const calculateTotalPrice = (items) => {
@@ -34,8 +35,6 @@ export const CartProvider = ({ children }) => {
     localStorage.setItem("totalPrice", JSON.stringify(totalPrice));
   }, [cartItems]);
 
-  // Function to add item to cart
-  // Function to add item to cart
   const addToCart = (item) => {
     const existingItemIndex = cartItems.findIndex(
       (cartItem) => cartItem.id === item.id && cartItem.size === item.size
@@ -71,6 +70,7 @@ export const CartProvider = ({ children }) => {
         price: item.productPrice || item.price,
         size: item.selectedSize,
         quantity: item.quantity > 0 ? item.quantity : 1, // Always start with quantity 1 for a new item
+        category: item.category,
       };
 
       // Check if the item with the same id and size already exists in cart
@@ -97,7 +97,6 @@ export const CartProvider = ({ children }) => {
         localStorage.setItem("totalItems", JSON.stringify(newTotalItems));
 
         setrecentlyAddedItem(newItem.name);
-        setisItemAdded(true);
 
         // Reset isItemAdded to false after 2 seconds
         setTimeout(() => {
@@ -150,6 +149,8 @@ export const CartProvider = ({ children }) => {
         isItemAdded,
         setTotalPrice,
         recentlyAddedItem,
+        open,
+        setOpen
       }}
     >
       {children}

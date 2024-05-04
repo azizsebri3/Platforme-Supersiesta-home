@@ -39,6 +39,7 @@ function App() {
       {isItemAdded && <SlideInNotifications text={recentlyAddedItem} />}
 
       {loading && <Loading active={loading} />}
+      {open && <ShoppingCart />}
     </Router>
   );
 }
