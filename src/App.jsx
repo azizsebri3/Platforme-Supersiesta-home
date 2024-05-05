@@ -29,7 +29,6 @@ function App() {
           <Route path="/Product/:category/:name" element={<ProductPage />} />
           <Route path="/propos" element={<Propos />} />
           <Route path="/Contact" element={<Contact />} />
-          <Route path="/cart" element={<ShoppingCart />} />
           <Route path="/checkout" element={<Checkout />} />
         </Routes>
         <ScrollButton />
@@ -37,7 +36,6 @@ function App() {
         <Footer />
       </div>
       {isItemAdded && <SlideInNotifications text={recentlyAddedItem} />}
-
       {loading && <Loading active={loading} />}
       {open && <ShoppingCart />}
     </Router>

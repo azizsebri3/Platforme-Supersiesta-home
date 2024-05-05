@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 import { useCart } from "../context/cartProvider";
+import { motion } from "framer-motion"; // Import Framer Motion
 
 export default function ShoppingCart() {
   const {
@@ -98,7 +99,14 @@ export default function ShoppingCart() {
                               </li>
                             )}
                             {cartItems.map((product) => (
-                              <li key={product.id} className="flex py-6">
+                              <motion.li // Apply motion to list item
+                                key={product.id}
+                                initial={{ opacity: 0, y: 20 }} // Initial animation properties
+                                animate={{ opacity: 1, y: 0 }} // Animation properties when in viewport
+                                exit={{ opacity: 0, y: 20 }} // Animation properties when leaving viewport
+                                transition={{ duration: 0.5 }} // Animation duration
+                                className="flex py-6"
+                              >
                                 <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                                   <img
                                     src={product.image}
@@ -162,7 +170,7 @@ export default function ShoppingCart() {
                                     </div>
                                   </div>
                                 </div>
-                              </li>
+                              </motion.li>
                             ))}
                           </ul>
                         </div>

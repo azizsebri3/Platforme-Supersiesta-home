@@ -18,8 +18,7 @@ export const AppProvider = ({ children }) => {
     const fetchAllProducts = async () => {
       setLoading(true);
       try {
-        const response = await axios.get("https://backend-supersiesta-home.onrender.com/api/products");
-        console.log("Response data:", response.data.data);
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/products`);
         setFetchedProducts(response.data.data);
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -31,7 +30,6 @@ export const AppProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    console.log("Search query:", searchQuery);
     // Filter products based on search query
     const filtered = fetchedProducts.filter(product =>
       product.productName.toLowerCase().includes(searchQuery.toLowerCase())

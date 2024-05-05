@@ -9,6 +9,7 @@ import Badge from "@mui/material/Badge";
 import { styled } from "@mui/material/styles";
 import { AnimatePresence, motion } from "framer-motion";
 import { useAppContext } from "../context/AppContext";
+import sac from "../assets/bag.png";
 
 const Navbar = ({ HomeRef }) => {
   const navigate = useNavigate();
@@ -253,76 +254,64 @@ const Navbar = ({ HomeRef }) => {
           </div>
 
           <div className="flex justify-end items-center ml-[100px] ">
-           
-            
-              <div className={`flex items-center ${windowWidth < 765 ? "hidden" : ""} `}>
-                <div className="relative mr-2">
-                  <input
-                    type="text"
-                    placeholder="Recherche"
-                    value={searchQuery}
-                    className={`${
-                      toggleSearchInput ? "w-60" : "w-0"
-                    } h-10 px-3 pr-10 text-sm rounded-full transition-all duration-300 ease-in-out`}
-                    onChange={handleSearchInputChange}
-                  />
-                  <button
-                    onClick={() => setToggleSearchInput(!toggleSearchInput)}
-                    className="absolute right-0 top-0 h-10 w-10 text-white bg-[#20327c] rounded-full"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      className="w-6 h-6 ml-2 text-white"
-                      color={"#000000"}
-                      fill={"none"}
-                    >
-                      <path
-                        d="M17.5 17.5L22 22"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                      <path
-                        d="M20 11C20 6.02944 15.9706 2 11 2C6.02944 2 2 6.02944 2 11C2 15.9706 6.02944 20 11 20C15.9706 20 20 15.9706 20 11Z"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  </button>
-                </div>
-              </div>
-              <button
-                onClick={() => setOpen(!open)}
-              className="flex mr-4 mb-1 mt-2  justify-center items-center relative"
+            <div
+              className={`flex items-center ${
+                windowWidth < 765 ? "hidden" : ""
+              } `}
             >
-              <IconButton aria-label="cart">
-                <span className="mr-2 text-sm font-bold text-white">
-                  {" "}
-                  {initialTotalPrice} د.ت{" "}
-                </span>
-                <StyledBadge badgeContent={cartItems.length} color="primary">
+              <div className="relative mr-2">
+                <input
+                  type="text"
+                  placeholder="Recherche"
+                  value={searchQuery}
+                  className={`${
+                    toggleSearchInput ? "w-60" : "w-0"
+                  } h-10 px-3 pr-10 text-sm rounded-full transition-all duration-300 ease-in-out`}
+                  onChange={handleSearchInputChange}
+                />
+                <button
+                  onClick={() => setToggleSearchInput(!toggleSearchInput)}
+                  className="absolute right-0 top-0 h-10 w-10 text-white bg-[#20327c] rounded-full"
+                >
                   <svg
-                    fill="#000000"
-                    version="1.1"
-                    id="Capa_1"
-                    className="w-8 h-8"
                     xmlns="http://www.w3.org/2000/svg"
-                    xmlnsXlink="http://www.w3.org/1999/xlink"
-                    viewBox="0 0 902.86 902.86"
-                    xmlSpace="preserve"
+                    viewBox="0 0 24 24"
+                    className="w-6 h-6 ml-2 text-white"
+                    color={"#000000"}
+                    fill={"none"}
                   >
-                    <g>
-                      <g>
-                        <path d="M671.504,577.829l110.485-432.609H902.86v-68H729.174L703.128,179.2L0,178.697l74.753,399.129h596.751V577.829zM685.766,247.188l-67.077,262.64H131.199L81.928,246.756L685.766,247.188z" />
-                        <path d="M578.418,825.641c59.961,0,108.743-48.783,108.743-108.744s-48.782-108.742-108.743-108.742H168.717c-59.961,0-108.744,48.781-108.744,108.742s48.782,108.744,108.744,108.744c59.962,0,108.743-48.783,108.743-108.744c0-14.4-2.821-28.152-7.927-40.742h208.069c-5.107,12.59-7.928,26.342-7.928,40.742C469.675,776.858,518.457,825.641,578.418,825.641zM209.46,716.897c0,22.467-18.277,40.744-40.743,40.744c-22.466,0-40.744-18.277-40.744-40.744c0-22.465,18.277-40.742,40.744-40.742C191.183,676.155,209.46,694.432,209.46,716.897zM619.162,716.897c0,22.467-18.277,40.744-40.743,40.744s-40.743-18.277-40.743-40.744c0-22.465,18.277-40.742,40.743-40.742S619.162,694.432,619.162,716.897z" />
-                      </g>
-                    </g>
+                    <path
+                      d="M17.5 17.5L22 22"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M20 11C20 6.02944 15.9706 2 11 2C6.02944 2 2 6.02944 2 11C2 15.9706 6.02944 20 11 20C15.9706 20 20 15.9706 20 11Z"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinejoin="round"
+                    />
                   </svg>
-                </StyledBadge>
-              </IconButton>
+                </button>
+              </div>
+            </div>
+            <button
+              onClick={() => setOpen(!open)}
+              className="flex mr-4 mb-1 mt-2 items-center relative"
+            >
+              <span className="text-xl font-bold text-white mr-4">
+                {initialTotalPrice} د.ت
+              </span>
+              <span className="relative">
+                <span className="inline-block relative">
+                  <img src={sac} className="w-9 h-auto " alt="cart" />
+                  <span className="absolute top-0 right-0 bg-white text-black rounded-full h-4 w-4 flex items-center justify-center text-xs font-bold">
+                    {cartItems.length}
+                  </span>
+                </span>
+              </span>
             </button>
 
             <Link
@@ -330,7 +319,7 @@ const Navbar = ({ HomeRef }) => {
               onClick={() => window.scroll(0, 0)}
               className="flex items-center text-xl font-bold text-white"
             >
-              <span className="text-colori   hidden font-bold text-2xl md:inline-block text-white">
+              <span className="text-colori hidden mr-2 font-bold text-2xl md:inline-block text-white">
                 Super siesta
               </span>
               {/* <img src={logo} className="w-12 h-auto ml-2 " alt="Company Logo" /> */}
