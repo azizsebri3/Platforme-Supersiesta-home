@@ -22,6 +22,7 @@ export default function ShoppingCart() {
   const navigate = useNavigate();
   const currentDate = new Date();
   const [productIdToRemove, setProductIdToRemove] = useState({});
+  const [showPopup, setShowPopup] = useState(false);
   const formattedDate = format(currentDate, "do MMMM yyyy 'à' hh:mm aa", {
     locale: fr,
   });
@@ -36,7 +37,7 @@ export default function ShoppingCart() {
         setTotalPrice(JSON.parse(storedTotalPrice));
       }
     }
-  }, [navigate, cartItems]);
+  }, [navigate]);
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -99,14 +100,31 @@ export default function ShoppingCart() {
                               </li>
                             )}
                             {cartItems.map((product) => (
-                              <motion.li // Apply motion to list item
-                                key={product.id}
-                                initial={{ opacity: 0, y: 20 }} // Initial animation properties
-                                animate={{ opacity: 1, y: 0 }} // Animation properties when in viewport
-                                exit={{ opacity: 0, y: 20 }} // Animation properties when leaving viewport
-                                transition={{ duration: 0.5 }} // Animation duration
+                              <motion.li
+                                key={product.size}
+                                initial={{
+                                  opacity: 0,
+                                  y: 20,
+                                  rotate: -5,
+                                  scale: 0.8,
+                                }}
+                                animate={{
+                                  opacity: 1,
+                                  y: 0,
+                                  rotate: 0,
+                                  scale: 1,
+                                }}
+                                exit={{
+                                  opacity: 0,
+                                  y: -20,
+                                  rotate: 5,
+                                  scale: 1.2,
+                                  transition: { duration: 0.3 },
+                                }}
+                                transition={{ duration: 0.5 }}
                                 className="flex py-6"
                               >
+                                {/* Your cart item content */}
                                 <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                                   <img
                                     src={product.image[0]}
@@ -137,7 +155,7 @@ export default function ShoppingCart() {
                                         );
                                         if (product.quantity === 0) {
                                           removeFromCart(product);
-                                          setOpen(false);
+                                          setShowPopup(true); // Show popup when removing item
                                         }
                                       }}
                                       className="flex items-center  justify-center rounded-r-md bg-gray-200 px-4 transition hover:bg-black hover:text-white"
@@ -162,7 +180,10 @@ export default function ShoppingCart() {
                                     </button>
                                     <div className="flex">
                                       <button
-                                        onClick={() => removeFromCart(product)}
+                                        onClick={() => {
+                                          removeFromCart(product);
+                                          setShowPopup(true); // Show popup when removing item
+                                        }}
                                         className="font-medium text-[#A5BB08] hover:text-[#87A922]"
                                       >
                                         supprimer
@@ -173,44 +194,45 @@ export default function ShoppingCart() {
                               </motion.li>
                             ))}
                           </ul>
+                          
                         </div>
                       </div>
                     </div>
-                  
-                    {cartItems.length > 0 &&
-                    <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
-                      <div className="flex justify-between text-base font-medium text-gray-900">
-                        <p>Totale</p>
-                        <p>{totalPrice}د.ت</p>
-                      </div>
-                      <p className="mt-0.5 text-sm text-gray-500">
-                        Livraison gratuite
-                      </p>
-                      <div className="mt-6">
-                        <Link
-                          to="/checkout?fromCart=true"
-                          onClick={() => setOpen(false)}
-                          className="flex items-center justify-center rounded-md border border-transparent bg-[#A5BB08] px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-[#87A922] sm:text-sm"
-                        >
-                          commander
-                        </Link>
-                      </div>
-                      <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
-                        <p>
-                          or{" "}
-                          <Link
-                            to={"/"}
-                            type="button"
-                            className="font-medium text-[#A5BB08] hover:text-[#87A922]"
-                            onClick={() => setOpen(false)}
-                          >
-                            retourner au page d'accueil
-                            <span aria-hidden="true"> &rarr;</span>
-                          </Link>
+
+                    {cartItems.length > 0 && (
+                      <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
+                        <div className="flex justify-between text-base font-medium text-gray-900">
+                          <p>Totale</p>
+                          <p>{totalPrice}د.ت</p>
+                        </div>
+                        <p className="mt-0.5 text-sm text-gray-500">
+                          Livraison gratuite
                         </p>
+                        <div className="mt-6">
+                          <Link
+                            to="/checkout?fromCart=true"
+                            onClick={() => setOpen(false)}
+                            className="flex items-center justify-center rounded-md border border-transparent bg-[#A5BB08] px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-[#87A922] sm:text-sm"
+                          >
+                            commander
+                          </Link>
+                        </div>
+                        <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
+                          <p>
+                            or{" "}
+                            <Link
+                              to={"/"}
+                              type="button"
+                              className="font-medium text-[#A5BB08] hover:text-[#87A922]"
+                              onClick={() => setOpen(false)}
+                            >
+                              retourner au page d'accueil
+                              <span aria-hidden="true"> &rarr;</span>
+                            </Link>
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                    }
+                    )}
                   </div>
                 </Dialog.Panel>
               </Transition.Child>

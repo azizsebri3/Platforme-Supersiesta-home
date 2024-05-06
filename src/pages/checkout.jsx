@@ -259,7 +259,7 @@ const Checkout = () => {
         </Link>
       </div>
       <div className="grid sm:px-10 lg:grid-cols-2 lg:px-20 xl:px-32">
-        <div className="px-4 pt-8 overflow-y-scroll">
+        <div className="px-4 pt-8">
           <p className="text-[#a5bb08] text-xl font-bold">{formattedDate}</p>
           <p className="text-xl font-medium">Résumé de la commande</p>
           <p className="text-gray-400">

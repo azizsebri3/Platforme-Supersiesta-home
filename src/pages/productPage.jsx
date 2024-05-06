@@ -33,9 +33,8 @@ const ProductPage = () => {
         : setProductPrice(productInfo.productPrice);
 
       setImageGallery(productInfo.imageUrls);
-      console.log(productInfo.imageUrls);
     }
-  }, [cartItems, productInfo]);
+  }, [productInfo]);
 
   const handleSizeChange = (size) => {
     setSelectedSize(size);
@@ -111,7 +110,7 @@ const ProductPage = () => {
               </div>
             </div>
             <div className="md:flex-1 px-4">
-              <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-2">
+              <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-2">
                 {productInfo.productName}
               </h2>
               <div className="flex mb-4">
@@ -119,11 +118,14 @@ const ProductPage = () => {
                   <span className="font-bold text-gray-700 dark:text-gray-300">
                     Prix: {""}
                   </span>
-                  <span className="text-xl font-semibold text-gray-900">
-                    {ProductPrice} د.ت
+                  <span className="text-2xl font-bold text-gray-900">
+                    
+                    {ProductPrice} 
                   </span>
+                  <span className="text-xl">د.ت</span>
+                 
                 </div>
-                <div className="mt-1">
+                <div className="mt-2">
                   <div>
                     {productInfo.availability &&
                       !productInfo.availability.includes("%") && (

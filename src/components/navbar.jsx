@@ -88,8 +88,8 @@ const Navbar = ({ HomeRef }) => {
       <div className=" sticky top-0 z-[99999] bg-[#20327c] w-full transition-transform duration-300 transform translate-y-0">
         <div className="relative p-3  px-4 text-xs md:text-sm">
           <div className="absolute left-0 right-0 bg-[#20327c] flex justify-center items-center md:px-0">
-            <div className="w-48  md:w-[70%] lg:w-[80%] text-center truncate">
-              <span className="text-white text-sm">
+            <div className="w-70  md:w-[70%] lg:w-[80%] sm:w-[80%] text-center truncate">
+              <span className="text-white text-sm ">
                 Livraison Gratuite sur Toute la Tunisie
               </span>
             </div>
@@ -161,7 +161,7 @@ const Navbar = ({ HomeRef }) => {
               </a>
             </div>
             <a
-              href="tel:29934780"
+              href="tel:22455513"
               className="flex gap-2 items-center z-10 text-white"
             >
               <svg
@@ -178,7 +178,7 @@ const Navbar = ({ HomeRef }) => {
               >
                 <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
               </svg>
-              <span className="hidden md:block text-white">26956060</span>
+              <span className="hidden md:block text-white">22455513</span>
             </a>
           </div>
         </div>

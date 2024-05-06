@@ -1418,6 +1418,22 @@ input:checked + .toggle-bg {
   margin-top: 80px !important;
 }
 
+.mr-8 {
+  margin-right: 2rem !important;
+}
+
+.mr-10 {
+  margin-right: 2.5rem !important;
+}
+
+.ml-10 {
+  margin-left: 2.5rem !important;
+}
+
+.ml-\[80px\] {
+  margin-left: 80px !important;
+}
+
 .box-content {
   box-sizing: content-box !important;
 }
@@ -1969,10 +1985,6 @@ input:checked + .toggle-bg {
   overflow: hidden !important;
 }
 
-.overflow-scroll {
-  overflow: scroll !important;
-}
-
 .overflow-y-auto {
   overflow-y: auto !important;
 }
@@ -2245,6 +2257,16 @@ input:checked + .toggle-bg {
 .bg-yellow-500 {
   --tw-bg-opacity: 1 !important;
   background-color: rgb(194 120 3 / var(--tw-bg-opacity)) !important;
+}
+
+.bg-green-500 {
+  --tw-bg-opacity: 1 !important;
+  background-color: rgb(14 159 110 / var(--tw-bg-opacity)) !important;
+}
+
+.bg-\[\#1F8A59\] {
+  --tw-bg-opacity: 1 !important;
+  background-color: rgb(31 138 89 / var(--tw-bg-opacity)) !important;
 }
 
 .bg-opacity-15 {
@@ -3545,6 +3567,14 @@ input:checked + .toggle-bg {
 
   .sm\:w-full {
     width: 100% !important;
+  }
+
+  .sm\:w-\[50\%\] {
+    width: 50% !important;
+  }
+
+  .sm\:w-\[80\%\] {
+    width: 80% !important;
   }
 
   .sm\:flex-row {
