@@ -1969,6 +1969,10 @@ input:checked + .toggle-bg {
   overflow: hidden !important;
 }
 
+.overflow-scroll {
+  overflow: scroll !important;
+}
+
 .overflow-y-auto {
   overflow-y: auto !important;
 }
@@ -2129,11 +2133,6 @@ input:checked + .toggle-bg {
 .bg-\[\#192A7A\] {
   --tw-bg-opacity: 1 !important;
   background-color: rgb(25 42 122 / var(--tw-bg-opacity)) !important;
-}
-
-.bg-\[\#20327C\] {
-  --tw-bg-opacity: 1 !important;
-  background-color: rgb(32 50 124 / var(--tw-bg-opacity)) !important;
 }
 
 .bg-\[\#20327c\] {

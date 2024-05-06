@@ -68,7 +68,7 @@ export const CartProvider = ({ children }) => {
         desc: item.productDescription || item.desc,
         oldPrice: item.productoldPrice || item.oldPrice,
         price: item.productPrice || item.price,
-        size: item.selectedSize,
+        size: item.selectedSize || item.sizes[0].size,
         quantity: item.quantity > 0 ? item.quantity : 1, // Always start with quantity 1 for a new item
         category: item.category,
       };

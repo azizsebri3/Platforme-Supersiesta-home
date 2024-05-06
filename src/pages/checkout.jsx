@@ -207,11 +207,10 @@ const Checkout = () => {
       const invoiceHTML = generateInvoiceHTML(data);
       // Send invoice HTML to user's email
       const response = await axios.post(
-       `${import.meta.env.VITE_API_URL}/orders/platforme`,
+        `${import.meta.env.VITE_API_URL}/orders/platforme`,
         { ...data, invoiceHTML }
       );
 
-      
       if (response.status === 201) {
         setLoading(false);
         setShowDialog(true);
@@ -227,18 +226,16 @@ const Checkout = () => {
         console.error("Failed to place order:", response.statusText);
       }
     } catch (error) {
-      
       console.error("Error placing order:", error.message);
       // Handle the error appropriately (e.g., show an error message to the user)
-    }
-    finally {
+    } finally {
       setLoading(false);
     }
   };
 
   return (
     <div>
-      <div className="flex flex-col items-center border-b bg-white py-4 sm:flex-row sm:px-10 lg:px-20 xl:px-32">
+      <div className="flex flex-col  items-center border-b bg-white py-4 sm:flex-row sm:px-10 lg:px-20 xl:px-32">
         <Link
           to={"/"}
           className="inline-flex items-center  border-black px-3 py-1.5 rounded-md text-black hover:bg-indigo-50"
@@ -262,21 +259,24 @@ const Checkout = () => {
         </Link>
       </div>
       <div className="grid sm:px-10 lg:grid-cols-2 lg:px-20 xl:px-32">
-        <div className="px-4 pt-8">
+        <div className="px-4 pt-8 overflow-y-scroll">
           <p className="text-[#a5bb08] text-xl font-bold">{formattedDate}</p>
           <p className="text-xl font-medium">Résumé de la commande</p>
           <p className="text-gray-400">
             Vérifiez vos articles. Et choisissez un mode de livraison approprié.
           </p>
-          <div className="mt-8 space-y-3 rounded-lg border bg-white px-2 py-4 sm:px-6">
-            {cartItems.map((item) => (
+          <div
+            className="mt-8 space-y-3 rounded-lg border bg-white px-2 py-4 sm:px-6 overflow-y-scroll"
+            style={{ maxHeight: "400px" }}
+          >
+            {cartItems.slice(0, 5).map((item) => (
               <div
                 key={item.id}
                 className="flex flex-col rounded-lg bg-white sm:flex-row"
               >
                 <img
                   className="m-2 h-24 w-28 rounded-md border object-cover object-center"
-                  src={item.image}
+                  src={item.image[0]}
                   alt=""
                 />
                 <div className="flex w-full flex-col px-4 py-4">
@@ -291,6 +291,7 @@ const Checkout = () => {
               </div>
             ))}
           </div>
+
           <p className="mt-8 text-lg font-medium">Modes de livraison</p>
           <form className="mt-5 grid gap-6">
             <div className="relative">

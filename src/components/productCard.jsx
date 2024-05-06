@@ -80,7 +80,7 @@ const ProductCard = ({ item }) => {
             {item.availability !== "Epuisé" &&
               item.availability !== "En arrivage" && (
                 <button
-                  // onClick={handleAddToCart}
+                  onClick={handleAddToCart}
                   className="flex h-10 w-10 items-center justify-center bg-[#A5BB08] text-white transition hover:bg-gray-700"
                 >
                   <svg
