@@ -68,10 +68,11 @@ export const CartProvider = ({ children }) => {
         desc: item.productDescription || item.desc,
         oldPrice: item.productoldPrice || item.oldPrice,
         price: item.productPrice || item.price,
-        size: item.selectedSize || item.sizes[0].size,
+        size: item.selectedSize || (item.sizes && item.sizes.length > 0 ? item.sizes[0].size : (item.sizes ? "" : undefined)),
         quantity: item.quantity > 0 ? item.quantity : 1, // Always start with quantity 1 for a new item
         category: item.category,
-      };
+    };
+    
 
       // Check if the item with the same id and size already exists in cart
       const existingCartItem = cartItems.find(
@@ -98,7 +99,7 @@ export const CartProvider = ({ children }) => {
 
         setrecentlyAddedItem(newItem.name);
 
-        // Reset isItemAdded to false after 2 seconds
+        setisItemAdded(true);
         setTimeout(() => {
           setisItemAdded(false);
         }, 2000);

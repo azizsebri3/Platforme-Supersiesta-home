@@ -22,7 +22,7 @@ const SlideInNotifications = ({ text }) => {
         animate={{ y: 0, scale: 1 }}
         exit={{ x: "100%", opacity: 0 }}
         transition={{ duration: 0.1, ease: "easeOut" }}
-        className="p-2 m-5 flex fixed top-3 right-2 items-end rounded-lg z-[999999] gap-2 text-xl font-medium shadow-lg text-white bg-[#192A7A] pointer-events-auto"
+        className="p-2 m-5 flex fixed top-3 right-2 lg:mt-[130px] sm:mt-0 items-end rounded-lg z-[999999] gap-2 lg:text-xl sm:text-sm font-medium shadow-lg text-white bg-[#66BB6A] pointer-events-auto"
       >
         <FiCheckSquare className="mt-0.5" />
         <span>{text} a été ajouté au panier </span>

@@ -101,7 +101,7 @@ export default function ShoppingCart() {
                             )}
                             {cartItems.map((product) => (
                               <motion.li
-                                key={product.size}
+                                key={product.size ? product.size : product.id}
                                 initial={{
                                   opacity: 0,
                                   y: 20,
@@ -134,15 +134,21 @@ export default function ShoppingCart() {
 
                                 <div className="ml-4 flex flex-1 flex-col">
                                   <div>
-                                    <div className="flex justify-between text-base font-medium text-gray-900">
-                                      <h3>
-                                        <p>{product.name}</p>
-                                      </h3>
-                                      <p className="ml-4">{product.price}د.ت</p>
-                                    </div>
-                                    <p className="mt-1 text-sm mb-1 text-gray-500">
-                                      taille : {product.size}
-                                    </p>
+                                    <>
+                                      <div className="flex justify-between text-base font-medium text-gray-900">
+                                        <h3>
+                                          <p>{product.name}</p>
+                                        </h3>
+                                        <p className="ml-4">
+                                          {product.price}د.ت
+                                        </p>
+                                      </div>
+                                      {product.size && (
+                                        <p className="mt-1 text-sm text-gray-500">
+                                          Taille: {product.size}
+                                        </p>
+                                      )}
+                                    </>
                                   </div>
                                   <div className="flex items-end justify-between text-sm">
                                     <p className="text-gray-500">Qty</p>
@@ -194,7 +200,6 @@ export default function ShoppingCart() {
                               </motion.li>
                             ))}
                           </ul>
-                          
                         </div>
                       </div>
                     </div>

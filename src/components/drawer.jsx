@@ -41,14 +41,14 @@ const Drawer = () => {
     <>
       <button
         onClick={toggleDrawer}
-        className="focus:outline-none ml-4 p-1 border rounded-xl"
+        className="focus:outline-none ml-4 p-1  rounded-xl"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
           color={"#000000"}
           fill={"none"}
-          className="w-9 h-8  text-white"
+          className="w-9 h-8  "
         >
           <path
             d="M4 5L20 5"
@@ -75,12 +75,12 @@ const Drawer = () => {
       </button>
       <button
         onClick={toggleSearchInput} // Add this line
-        className="focus:outline-none ml-4 p-1 border rounded-xl"
+        className="focus:outline-none ml-4  rounded-xl"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
-          className="w-8 h-8  text-white"
+          className="w-8 h-8"
           color={"#000000"}
           fill={"none"}
         >
@@ -99,6 +99,7 @@ const Drawer = () => {
           />
         </svg>
       </button>
+      <img src={logo} className="w-10 ml-10"></img>
       {isOpenSearchInput && (
         <motion.div
           initial={{ opacity: 0 }}
