@@ -83,7 +83,6 @@ export const CartProvider = ({ children }) => {
         quantity: item.quantity > 0 ? item.quantity : 1, // Always start with quantity 1 for a new item
         category: item.category,
       };
-      console.log(newItem)
 
       // Check if the item with the same id and size already exists in cart
       const existingCartItem = cartItems.find(

@@ -63,7 +63,6 @@ const ProductPage = () => {
       selectedSize,
       quantity: quantity,
     };
-    console.log(updatedProductInfo)
     addToCart(updatedProductInfo);
 
   };
