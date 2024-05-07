@@ -11,7 +11,6 @@ const ProductPage = () => {
   const [quantity, setQuantity] = useState(1);
   const [ShowPop, setShowPop] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalImage, setModalImage] = useState(null);
   const [imageGallery, setImageGallery] = useState([]);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const navigate = useNavigate();
@@ -64,7 +63,7 @@ const ProductPage = () => {
       selectedSize,
       quantity: quantity,
     };
-
+    console.log(updatedProductInfo)
     addToCart(updatedProductInfo);
 
   };

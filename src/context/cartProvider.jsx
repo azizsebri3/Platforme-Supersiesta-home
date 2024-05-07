@@ -46,7 +46,12 @@ export const CartProvider = ({ children }) => {
       updatedCartItems[existingItemIndex].quantity += 1;
       setCartItems(updatedCartItems);
       localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
-      localStorage.setItem("totalItems", JSON.stringify(totalItems));
+      const newTotalItems = updatedCartItems.reduce(
+        (total, item) => total + item.quantity,
+        0
+      );
+      setTotalItems(newTotalItems);
+      localStorage.setItem("totalItems", JSON.stringify(newTotalItems));
     } else {
       // If item doesn't exist in cart, add it with quantity 1
       let price = item.productPrice; // Default price
@@ -65,14 +70,20 @@ export const CartProvider = ({ children }) => {
         id: item._id || item.id,
         image: item.imageUrls || item.image,
         name: item.productName || item.name,
-        desc: item.productDescription || item.desc,
-        oldPrice: item.productoldPrice || item.oldPrice,
-        price: item.productPrice || item.price,
-        size: item.selectedSize || (item.sizes && item.sizes.length > 0 ? item.sizes[0].size : (item.sizes ? "" : undefined)),
+        // desc: item.productDescription || item.desc,
+        // oldPrice: item.productoldPrice || item.oldPrice,
+        price: item.price ? item.price : item.productPrice,
+        size:
+          item.selectedSize ||
+          (item.sizes && item.sizes.length > 0
+            ? item.sizes[0].size
+            : item.sizes
+            ? ""
+            : undefined),
         quantity: item.quantity > 0 ? item.quantity : 1, // Always start with quantity 1 for a new item
         category: item.category,
-    };
-    
+      };
+      console.log(newItem)
 
       // Check if the item with the same id and size already exists in cart
       const existingCartItem = cartItems.find(
@@ -87,13 +98,14 @@ export const CartProvider = ({ children }) => {
         localStorage.setItem("cartItems", JSON.stringify(cartItems));
       } else {
         // If not exists, add it to cart
-        setCartItems([...cartItems, newItem]);
-        localStorage.setItem(
-          "cartItems",
-          JSON.stringify([...cartItems, newItem])
-        );
+        const updatedCartItems = [...cartItems, newItem];
+        setCartItems(updatedCartItems);
+        localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
 
-        const newTotalItems = cartItems.length + 1; // Calculate the new totalItems value
+        const newTotalItems = updatedCartItems.reduce(
+          (total, item) => total + item.quantity,
+          0
+        ); // Calculate the new totalItems value
         setTotalItems(newTotalItems); // Update totalItems state
         localStorage.setItem("totalItems", JSON.stringify(newTotalItems));
 
@@ -151,7 +163,7 @@ export const CartProvider = ({ children }) => {
         setTotalPrice,
         recentlyAddedItem,
         open,
-        setOpen
+        setOpen,
       }}
     >
       {children}
