@@ -99,7 +99,6 @@ const Drawer = () => {
           />
         </svg>
       </button>
-      <img src={logo} className="w-10 ml-10"></img>
       {isOpenSearchInput && (
         <motion.div
           initial={{ opacity: 0 }}
