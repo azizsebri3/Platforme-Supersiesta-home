@@ -16,6 +16,7 @@ import {
   useAppContext,
   useCart,
 } from "./index";
+import Layout from "./Layout";
 
 function App() {
   const { loading, homeRef } = useAppContext();
@@ -26,10 +27,38 @@ function App() {
         <Navbar HomeRef={homeRef} />
         <Routes>
           <Route index element={<Home />} />
-          <Route path="/Product/:category/:name" element={<ProductPage />} />
-          <Route path="/propos" element={<Propos />} />
-          <Route path="/Contact" element={<Contact />} />
-          <Route path="/checkout" element={<Checkout />} />
+          <Route
+            path="/Product/:category/:name"
+            element={
+              <Layout>
+                <ProductPage />
+              </Layout>
+            }
+          />
+          <Route
+            path="/propos"
+            element={
+              <Layout>
+                <Propos />
+              </Layout>
+            }
+          />
+          <Route
+            path="/Contact"
+            element={
+              <Layout>
+                <Contact />
+              </Layout>
+            }
+          />
+          <Route
+            path="/checkout"
+            element={
+              <Layout>
+                <Checkout />
+              </Layout>
+            }
+          />
         </Routes>
         <ScrollButton />
         <CartButton />

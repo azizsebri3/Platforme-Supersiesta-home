@@ -4,15 +4,21 @@ import logo from "../assets/logo.jpg";
 import { Link, useNavigate } from "react-router-dom";
 import { useAppContext } from "../context/AppContext";
 
-const Drawer = () => {
-  const { setProductSelected ,searchQuery,setSearchQuery} = useAppContext();
+const Drawer = ({isScrolled , setIsScrolled}) => {
+  const { setProductSelected, searchQuery, setSearchQuery } = useAppContext();
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenDropDown, setIsOpenDropDown] = useState(false);
   const [isOpenSearchInput, setIsOpenSearchInput] = useState(false);
+  const [showSearchBar, setShowSearchBar] = useState(false);
+  
   const handleSearchInputChange = (e) => {
     setSearchQuery(e.target.value);
+    setIsScrolled(true);
+    navigate("/");
+    setProductSelected("Acceuil");
   };
+
   const toggleSearchInput = () => {
     setIsOpenSearchInput(!isOpenSearchInput);
   };
@@ -37,6 +43,10 @@ const Drawer = () => {
     "Oreillers",
     "Linge de lit",
   ];
+  const handleClick = () => {
+    closeDrawer();
+    window.scrollTo(0, 0);
+  };
   return (
     <>
       <button
@@ -100,19 +110,42 @@ const Drawer = () => {
         </svg>
       </button>
       {isOpenSearchInput && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.2 }}
-        >
-          <input
-            type="text"
-            placeholder="Search..."
-            value={searchQuery}
-            className="border rounded-md ml-2 p-2 focus:ring-2 focus:ring-[#A2BA02] focus:ring-opacity-50"
-            onChange={handleSearchInputChange}
-          />
-        </motion.div>
+        <div className="fixed w-full h-20 left-0 bg-[#A2BA02] z-30 shadow-xl transition-transform duration-500">
+          <div className="flex mt-4 items-center justify-between px-4 py-2">
+            <input
+              type="text"
+              placeholder="Recherche"
+              value={searchQuery}
+              className="w-full h-10 px-3 text-sm rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#20327C]"
+              onChange={handleSearchInputChange}
+            />
+            <button
+              onClick={toggleSearchInput}
+              className="flex items-center px-4 py-2 ml-2 font-medium bg-[#20327C] text-white rounded-full transition-all shadow-[3px_3px_0px_black] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px]"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                className="w-6 h-6 text-white"
+                fill="none"
+              >
+                <path
+                  d="M17.5 17.5L22 22"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M20 11C20 6.02944 15.9706 2 11 2C6.02944 2 2 6.02944 2 11C2 15.9706 6.02944 20 11 20C15.9706 20 20 15.9706 20 11Z"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
       )}
 
       <AnimatePresence>
@@ -217,6 +250,9 @@ const Drawer = () => {
                             to={"/"}
                             onClick={() => {
                               setProductSelected(category);
+                              document
+                                .getElementById("products")
+                                .scrollIntoView({ behavior: "smooth" });
                               closeDrawer();
                             }}
                             className="text-[19px] py-4 px-4 hover:text-[#20327C] cursor-pointer"
@@ -229,12 +265,24 @@ const Drawer = () => {
                   )}
                 </li>
                 <li className="text-xl py-4 px-4 hover:bg-gray-100 cursor-pointer">
-                  <Link to={"/propos"} onClick={closeDrawer}>
+                  <Link
+                    to={"/propos"}
+                    onClick={() => {
+                      closeDrawer();
+                      window.scroll(0, 0);
+                    }}
+                  >
                     A propos
                   </Link>
                 </li>
                 <li className="text-xl py-4 px-4 hover:bg-gray-100 cursor-pointer">
-                  <Link to={"/contact"} onClick={closeDrawer}>
+                  <Link
+                    to={"/contact"}
+                    onClick={() => {
+                      closeDrawer();
+                      window.scroll(0, 0);
+                    }}
+                  >
                     Contactez Nous
                   </Link>
                 </li>

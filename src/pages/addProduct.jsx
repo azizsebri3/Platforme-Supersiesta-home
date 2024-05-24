@@ -36,7 +36,7 @@ const AddProduct = () => {
       sizes: newSizes,
     });
   };
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {

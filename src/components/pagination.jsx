@@ -17,7 +17,12 @@ const Pagination = ({ currentPage, totalPages, handlePageChange }) => {
       pageButtons.push(
         <button
           key={i}
-          onClick={() => handlePageChange(i)}
+          onClick={() => {
+            handlePageChange(i);
+            document.getElementById("products").scrollIntoView({
+              behavior: "smooth",
+            });
+          }}
           className={`flex w-10 h-10 mx-1 justify-center items-center rounded-full border border-white hover:bg-[#A5BB08] dark:bg-gray-700 text-black dark:text-white hover:border-gray-300 dark:hover:border-gray-600 ${
             i === currentPage
               ? "border-black dark:border-white dark:bg-black bg-[#A5BB08] dark:text-white pointer-events-none"

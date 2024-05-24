@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect ,useRef } from "react";
 import "../output.css";
 import Drawer from "./drawer";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate    } from "react-router-dom";
+import { animateScroll as scroll } from "react-scroll";
 import logo from "../assets/logo2.png";
 import { useCart } from "../context/cartProvider";
 import IconButton from "@mui/material/IconButton";
@@ -13,7 +14,7 @@ import sac from "../assets/bag.png";
 
 const Navbar = ({ HomeRef }) => {
   const navigate = useNavigate();
-  const { setSearchQuery, searchQuery, setProductSelected } = useAppContext();
+  const { setSearchQuery, searchQuery } = useAppContext();
   const {
     totalPrice: initialTotalPrice,
     totalItems: initialTotalItems,
@@ -23,22 +24,25 @@ const Navbar = ({ HomeRef }) => {
   } = useCart();
   const [totalPrice, setTotalPrice] = useState(initialTotalPrice);
   const [totalItems, setTotalItems] = useState(initialTotalItems);
+  const [showDrawer, setShowDrawer] = useState(false);
   const [isScrolled, setIsScrolled] = useState(true);
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [showDropdown, setShowDropdown] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [toggleSearchInput, setToggleSearchInput] = useState(false);
   const location = useLocation();
-  const [showSearchBar, setShowSearchBar] = useState(false);
-
-  const handleSearchInputChange = (e) => {
-    setSearchQuery(e.target.value);
-    setIsScrolled(true);
-    navigate("/");
-    setProductSelected("Acceuil");
+  const searchInputRef = React.useRef(null);
+a
+  const handleSearchInputChange = (event) => {
+    setSearchQuery(event.target.value);
   };
-  const toggleSearchBar = () => {
-    setShowSearchBar(!showSearchBar); // Toggle search bar visibility
-    setIsScrolled(!showSearchBar); // Ensure header is fixed when search bar is toggled
+
+  const handleSearchBarClick = () => {
+    setToggleSearchInput(!toggleSearchInput);
+    // Focus on the search input when the search bar is clicked to open
+    if (!toggleSearchInput && searchInputRef.current) {
+      searchInputRef.current.focus();
+    }
   };
 
   useEffect(() => {
@@ -75,13 +79,22 @@ const Navbar = ({ HomeRef }) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [prevScrollPos]);
 
+  const StyledBadge = styled(Badge)(({ theme }) => ({
+    "& .MuiBadge-badge": {
+      right: -2,
+      top: 13,
+      border: `1px solid ${theme.palette.background.paper}`,
+      padding: "0 4px",
+    },
+  }));
+
   if (location.pathname == "/checkout") {
     return null;
   }
 
   return (
     <>
-      <div className="sticky top-0 z-[99999] bg-[#20327c] w-full transition-transform duration-300 transform translate-y-0">
+      <div className=" sticky top-0 z-[99999] bg-[#20327c] w-full transition-transform duration-300 transform translate-y-0">
         <div className="relative p-3  px-4 text-xs md:text-sm">
           <div className="absolute left-0 right-0 bg-[#20327c] flex justify-center items-center md:px-0">
             <div className="w-70  md:w-[70%] lg:w-[80%] sm:w-[80%] text-center truncate">
@@ -93,7 +106,7 @@ const Navbar = ({ HomeRef }) => {
           <div className="flex justify-between">
             <div className="flex gap-2 z-10">
               <a
-                //href="https://www.facebook.com/www.supersiesta.tn/"
+                href="https://www.facebook.com/www.supersiesta.tn/"
                 target="_blank"
                 aria-label="Visit our facebook page"
               >
@@ -114,7 +127,7 @@ const Navbar = ({ HomeRef }) => {
                 </svg>
               </a>
               <a
-                //href="https://www.instagram.com/super__siesta/?hl=fr"
+                href="https://www.instagram.com/super__siesta/?hl=fr"
                 target="_blank"
                 aria-label="Visit our instagram page"
               >
@@ -135,7 +148,7 @@ const Navbar = ({ HomeRef }) => {
                 </svg>
               </a>
               <a
-                //href="https://api.whatsapp.com/send?phone=29934780"
+                href="https://api.whatsapp.com/send?phone=29934780"
                 target="_blank"
                 aria-label="Visit our whatsapp page"
               >
@@ -180,13 +193,13 @@ const Navbar = ({ HomeRef }) => {
         </div>
       </div>
       <header
-        className={`fixed w-full left-0 bg-[#A2BA02] z-20 mb-10 transition-transform duration-500 shadow-xl ${
+        className={`fixed w-full left-0 bg-[#A2BA02]  z-20 mb-10  transition-transform duration-500 shadow-xl ${
           isScrolled ? "" : "-translate-y-full"
         }`}
       >
-        <nav className="flex h-20 px-2 py-2 justify-between items-center">
+        <nav className="flex h-20  px-2 py-2  justify-between items-center">
           <div className="flex z[999999999]  items-center">
-            {windowWidth < 765 && <Drawer isScrolled={isScrolled} setIsScrolled={setIsScrolled} />}
+            {windowWidth < 765 && <Drawer />}
 
             <ul
               className={`md:flex md:space-x-4 ${
@@ -234,10 +247,7 @@ const Navbar = ({ HomeRef }) => {
                   ) : (
                     <Link
                       to={item.item1}
-                      onClick={() => {
-                        window.scroll(0, 0);
-                        setProductSelected("Acceuil");
-                      }}
+                      onClick={() => window.scroll(0, 0)}
                       className={`text-xl p-4  hover:text-[#20327c] link link-underline link-underline-black   ${
                         location.pathname === item.item1
                           ? "text-[#20327c] focus:text-[#20327c] decoration-[2px]  underline underline-offset-[18px] "
@@ -258,10 +268,22 @@ const Navbar = ({ HomeRef }) => {
                 windowWidth < 765 ? "hidden" : ""
               } `}
             >
-              <div className="relative mr-4">
+              <div className="relative mr-2">
+                <input
+                  type="text"
+                  ref={searchInputRef}
+                  placeholder="Recherche"
+                  value={searchQuery}
+                  className={`${
+                    toggleSearchInput ? "w-60" : "w-0"
+                  } h-10 px-3 pr-10 text-sm rounded-full transition-all duration-300 ease-in-out`}
+                  onChange={handleSearchInputChange}
+                  autoFocus
+
+                />
                 <button
-                  onClick={toggleSearchBar}
-                  className="px-2 py-2 font-medium  bg-[#20327C] text-white rounded-full w-fit transition-all shadow-[3px_3px_0px_black] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px]"
+                 onClick={handleSearchBarClick}
+                  className="absolute right-0 top-0 h-10 w-10 text-white bg-[#20327c] rounded-full"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -317,44 +339,6 @@ const Navbar = ({ HomeRef }) => {
           </div>
         </nav>
       </header>
-      {showSearchBar && (
-        <div className="fixed w-full h-20 left-0 bg-[#A2BA02] z-30 shadow-xl transition-transform duration-500">
-          <div className="flex mt-4 items-center justify-between px-4 py-2">
-            <input
-              type="text"
-              placeholder="Recherche"
-              value={searchQuery}
-              className="w-full h-10 px-3 text-sm rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#20327C]"
-              onChange={handleSearchInputChange}
-            />
-            <button
-              onClick={toggleSearchBar}
-              className="flex items-center px-4 py-2 ml-2 font-medium bg-[#20327C] text-white rounded-full transition-all shadow-[3px_3px_0px_black] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px]"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                className="w-6 h-6 text-white"
-                fill="none"
-              >
-                <path
-                  d="M17.5 17.5L22 22"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M20 11C20 6.02944 15.9706 2 11 2C6.02944 2 2 6.02944 2 11C2 15.9706 6.02944 20 11 20C15.9706 20 20 15.9706 20 11Z"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </button>
-          </div>
-        </div>
-      )}
     </>
   );
 };
@@ -382,20 +366,19 @@ const PricingContent = ({ categories, setShowDropdown }) => {
     <div className="w-64 bg-white p-6 shadow-xl">
       <div className="mb-3 space-y-3">
         {categories.map((cat) => (
-          <a
+          <Link
             key={cat}
             onClick={() => {
               setProductSelected(cat);
               setShowDropdown(false);
-              location.pathname != "/" && navigate("/");
-              document
-                .getElementById("products")
-                .scrollIntoView({ behavior: "smooth" });
+              document.getElementById('products')?.scrollIntoView()
             }}
+            to="/"
+            
             className="block text-[20px] cursor-pointer hover:text-[#192A7A]  hover:underline"
           >
             {cat}
-          </a>
+          </Link>
         ))}
       </div>
     </div>

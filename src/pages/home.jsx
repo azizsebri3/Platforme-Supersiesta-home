@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import "../output.css";
 import { motion } from "framer-motion";
-import { Carousel } from "../components/gallery/carousel.jsx";
+import { Cta } from "../components/gallery/carousel.jsx";
 import data from "../components/gallery/data.js";
 import ProductCard from "../components/productCard.jsx";
 import guarantee from "../assets/guarantee.png";
@@ -15,12 +15,12 @@ import { Link, useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
 const Home = () => {
-  const { fetchedProducts, productSelected, homeRef , searchQuery ,setLoading } = useAppContext();
+  const { fetchedProducts, productSelected, searchQuery, setLoading } =
+    useAppContext();
   const [currentProducts, setCurrentProducts] = useState([]);
   const productsPerPage = 8;
   const [currentPage, setCurrentPage] = useState(1);
-  const location = useLocation();
-  const [path, setPath] = useState(["Acceuil"]);
+  const [find, setFind] = useState(false);
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -29,15 +29,17 @@ const Home = () => {
   useEffect(() => {
     setLoading(true);
     let filteredProducts = fetchedProducts;
-  
+
     // Apply category filtering
-    if (productSelected !== "Acceuil" && productSelected !== "Tous Les Matelas") {
+    if (
+      productSelected !== "Acceuil" &&
+      productSelected !== "Tous Les Matelas"
+    ) {
       filteredProducts = filteredProducts.filter(
         (product) => product.category === productSelected
       );
     }
-  
-    // Apply search query filtering
+
     if (searchQuery?.trim() !== "") {
       const query = searchQuery?.toLowerCase().trim();
       filteredProducts = filteredProducts.filter(
@@ -45,14 +47,27 @@ const Home = () => {
           product.productName?.toLowerCase().includes(query) ||
           product.description?.toLowerCase().includes(query)
       );
+
+      // Scroll to the first product matching the search query
+      if (filteredProducts.length > 0) {
+        const firstProductMatchingQuery = filteredProducts[0];
+        const productElement = document.getElementById(
+          firstProductMatchingQuery.productName
+        );
+        if (productElement) {
+          productElement.scrollIntoView({ behavior: "smooth" });
+          setFind(true);
+          setTimeout(() => {
+            setFind(false);
+          }, 2000);
+        }
+      }
     }
-    
-  
+
     setCurrentProducts(filteredProducts);
     setLoading(false);
     setCurrentPage(1);
   }, [fetchedProducts, productSelected, searchQuery]);
-  
 
   // Calculate total number of pages
   const totalPages = Math.ceil(currentProducts.length / productsPerPage);
@@ -87,7 +102,7 @@ const Home = () => {
   return (
     <>
       <Helmet>
-        <title>Home</title>
+        <title>Home - {productSelected}</title>
         <meta
           name="description"
           content="Achetez des matelas de haute qualité pour un sommeil optimal."
@@ -98,57 +113,20 @@ const Home = () => {
         />
         <meta property="og:title" content="Super siesta" />
       </Helmet>
-      <div className="flex flex-col z-1 lg:flex-row bg-white items-center">
-        <div className="flex justify-center m-auto">
-          <div className="relative rounded-2xl">
-            <motion.div
-              initial={{ opacity: 0, y: 0 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-            >
-              <Carousel data={data} />
-            </motion.div>
-          </div>
-        </div>
-      </div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 0 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <Cta data={data} />
+      </motion.div>
 
       <Features infoItems={infoItems} />
       <>
-        {/* <span className="flex-grow bg-gray-200 rounded h-1"></span>
-        <nav className="flex ml-40 justify-start items-center mx-auto ">
-          <ol role="list" className="flex items-center">
-            {path.map((pg, index) => (
-              <li key={index} className="text-center lg:text-2xl">
-                <div className="-m-1">
-                  <Link
-                    onClick={() => {
-                      if (pg === "Acceuil") {
-                        setProductSelected("Acceuil");
-                        setPath(["Acceuil"]);
-                      } else {
-                        setProductSelected(pg);
-                        if (index !== path.length - 1) {
-                          setPath(path.slice(0, index + 1));
-                        }
-                      }
-                    }}
-                    className={`rounded-md p-1 text-[17px] cursor-pointer font-medium hover:text-[#20327c] ${
-                      index === path.length - 1
-                        ? "text-[#20327c] underline "
-                        : ""
-                    }`}
-                  >
-                    {pg}
-                  </Link>
-                  <span> {` > `} </span>
-                </div>
-              </li>
-            ))}
-          </ol>
-        </nav> */}
         <span className="flex-grow bg-gray-200 rounded h-1"></span>
         <h1
-          ref={homeRef}
+          id="products"
           className="flex items-center mt-6 justify-center font-bold mb-6 text-3xl text-wrap text-bold"
         >
           <svg
@@ -185,7 +163,7 @@ const Home = () => {
 
       {fetchedProducts.length === 0 || productsToDisplay.length === 0 ? (
         <div className="flex justify-center">
-          <p>Actuellement indisponible...</p>
+          <p>0 Produits Trouvés!</p>
         </div>
       ) : (
         <div className="flex justify-center flex-wrap mx-20">
@@ -195,8 +173,9 @@ const Home = () => {
               initial={{ opacity: 0, scale: 0.5 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
+              id={product.productName}
             >
-              <ProductCard item={product} />
+              <ProductCard item={product} find={find} />
             </motion.div>
           ))}
           <Pagination

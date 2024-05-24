@@ -2,14 +2,14 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/cartProvider";
 
-const ProductCard = ({ item }) => {
-  const { addToCart } = useCart();
+const ProductCard = ({ item, find }) => {
+  const { addToCart , setOpen } = useCart();
   const navigate = useNavigate();
 
   const handleAddToCart = () => {
     addToCart(item);
-    handleGetInfo();
-    // Trigger success alert
+    // handleGetInfo();
+    setOpen(true);  
     setSuccess(true);
 
     // Reset success after 2 seconds
@@ -28,8 +28,12 @@ const ProductCard = ({ item }) => {
 
   return (
     <>
-      <div className="group my-7 p-3 flex w-full max-w-xs flex-col overflow-hidden ">
-        <a className="relative flex h-80 w-72 overflow-hidden shadow hover:shadow-lg  bg-white border hover:border-[#a5bb08]">
+      <div className="group my-7 p-3 flex w-full max-w-xs flex-col overflow-hidden">
+        <a
+          className={`relative flex h-80 w-72 overflow-hidden shadow hover:shadow-lg  bg-white border hover:border-[#a5bb08] ${
+            find && "border border-[#a5bb08]"
+          }`}
+        >
           {item.availability && (
             <div
               className={`absolute  top-2 left-2 z-1 px-2 py-1 rounded 
@@ -96,11 +100,10 @@ const ProductCard = ({ item }) => {
           </div>
         </a>
         <div className="mt-4 pb-5">
-          <p>
-            <h5 className="text-center tracking-tight text-xl  text-gray-500">
-              {item.productName}
-            </h5>
-          </p>
+          <h5 className="text-center tracking-tight text-xl  text-gray-500">
+            {item.productName}
+          </h5>
+
           <div className="mb-5 flex justify-center">
             {item.productOldPrice > 0 ? (
               <>

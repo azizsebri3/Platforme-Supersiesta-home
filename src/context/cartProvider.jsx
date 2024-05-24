@@ -163,6 +163,7 @@ export const CartProvider = ({ children }) => {
         recentlyAddedItem,
         open,
         setOpen,
+        setisItemAdded,
       }}
     >
       {children}

@@ -60,7 +60,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 9999; /* ensure it appears on top of other content */
+  z-index: 9999999999999999; /* ensure it appears on top of other content */
   transition: background-color 1s ease; /* smooth transition */
   
 }

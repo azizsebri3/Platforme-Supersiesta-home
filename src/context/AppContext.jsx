@@ -34,6 +34,7 @@ export const AppProvider = ({ children }) => {
     const filtered = fetchedProducts.filter(product =>
       product.productName.toLowerCase().includes(searchQuery.toLowerCase())
     );
+    setProductSelected("Tous Les Matelas")
     setFilteredProducts(filtered);
   }, [searchQuery, fetchedProducts]);
 

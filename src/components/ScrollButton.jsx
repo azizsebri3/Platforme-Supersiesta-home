@@ -11,8 +11,7 @@ const ScrollButton = () => {
   };
 
   const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
+    document.getElementById("products")?.scrollIntoView({
       behavior: "smooth",
     });
   };

@@ -12,130 +12,141 @@ const Contact = () => {
           content="Contactez-nous pour des questions, des suggestions ou des demandes de renseignements sur nos matelas de haute qualité."
         />
       </Helmet>
-      <div className="bg-gray-50 dark:bg-gray-900" id="contact">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 text-center">
-          <h2 className="text-4xl font-bold dark:text-gray-100 mt-20">
-            Contact
-          </h2>
-          <p className="pt-6 pb-6 text-base max-w-2xl text-center m-auto dark:text-gray-400">
-            Vous avez des questions ou souhaitez nous contacter ? Choisissez
-            parmi les options ci-dessous et nous serons ravis de vous démontrer
-            comment nous pouvons améliorer votre expérience sur notre site web
-            pour vous aider à trouver le matelas parfait
-          </p>
-        </div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-16 grid md:grid-cols-2 lg:grid-cols-2 gap-y-8 md:gap-x-8 md:gap-y-8 lg:gap-x-8 lg:gap-y-16">
-          <div>
-            <h2 className="text-lg font-bold dark:text-gray-100">
-              Contactez Nous
-            </h2>
-            <p className="max-w-sm mt-4 mb-4 dark:text-gray-400">
-              Avez-vous quelque chose à dire ? Nous sommes là pour vous aider.
-              Remplissez le formulaire, envoyez-nous un e-mail ou appelez-nous.
-            </p>
-            {/* <div className="flex items-center mt-8 space-x-2 text-dark-600 dark:text-gray-400">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                aria-hidden="true"
-                className="w-4 h-4"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M9 6.75V15m6-6v8.25m.503 3.498l4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 00-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0z"
-                ></path>
-              </svg>
-              <span>14th avenue glory road</span>
-            </div> */}
-            <div className="flex items-center mt-2 space-x-2 text-dark-600 dark:text-gray-400">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                aria-hidden="true"
-                className="w-4 h-4"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"
-                ></path>
-              </svg>
-              <a href="mailto:hello@company.com">supersiestahome@gmail.com</a>
-            </div>
-            <div className="flex items-center mt-2 space-x-2 text-dark-600 dark:text-gray-400">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                aria-hidden="true"
-                className="w-4 h-4"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"
-                ></path>
-              </svg>
-              <a href="tel:26956060">+21626956060</a>
+      <section
+        className="min-h-screen bg-cover mt-10"
+        style={{
+          backgroundImage:
+            "url('https://images.unsplash.com/photo-1563986768609-322da13575f3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80')",
+        }}
+      >
+        <div className="flex flex-col min-h-screen  bg-black/60">
+          <div className="container flex flex-col flex-1 px-6 py-12 mx-auto">
+            <div className="flex-1 lg:flex lg:items-center lg:-mx-6">
+              <div className="text-white lg:w-1/2 lg:mx-6">
+                <h1 className="text-2xl font-semibold capitalize lg:text-3xl">
+                  Supersiesta Home
+                </h1>
+
+                <p className="max-w-xl mt-6">
+                  Nous vendons des matelas de haute qualité pour un sommeil
+                  ultime. Contactez-nous pour des questions, des suggestions ou
+                  des demandes de renseignements.
+                </p>
+
+                <div className="mt-6 md:mt-8">
+                  <div className="mt-6">
+                    <h3 className="text-lg font-medium text-white">
+                      Nos informations
+                    </h3>
+                    <p className="mt-2 text-white">
+                      Email : supersiestahome@gmail.com
+                    </p>
+                    <p className="mt-2 text-white">
+                      Téléphone : +216 2695 6060
+                    </p>
+                  </div>
+                  <h3 className="text-gray-300 mt-3">Follow us</h3>
+
+                  <div className="flex mt-4 -mx-1.5">
+                    <a
+                      className="mx-1.5 text-white transition-colors duration-300 transform hover:text-[#A2BA02]"
+                      href="#"
+                    >
+                      <svg
+                        className="w-8 h-8"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M7 10.2222V13.7778H9.66667V20H13.2222V13.7778H15.8889L16.7778 10.2222H13.2222V8.44444C13.2222 8.2087 13.3159 7.9826 13.4826 7.81591C13.6493 7.64921 13.8754 7.55556 14.1111 7.55556H16.7778V4H14.1111C12.9324 4 11.8019 4.46825 10.9684 5.30175C10.1349 6.13524 9.66667 7.2657 9.66667 8.44444V10.2222H7Z"
+                          fill="currentColor"
+                        />
+                      </svg>
+                    </a>
+
+                    <a
+                      className="mx-1.5 text-white transition-colors duration-300 transform hover:text-[#A2BA02]"
+                      href="#"
+                    >
+                      <svg
+                        className="w-8 h-8"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M11.9294 7.72275C9.65868 7.72275 7.82715 9.55428 7.82715 11.825C7.82715 14.0956 9.65868 15.9271 11.9294 15.9271C14.2 15.9271 16.0316 14.0956 16.0316 11.825C16.0316 9.55428 14.2 7.72275 11.9294 7.72275ZM11.9294 14.4919C10.462 14.4919 9.26239 13.2959 9.26239 11.825C9.26239 10.354 10.4584 9.15799 11.9294 9.15799C13.4003 9.15799 14.5963 10.354 14.5963 11.825C14.5963 13.2959 13.4003 14.4919 11.9294 14.4919ZM16.6667 4H7.192C5.97973 4 5 4.97973 5 6.192V15.6667C5 16.879 5.97973 17.8587 7.192 17.8587H16.6667C17.8789 17.8587 18.8587 16.879 18.8587 15.6667V6.192C18.8587 4.97973 17.8789 4 16.6667 4ZM17.848 15.6667C17.848 16.2757 17.2757 16.848 16.6667 16.848H7.192C6.58294 16.848 6.01067 16.2757 6.01067 15.6667V6.192C6.01067 5.58294 6.58294 5.01067 7.192 5.01067H16.6667C17.2757 5.01067 17.848 5.58294 17.848 6.192V15.6667Z"
+                          fill="currentColor"
+                        />
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-8 lg:w-1/2 lg:mx-6">
+                <div className="w-full px-8 py-10 mx-auto overflow-hidden bg-white rounded-lg shadow-2xl lg:max-w-xl">
+                  <h1 className="text-lg font-medium text-gray-700">
+                    Contactez-nous
+                  </h1>
+
+                  <form className="mt-6">
+                    <div className="flex-1">
+                      <label className="block mb-2 text-sm text-gray-600">
+                        Nom
+                      </label>
+                      <input
+                        type="text"
+                        className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-gray-200 border border-transparent rounded-md focus:border-blue-400 focus:bg-white focus:ring focus:ring-blue-300 focus:ring-opacity-40"
+                        placeholder="Nom"
+                      />
+                    </div>
+
+                    <div className="flex-1 mt-6">
+                      <label className="block mb-2 text-sm text-gray-600">
+                        Email
+                      </label>
+                      <input
+                        type="email"
+                        className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-gray-200 border border-transparent rounded-md focus:border-blue-400 focus:bg-white focus:ring focus:ring-blue-300 focus:ring-opacity-40"
+                        placeholder="Email"
+                      />
+                    </div>
+
+                    <div className="w-full mt-6">
+                      <label className="block mb-2 text-sm text-gray-600">
+                        Message
+                      </label>
+                      <textarea
+                        className="block w-full h-32 px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-gray-200 border border-transparent rounded-md md:h-48 focus:border-blue-400 focus:bg-white focus:ring focus:ring-blue-300 focus:ring-opacity-40"
+                        placeholder="Message"
+                      ></textarea>
+                    </div>
+
+                    <button className="flex items-center justify-between w-full px-6 py-3 mt-6 text-sm font-medium tracking-wide text-white capitalize bg-[#20327C] rounded-md focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50">
+                      <span>Envoyer</span>
+
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="w-5 h-5 rtl:-scale-x-100"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M12.293 9.293a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 01-1.414-1.414L13.586 14H3a1 1 0 110-2h10.586l-1.293-1.293a1 1 0 010-1.414z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    </button>
+                  </form>
+                </div>
+              </div>
             </div>
           </div>
-          <div>
-            <form>
-              <input
-                type="checkbox"
-                id=""
-                className="hidden"
-                style={{ display: "none" }}
-                name="botcheck"
-              />
-              <div className="mb-5">
-                <input
-                  type="text"
-                  placeholder="Nom complet"
-                  autoComplete="false"
-                  className="w-full px-4 py-3 border-2 placeholder:text-gray-800 dark:text-white rounded-md outline-none dark:placeholder:text-gray-200 dark:bg-gray-900 focus:ring-4 border-gray-300 focus:border-gray-600 ring-gray-100 dark:border-gray-600 dark:focus:border-white dark:ring-0"
-                  name="name"
-                />
-              </div>
-              <div className="mb-5">
-                <label htmlFor="email_address" className="sr-only">
-                  Email
-                </label>
-                <input
-                  id="email_address"
-                  type="email"
-                  placeholder="Votre Email"
-                  autoComplete="false"
-                  className="w-full px-4 py-3 border-2 placeholder:text-gray-800 dark:text-white rounded-md outline-none dark:placeholder:text-gray-200 dark:bg-gray-900   focus:ring-4  border-gray-300 focus:border-gray-600 ring-gray-100 dark:border-gray-600 dark:focus:border-white dark:ring-0"
-                  name="email"
-                />
-              </div>
-              <div className="mb-3">
-                <textarea
-                  placeholder="Votre Message"
-                  className="w-full px-4 py-3 border-2 placeholder:text-gray-800 dark:text-white dark:placeholder:text-gray-200 dark:bg-gray-900   rounded-md outline-none  h-36 focus:ring-4  border-gray-300 focus:border-gray-600 ring-gray-100 dark:border-gray-600 dark:focus:border-white dark:ring-0"
-                  name="message"
-                />
-              </div>
-              <button
-                type="submit"
-                className="w-full py-4 font-semibold text-white transition-colors bg-[#A5BB08] rounded-md hover:bg-[#87A922] focus:outline-none focus:ring-offset-2 focus:ring focus:ring-gray-200 px-7 dark:bg-white dark:text-black "
-              >
-                Envoyez une message
-              </button>
-            </form>
-          </div>
         </div>
-      </div>
+      </section>
     </>
   );
 };

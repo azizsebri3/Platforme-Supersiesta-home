@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useCart } from "../context/cartProvider";
 import { Link, useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const ProductPage = () => {
-  const { addToCart, cartItems, updateCartItemQuantity,open,setOpen } = useCart();
+  const { addToCart, cartItems, updateCartItemQuantity, open, setOpen } =
+    useCart();
   const [productInfo, setProductInfo] = useState(null);
   const [isInCart, setIsInCart] = useState(false);
   const [selectedSize, setSelectedSize] = useState("");
@@ -64,7 +66,6 @@ const ProductPage = () => {
       quantity: quantity,
     };
     addToCart(updatedProductInfo);
-
   };
 
   const selectImage = (imageIndex) => {
@@ -84,25 +85,30 @@ const ProductPage = () => {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row -mx-4">
             <div className="md:flex-1 px-4">
-              <div className="w-full rounded-lg  dark:bg-gray-700 mb-4">
-                <img
+              <div className="w-full rounded-lg dark:bg-gray-700 mb-4">
+                <motion.img
                   className="w-full h-full object-cover hover:cursor-zoom-in"
                   src={productInfo.imageUrls[selectedImageIndex]}
                   alt="Product Image"
                   onClick={() => {
                     openModal(selectedImageIndex);
                   }}
+                  whileHover={{ scale: 1.05 }} // Scale up when hovered
+                  transition={{ duration: 0.2 }} // Transition duration
                 />
               </div>
+
               {/* Image gallery */}
               <div className="flex flex-wrap mt-4">
                 {imageGallery.map((imageUrl, index) => (
-                  <img
+                  <motion.img
                     key={index}
                     src={imageUrl}
                     alt={`Product Image ${index}`}
                     className="w-20 h-20 object-cover rounded-md cursor-pointer border hover:border-[#192A7A] shadow-md mx-2 mb-2"
                     onClick={() => selectImage(index)}
+                    whileHover={{ scale: 1.05 }} // Scale up when hovered
+                    transition={{ duration: 0.2 }} // Transition duration
                   />
                 ))}
               </div>
@@ -117,11 +123,9 @@ const ProductPage = () => {
                     Prix: {""}
                   </span>
                   <span className="text-2xl font-bold text-gray-900">
-                    
-                    {ProductPrice} 
+                    {ProductPrice}
                   </span>
                   <span className="text-xl">د.ت</span>
-                 
                 </div>
                 <div className="mt-2">
                   <div>
@@ -163,7 +167,7 @@ const ProductPage = () => {
                       </span>
                     </div>
                   )}
-                
+
                   {productInfo.sizes.map((sizeObj, index) => (
                     <label
                       key={index}
@@ -232,7 +236,7 @@ const ProductPage = () => {
                 </h2>
                 <div className="bg-gray-100 dark:bg-gray-800 p-4  rounded-lg">
                   <h3 className="font-bold text-xl uppercase text-gray-700 dark:text-gray-300 ml-2 mb-2">
-                    {productInfo.productName} DE HAUTE QUALITE : 
+                    {productInfo.productName} DE HAUTE QUALITE :
                   </h3>
                   <ul className="text-gray-600 dark:text-gray-300 text-xl mt-2">
                     {productInfo.productDescription.map((line) => (
@@ -247,8 +251,11 @@ const ProductPage = () => {
           </div>
         </div>
       )}
-      {isModalOpen && (
-        <div className="fixed top-0 z-[999999999999] left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-75">
+      {/* {isModalOpen && (
+        <div
+          className="fixed top-0 z-[999999999999] left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-75"
+          onClick={closeModal} // Close modal when background overlay is clicked
+        >
           <div className="absolute top-0 right-0 m-4">
             <button
               onClick={closeModal}
@@ -263,7 +270,7 @@ const ProductPage = () => {
             alt={`Product Image ${selectedImageIndex}`}
           />
         </div>
-      )}
+      )} */}
     </div>
   );
 };
