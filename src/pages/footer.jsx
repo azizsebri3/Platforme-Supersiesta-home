@@ -2,6 +2,13 @@ import React from "react";
 import { useLocation } from "react-router-dom";
 import "../output.css";
 import logo from "../assets/logo2.png";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faTwitter,
+  faFacebookSquare,
+  faDribbble,
+  faGithub,
+} from "@fortawesome/free-brands-svg-icons";
 
 const Footer = () => {
   const location = useLocation();
