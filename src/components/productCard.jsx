@@ -1,15 +1,17 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/cartProvider";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Switch from "@mui/material/Switch";
 
 const ProductCard = ({ item, find }) => {
-  const { addToCart , setOpen } = useCart();
+  const { addToCart, setOpen } = useCart();
   const navigate = useNavigate();
 
   const handleAddToCart = () => {
     addToCart(item);
     // handleGetInfo();
-    setOpen(true);  
+    setOpen(true);
     setSuccess(true);
 
     // Reset success after 2 seconds
@@ -57,11 +59,7 @@ const ProductCard = ({ item, find }) => {
             onClick={handleGetInfo}
             alt="product image"
           />
-          <div className="absolute bottom-0 mb-4 flex w-full justify-center space-x-4">
-            <div className="h-3 w-3 rounded-full border-2 border-white bg-white" />
-            <div className="h-3 w-3 rounded-full border-2 border-white bg-transparent" />
-            <div className="h-3 w-3 rounded-full border-2 border-white bg-transparent" />
-          </div>
+        
           <div className="absolute -right-16 bottom-0 mr-4 mb-4 space-y-2 transition-all duration-300 group-hover:right-0">
             <button
               onClick={handleGetInfo}
@@ -104,19 +102,20 @@ const ProductCard = ({ item, find }) => {
             {item.productName}
           </h5>
 
-          <div className="mb-5 flex justify-center">
+          <div className="mb-5 flex flex-col items-center">
             {item.productOldPrice > 0 ? (
               <>
-                <span className="text-xl text-gray-900 line-through">
-                  {item.productOldPrice}
-                </span>{" "}
-                <span className="text-xl font-bold text-red-700">
+                <span className="text-2xl font-bold text-red-700">
                   {item.productPrice} د.ت
                 </span>
+                <span className="text-xl text-gray-900 line-through">
+                  {item.productOldPrice} د.ت
+                </span>
+                
               </>
             ) : (
               <>
-                <span className="text-xl  font-medium gap-1 text-gray-900">
+                <span className="text-2xl font-medium text-gray-900">
                   {item.productPrice} د.ت
                 </span>
               </>

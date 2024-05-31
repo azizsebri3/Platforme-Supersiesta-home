@@ -1554,6 +1554,10 @@ input:checked + .toggle-bg {
   height: 100vh !important;
 }
 
+.h-16 {
+  height: 4rem !important;
+}
+
 .max-h-60 {
   max-height: 15rem !important;
 }
@@ -1670,10 +1674,6 @@ input:checked + .toggle-bg {
   width: 75% !important;
 }
 
-.w-\[90\%\] {
-  width: 90% !important;
-}
-
 .w-fit {
   width: -moz-fit-content !important;
   width: fit-content !important;
@@ -1685,10 +1685,6 @@ input:checked + .toggle-bg {
 
 .w-screen {
   width: 100vw !important;
-}
-
-.w-\[80\%\] {
-  width: 80% !important;
 }
 
 .max-w-5xl {
@@ -2097,10 +2093,6 @@ input:checked + .toggle-bg {
 
 .border-0 {
   border-width: 0px !important;
-}
-
-.border-2 {
-  border-width: 2px !important;
 }
 
 .border-8 {
@@ -3450,9 +3442,9 @@ input:checked + .toggle-bg {
   box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000) !important;
 }
 
-.focus\:ring-\[\#A2BA02\]:focus {
+.focus\:ring-\[\#20327C\]:focus {
   --tw-ring-opacity: 1 !important;
-  --tw-ring-color: rgb(162 186 2 / var(--tw-ring-opacity)) !important;
+  --tw-ring-color: rgb(32 50 124 / var(--tw-ring-opacity)) !important;
 }
 
 .focus\:ring-\[\#A5BB08\]:focus {
@@ -3478,11 +3470,6 @@ input:checked + .toggle-bg {
 .focus\:ring-red-300:focus {
   --tw-ring-opacity: 1 !important;
   --tw-ring-color: rgb(248 180 180 / var(--tw-ring-opacity)) !important;
-}
-
-.focus\:ring-\[\#20327C\]:focus {
-  --tw-ring-opacity: 1 !important;
-  --tw-ring-color: rgb(32 50 124 / var(--tw-ring-opacity)) !important;
 }
 
 .focus\:ring-opacity-40:focus {
@@ -3680,6 +3667,14 @@ input:checked + .toggle-bg {
 @media (min-width: 640px) {
   .sm\:mt-0 {
     margin-top: 0px !important;
+  }
+
+  .sm\:h-16 {
+    height: 4rem !important;
+  }
+
+  .sm\:h-20 {
+    height: 5rem !important;
   }
 
   .sm\:w-\[80\%\] {

@@ -184,7 +184,7 @@ const Navbar = ({ HomeRef }) => {
           isScrolled ? "" : "-translate-y-full"
         }`}
       >
-        <nav className="flex h-20 px-2 py-2 justify-between items-center">
+        <nav className="flex h-16 sm:h-20 px-2 py-2 justify-between items-center">
           <div className="flex z[999999999]  items-center">
             {windowWidth < 765 && <Drawer isScrolled={isScrolled} setIsScrolled={setIsScrolled} />}
 
@@ -387,7 +387,7 @@ const PricingContent = ({ categories, setShowDropdown }) => {
             onClick={() => {
               setProductSelected(cat);
               setShowDropdown(false);
-              location.pathname != "/" && navigate("/");
+              location.pathname != "/" &&  navigate("/");
               document
                 .getElementById("products")
                 .scrollIntoView({ behavior: "smooth" });

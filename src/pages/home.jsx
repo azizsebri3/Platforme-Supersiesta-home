@@ -122,7 +122,7 @@ const Home = () => {
         <Cta data={data} />
       </motion.div>
 
-      <Features infoItems={infoItems} />
+      
       <>
         <span className="flex-grow bg-gray-200 rounded h-1"></span>
         <h1

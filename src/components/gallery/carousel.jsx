@@ -3,10 +3,6 @@ import { motion, useMotionValue } from "framer-motion";
 
 const imgs = [
   "https://cdn.youcan.shop/stores/2a7e8f7d4bdf0455492c102c65789842/others/ZaxOVvm2Ycy9R6Df6lbcYP4BEcYAZvc4Nhz8kZUd.jpeg",
-  "http://www.ematelas.tn/img/c/17.jpg",
-  "http://www.ematelas.tn/img/c/16.jpg",
-  "http://www.ematelas.tn/img/c/15.jpg",
-  "http://www.ematelas.tn/img/c/23.jpg",
 ];
 
 const ONE_SECOND = 1000;
