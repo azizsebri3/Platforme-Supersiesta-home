@@ -362,7 +362,7 @@ const NavItems = [
   { item1: "/", item2: "Accueil" },
   { item1: "/Catégories", item2: "Catégories" },
   { item1: "/propos", item2: "À propos" },
-  { item1: "/Contact", item2: "Contactez nous" },
+  { item1: "/Contact", item2: "Contactez Nous" },
 ];
 const categories = [
   "Tous Les Matelas",

@@ -13,9 +13,10 @@ import Pagination from "../components/pagination.jsx";
 import Features from "../components/features.jsx";
 import { Link, useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet";
+import loading from "../components/loading.jsx";
 
 const Home = () => {
-  const { fetchedProducts, productSelected, searchQuery, setLoading } =
+  const { fetchedProducts , productSelected, searchQuery, setLoading } =
     useAppContext();
   const [currentProducts, setCurrentProducts] = useState([]);
   const productsPerPage = 8;
@@ -122,7 +123,6 @@ const Home = () => {
         <Cta data={data} />
       </motion.div>
 
-      
       <>
         <span className="flex-grow bg-gray-200 rounded h-1"></span>
         <h1
@@ -162,8 +162,18 @@ const Home = () => {
       </>
 
       {fetchedProducts.length === 0 || productsToDisplay.length === 0 ? (
-        <div className="flex justify-center">
-          <p>0 Produits Trouvés!</p>
+        <div className="flex flex-col items-center justify-center py-12">
+          <div className="flex flex-row gap-3 mb-4">
+            <div className="w-5 h-5 rounded-full bg-[#a5bb08] animate-bounce1"></div>
+            <div className="w-5 h-5 rounded-full bg-[#a5bb08] animate-bounce2 "></div>
+            <div className="w-5 h-5 rounded-full bg-[#a5bb08] animate-bounce3 "></div>
+          </div>
+          <p className="text-lg text-gray-600 font-medium mt-2">
+            Chargement des produits...
+          </p>
+          <p className="text-sm text-gray-500 mt-1">
+            Veuillez patienter un instant
+          </p>
         </div>
       ) : (
         <div className="flex justify-center flex-wrap mx-20">

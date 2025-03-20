@@ -20,6 +20,11 @@ module.exports = {
       backgroundImage: {
         "background": "url('./src/assets/soc.jpeg')",
       },
+      animation: {
+        bounce1: "bounce 1s infinite ",
+        bounce2: "bounce 1s infinite 0.3s",
+        bounce3: "bounce 1s infinite 0.5s",
+      },
     },
   },
   plugins: [require("flowbite/plugin")],
